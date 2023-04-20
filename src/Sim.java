@@ -1,10 +1,12 @@
+import java.util.ArrayList;
+
 public class Sim {
 
     // Atribut
     private String nama;
     private Pekerjaan pekerjaan;
     private int uang;
-    private Inventory<Item> inventory;
+    private ArrayList<Inventory<Item,Integer>> inventory;
     private int kekenyangan;
     private int mood;
     private int kesehatan;
@@ -40,7 +42,7 @@ public class Sim {
         this.uang = uang;
     }
 
-    public Inventory<Item> getInventory() {
+    public ArrayList<Inventory<Item,Integer>> getInventory() {
         return inventory;
     }
 
@@ -105,4 +107,10 @@ public class Sim {
     }
 
     // Aksi
+
+    // mencetak isi inventory
+    public void printInventory()
+    {
+
+    }
 }
