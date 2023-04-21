@@ -6,34 +6,32 @@ public class Pekerjaan {
     private String[] listPekerjaan = {"Badut Sulap", "Koki", "Polisi", "Programmer", "Dokter"};
     private int lamaBekerja = 0;
 
-    public Pekerjaan() throws Exception {
+    public Pekerjaan() {
         nama = listPekerjaan[ThreadLocalRandom.current().nextInt(0, listPekerjaan.length)];
-        if (nama.equals("Badut Sulap")) {
+        if ((nama.toLowerCase()).equals("badut sulap")) {
             gaji = 15;
-        } else if (nama.equals("Koki")) {
+        } else if ((nama.toLowerCase()).equals("koki")) {
             gaji = 30;
-        } else if (nama.equals("Polisi")) {
+        } else if ((nama.toLowerCase()).equals("polisi")) {
             gaji = 35;
-        } else if (nama.equals("Programmer")) {
+        } else if ((nama.toLowerCase()).equals("programmer")) {
             gaji = 45;
-        } else if (nama.equals("Dokter")) {
+        } else if ((nama.toLowerCase()).equals("dokter")) {
             gaji = 50;
-        } else {
-            throw new Exception("Input tidak ada di daftar kerja!");
         }
     }
 
     public Pekerjaan(String nama) throws Exception {
         this.nama = nama;
-        if (nama.equals("Badut Sulap")) {
+        if ((nama.toLowerCase()).equals("badut sulap")) {
             gaji = 15;
-        } else if (nama.equals("Koki")) {
+        } else if ((nama.toLowerCase()).equals("koki")) {
             gaji = 30;
-        } else if (nama.equals("Polisi")) {
+        } else if ((nama.toLowerCase()).equals("polisi")) {
             gaji = 35;
-        } else if (nama.equals("Programmer")) {
+        } else if ((nama.toLowerCase()).equals("programmer")) {
             gaji = 45;
-        } else if (nama.equals("Dokter")) {
+        } else if ((nama.toLowerCase()).equals("dokter")) {
             gaji = 50;
         } else {
             throw new Exception("Input tidak ada di daftar kerja!");
@@ -66,15 +64,15 @@ public class Pekerjaan {
 
     public void changeWork(Sim sim, String newWork) throws Exception {
         int gajiBaru;
-        if (newWork.equals("Badut Sulap")) {
+        if ((newWork.toLowerCase()).equals("badut sulap")) {
             gajiBaru = 15;
-        } else if (newWork.equals("Koki")) {
+        } else if ((newWork.toLowerCase()).equals("koki")) {
             gajiBaru = 30;
-        } else if (newWork.equals("Polisi")) {
+        } else if ((newWork.toLowerCase()).equals("polisi")) {
             gajiBaru = 35;
-        } else if (newWork.equals("Programmer")) {
+        } else if ((newWork.toLowerCase()).equals("programmer")) {
             gajiBaru = 45;
-        } else if (newWork.equals("Dokter")) {
+        } else if ((newWork.toLowerCase()).equals("dokter")) {
             gajiBaru = 50;
         } else {
             throw new Exception("Input tidak ada di daftar kerja!");
