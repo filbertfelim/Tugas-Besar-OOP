@@ -6,7 +6,7 @@ public class Sim {
     private String nama;
     private Pekerjaan pekerjaan;
     private int uang;
-    private ArrayList<Inventory<Item,Integer>> inventory;
+    private Inventory inventory;
     private int kekenyangan;
     private int mood;
     private int kesehatan;
@@ -17,8 +17,14 @@ public class Sim {
     private Ruangan posisiRuangan;
 
     // Konstruktor
-    public Sim() {
-
+    public Sim(String nama, Point alamatRumah) {
+        this.nama = nama;
+        kekenyangan = 80;
+        mood = 80;
+        kesehatan = 80;
+        uang = 100;
+        pekerjaan = new Pekerjaan();
+        inventory = new Inventory();
     }
 
     // Method
@@ -41,8 +47,8 @@ public class Sim {
     public void setUang(int uang) {
         this.uang = uang;
     }
-
-    public ArrayList<Inventory<Item,Integer>> getInventory() {
+    
+    public Inventory getInventory() {
         return inventory;
     }
 
