@@ -23,7 +23,7 @@ public class Inventory {
 
         for (Item i : items) {
             index++;
-            if (i.getNamaItem() == item.getNamaItem()) {
+            if (i.getNamaItem().equals(item.getNamaItem())) {
                 check = true;
                 break;
             }
@@ -36,13 +36,13 @@ public class Inventory {
         }
     }
 
-    public void remove(Item item) throws Exception {
+    public void remove(String name) throws Exception {
         boolean check = false;
         int index = -1;
 
         for (Item i : items) {
             index++;
-            if (i.getNamaItem() == item.getNamaItem()) {
+            if (i.getNamaItem().equals(name)) {
                 check = true;
                 break;
             }
@@ -61,8 +61,9 @@ public class Inventory {
 
     public void printInventory() {
         for (int i = 0; i < items.size(); i++) {
-            System.out.print(items.get(i) + ":   ");
+            System.out.print((items.get(i)).getNamaItem() + ":   ");
             System.out.println(jumlah.get(i));
         }
+        // System.out.println("====================");
     }
 }
