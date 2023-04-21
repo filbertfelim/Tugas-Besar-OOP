@@ -82,6 +82,8 @@ public class Pekerjaan {
             nama = newWork;
             gaji = gajiBaru;
             lamaBekerja = 0;
+        } else {
+            throw new Exception("Kamu belum bisa mengubah pekerjaan!");
         }
     }
 
