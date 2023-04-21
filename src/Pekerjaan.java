@@ -90,7 +90,7 @@ public class Pekerjaan {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(waktu);
+                    Thread.sleep(waktu * 1000);
                     addLamaBekerja(waktu);
                     sim.setKekenyangan(sim.getKekenyangan() - (10 * waktu / 30));
                     sim.setMood(sim.getMood() - (10 * waktu / 30));
