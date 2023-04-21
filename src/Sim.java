@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Sim {
 
     // Atribut
@@ -45,7 +47,7 @@ public class Sim {
     public void setUang(int uang) {
         this.uang = uang;
     }
-
+    
     public Inventory getInventory() {
         return inventory;
     }
@@ -111,4 +113,10 @@ public class Sim {
     }
 
     // Aksi
+
+    // mencetak isi inventory
+    public void printInventory()
+    {
+
+    }
 }
