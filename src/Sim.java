@@ -15,7 +15,7 @@ public class Sim {
     private Ruangan posisiRuangan;
 
     // Konstruktor
-    public Sim() {
+    public Sim(String nama, Point alamatRumah) {
         this.nama = nama;
         kekenyangan = 80;
         mood = 80;
