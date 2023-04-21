@@ -4,7 +4,7 @@ public class Sim {
     private String nama;
     private Pekerjaan pekerjaan;
     private int uang;
-    private Inventory<Item> inventory;
+    private Inventory inventory;
     private int kekenyangan;
     private int mood;
     private int kesehatan;
@@ -16,7 +16,13 @@ public class Sim {
 
     // Konstruktor
     public Sim() {
-
+        this.nama = nama;
+        kekenyangan = 80;
+        mood = 80;
+        kesehatan = 80;
+        uang = 100;
+        pekerjaan = new Pekerjaan();
+        inventory = new Inventory();
     }
 
     // Method
@@ -40,7 +46,7 @@ public class Sim {
         this.uang = uang;
     }
 
-    public Inventory<Item> getInventory() {
+    public Inventory getInventory() {
         return inventory;
     }
 
