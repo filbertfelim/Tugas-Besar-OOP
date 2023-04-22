@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 public class Sim {
 
@@ -11,7 +10,7 @@ public class Sim {
     private int mood;
     private int kesehatan;
     private String status;
-    private Point posisi;
+    private Point posisi; // di dalam rumah
     private Rumah rumah;
     private Rumah posisiRumah;
     private Ruangan posisiRuangan;
@@ -25,6 +24,10 @@ public class Sim {
         uang = 100;
         pekerjaan = new Pekerjaan();
         inventory = new Inventory();
+        rumah = World.getListofRumah().get(alamatRumah.getX() + alamatRumah.getY() * 64);
+        posisiRumah = World.getListofRumah().get(alamatRumah.getX() + alamatRumah.getY() * 64);
+        // posisiRuangan = ...
+        // posisi = ....
     }
 
     // Method
@@ -114,9 +117,4 @@ public class Sim {
 
     // Aksi
 
-    // mencetak isi inventory
-    public void printInventory()
-    {
-
-    }
 }

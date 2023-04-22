@@ -5,6 +5,7 @@ public class Pekerjaan {
     private int gaji;
     private String[] listPekerjaan = {"Badut Sulap", "Koki", "Polisi", "Programmer", "Dokter"};
     private int lamaBekerja = 0;
+    private int changeWorkatHari = 0;
 
     public Pekerjaan() {
         nama = listPekerjaan[ThreadLocalRandom.current().nextInt(0, listPekerjaan.length)];
@@ -82,26 +83,35 @@ public class Pekerjaan {
             nama = newWork;
             gaji = gajiBaru;
             lamaBekerja = 0;
+            sim.setUang(sim.getUang() - (gajiBaru/2));
+            changeWorkatHari = World.gethariKe();
         } else {
             throw new Exception("Kamu belum bisa mengubah pekerjaan!");
         }
     }
 
     public void doKerja(Sim sim, int waktu) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(waktu * 1000);
-                    addLamaBekerja(waktu);
-                    sim.setKekenyangan(sim.getKekenyangan() - (10 * waktu / 30));
-                    sim.setMood(sim.getMood() - (10 * waktu / 30));
-                    sim.setUang(sim.getUang() + (gaji * waktu / 240));
-                } catch (InterruptedException e) {
-                    return;
+        if (World.gethariKe() > changeWorkatHari) {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(waktu * 1000);
+                        addLamaBekerja(waktu);
+                        sim.setKekenyangan(sim.getKekenyangan() - (10 * waktu / 30));
+                        sim.setMood(sim.getMood() - (10 * waktu / 30));
+                        sim.setUang(sim.getUang() + (gaji * waktu / 240));
+                        World.addWaktu(waktu);
+                    } catch (InterruptedException e) {
+                        return;
+                    }
                 }
-            }
-        });
-        thread.start();
+            });
+            thread.start();
+        }
+        else
+        {
+            System.out.println("Belum bisa bekerja dengan pekerjaan baru!");
+        }
     }
 }
