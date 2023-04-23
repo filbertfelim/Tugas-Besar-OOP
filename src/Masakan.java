@@ -29,7 +29,7 @@ public class Masakan extends Item implements Edible {
             kekenyangan = 2;
             bahan = ["kentang", "sapi"];
         } else {
-            throw new Exception("Input tidak ada di daftar item bahan makanan!");
+            throw new Exception("Input tidak ada di daftar masakan!");
         }
     }
 
