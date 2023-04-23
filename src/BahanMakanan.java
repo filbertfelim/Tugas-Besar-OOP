@@ -57,5 +57,4 @@ public class BahanMakanan extends Item implements Edible, Buyable {
     public void setHarga(int harga) {
         this.harga = harga;
     }
-
 }

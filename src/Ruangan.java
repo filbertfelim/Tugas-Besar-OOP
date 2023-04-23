@@ -1,41 +1,43 @@
 import java.util.ArrayList;
 
 public class Ruangan {
-    private int panjang;
-    private int lebar;
-    private Point lokasi;
-    private static ArrayList<Item> listofItems;
+    private String nama;
+    private int ruanganke;
+    private final int panjang = 6;
+    private final int lebar = 6;
+    private int[][] matrixRuangan;
+    private ArrayList<NonMakanan> listofObjek;
 
-    public Ruangan(Rumah rumah, Point lokasi)
+    public Ruangan(String nama,int ruanganke)
     {
-        panjang = 6;
-        lebar = 6;
-        this.lokasi = lokasi;
-        listofItems = new ArrayList<Item>();
+        this.nama = nama;
+        this.ruanganke = ruanganke;
+        matrixRuangan = new int[panjang][lebar];
+        listofObjek = new ArrayList<NonMakanan>();
     }
 
-    public Point getLokasiRuangan()
+    public void setRuanganKe(int ruanganke)
     {
-        return lokasi;
+        this.ruanganke = ruanganke;
     }
 
-    public void setLokasiRuangan(Point lokasi)
+    public int getRuanganKe()
     {
-        this.lokasi = lokasi;
+        return ruanganke;
     }
 
-    public int getPanjang()
+    public void listobject()
     {
-        return panjang;
+        System.out.println("Daftar objek yang ada di ruangan: ");
+        for (int i = 0 ; i < listofObjek.size() ; i++)
+        {
+            System.out.println(String.valueOf(i + 1) + ". " + listofObjek.get(i).getNamaItem());
+        }
     }
 
-    public int getLebar(Point lokasi)
+    public ArrayList<NonMakanan> getListofObjek()
     {
-        return lebar;
-    }
-
-    public static ArrayList<Item> getListofItems()
-    {
-        return listofItems;
+        return listofObjek;
     }
 }
+
