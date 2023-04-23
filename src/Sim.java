@@ -1,22 +1,33 @@
+
 public class Sim {
 
     // Atribut
     private String nama;
     private Pekerjaan pekerjaan;
     private int uang;
-    private Inventory<Item> inventory;
+    private Inventory inventory;
     private int kekenyangan;
     private int mood;
     private int kesehatan;
     private String status;
-    private Point posisi;
+    private Point posisi; // di dalam rumah
     private Rumah rumah;
     private Rumah posisiRumah;
     private Ruangan posisiRuangan;
 
     // Konstruktor
-    public Sim() {
-
+    public Sim(String nama, Point alamatRumah) {
+        this.nama = nama;
+        kekenyangan = 80;
+        mood = 80;
+        kesehatan = 80;
+        uang = 100;
+        pekerjaan = new Pekerjaan();
+        inventory = new Inventory();
+        rumah = World.getListofRumah().get(alamatRumah.getX() + alamatRumah.getY() * 64);
+        posisiRumah = World.getListofRumah().get(alamatRumah.getX() + alamatRumah.getY() * 64);
+        // posisiRuangan = ...
+        // posisi = ....
     }
 
     // Method
@@ -39,8 +50,8 @@ public class Sim {
     public void setUang(int uang) {
         this.uang = uang;
     }
-
-    public Inventory<Item> getInventory() {
+    
+    public Inventory getInventory() {
         return inventory;
     }
 
@@ -105,4 +116,5 @@ public class Sim {
     }
 
     // Aksi
+
 }
