@@ -1,8 +1,9 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class World {
-    private static int panjang;
-    private static int lebar;
+    private static final int panjang = 64;
+    private static final int lebar = 64;
     private static ArrayList<Rumah> listofRumah;
     private static int[][] matrixWorld;
     private static ArrayList<Sim> listofSim;
@@ -12,14 +13,12 @@ public class World {
 
     public World(String namaSim)
     {
-        panjang = 64;
-        lebar = 64;
         listofRumah = new ArrayList<Rumah>();
         listofSim = new ArrayList<Sim>();
         waktu = 0; // detik
         harike = 1;
         matrixWorld = new int[64][64];
-        listofRumah.add(new Rumah());
+        listofRumah.add(new Rumah(new Point(0,0)));
         listofSim.add(new Sim(namaSim,new Point(0,0)));
         matrixWorld[0][0] = 0;
         activeSim = listofSim.get(0);
@@ -76,7 +75,7 @@ public class World {
             waktu += time;
         }
     }
-    public static void addSim(String nama, Point alamatRumah)
+    public static void addSim(String nama)
     {
         if (listofRumah.size() == 64 * 64)
         {
@@ -84,7 +83,7 @@ public class World {
         }
         else
         {
-            listofRumah.add(new Rumah());
+            listofRumah.add(new Rumah(new Point((listofRumah.size() % 64),(listofRumah.size() / 64))));
             if (listofRumah.size() % 64 == 0)
             {
                 listofSim.add(new Sim(nama, new Point((listofRumah.size() % 64) - 1,(listofRumah.size() / 64) - 1)));
@@ -96,8 +95,17 @@ public class World {
         }
     }
     
-    public static void changeSim(int idx)
+    public static void changeSim()
     {
-        activeSim = listofSim.get(idx);
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Daftar sim yang ada :");
+        for (int i = 0; i < listofSim.size(); i++)
+        {
+            System.out.println(String.valueOf( + 1) + ". " + listofSim.get(i).getNama());
+        }
+        System.out.print("Pilihan :");
+        int idx = scan.nextInt();
+        activeSim = listofSim.get(idx - 1);
+        System.out.println("Sim aktif berhasil diubah!");
     }
 }
