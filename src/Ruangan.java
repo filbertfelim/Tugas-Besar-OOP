@@ -25,4 +25,19 @@ public class Ruangan {
     {
         return ruanganke;
     }
+
+    public void listobject()
+    {
+        System.out.println("Daftar objek yang ada di ruangan: ");
+        for (int i = 0 ; i < listofObjek.size() ; i++)
+        {
+            System.out.println(String.valueOf(i + 1) + ". " + listofObjek.get(i).getNamaItem());
+        }
+    }
+
+    public ArrayList<NonMakanan> getListofObjek()
+    {
+        return listofObjek;
+    }
 }
+

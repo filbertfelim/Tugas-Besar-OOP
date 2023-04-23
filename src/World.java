@@ -95,15 +95,14 @@ public class World {
         }
     }
     
-    public static void changeSim()
+    public static void changeSim(Scanner scan)
     {
-        Scanner scan = new Scanner(System.in);
         System.out.println("Daftar sim yang ada :");
         for (int i = 0; i < listofSim.size(); i++)
         {
             System.out.println(String.valueOf( + 1) + ". " + listofSim.get(i).getNama());
         }
-        System.out.print("Pilihan :");
+        System.out.print("Pilihan : ");
         int idx = scan.nextInt();
         activeSim = listofSim.get(idx - 1);
         System.out.println("Sim aktif berhasil diubah!");

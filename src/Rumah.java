@@ -34,4 +34,9 @@ public class Rumah {
     {
         
     }
+
+    public ArrayList<Ruangan> getListofRuangan()
+    {
+        return listofRuangan;
+    }
 }
