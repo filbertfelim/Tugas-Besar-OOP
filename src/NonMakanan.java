@@ -15,7 +15,7 @@ public class NonMakanan extends Item implements Buyable {
         this.titikAkhir = titikAkhir;
     }
 
-    public NonMakanan(String namaItem) {
+    public NonMakanan(String namaItem) throws Exception {
         super(namaItem);
         titikAwal = null;
         titikAkhir = null;

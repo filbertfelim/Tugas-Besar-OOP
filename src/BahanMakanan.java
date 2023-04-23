@@ -11,7 +11,7 @@ public class BahanMakanan extends Item implements Edible, Buyable {
         this.harga = harga;
     }
 
-    public BahanMakanan(String namaItem) {
+    public BahanMakanan(String namaItem) throws Exception {
         super(namaItem);
         if ((namaItem.toLowerCase()).equals("nasi")) {
             harga = 5;

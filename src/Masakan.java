@@ -11,7 +11,7 @@ public class Masakan extends Item implements Edible {
 
     }
 
-    public Masakan(String namaItem) {
+    public Masakan(String namaItem) throws Exception {
         super(namaItem);
         if ((namaItem.toLowerCase()).equals("nasi ayam")) {
             kekenyangan = 5;
