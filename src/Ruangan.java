@@ -16,6 +16,16 @@ public class Ruangan {
         listofObjek = new ArrayList<NonMakanan>();
     }
 
+    public void setNamaRuangan(String nama)
+    {
+        this.nama = nama;
+    }
+
+    public String getNamaRuangan()
+    {
+        return nama;
+    }
+
     public void setRuanganKe(int ruanganke)
     {
         this.ruanganke = ruanganke;
