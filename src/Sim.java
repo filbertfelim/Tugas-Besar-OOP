@@ -116,6 +116,34 @@ public class Sim {
         this.posisiRuangan = posisiRuangan;
     }
 
+    public void checkKondisiSim() // ditaruh didalam akhir semua aksi
+    {
+        if (kesehatan > 100)
+        {
+            kesehatan = 100;
+        }
+        if (kekenyangan > 100)
+        {
+            kekenyangan = 100;
+        }
+        if (mood > 100)
+        {
+            mood = 100;
+        }
+    }
+
+    public boolean isDead()
+    {
+        if (kesehatan <= 0 || kekenyangan <= 0 || mood <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     // Aksi
     public void olahraga(Scanner scan)
     {
@@ -132,6 +160,12 @@ public class Sim {
                         kekenyangan = kekenyangan - (5 * (duration / 20));
                         mood = mood + (10 * (duration / 20));
                         World.addWaktu(duration);
+                        checkKondisiSim();
+                        if (isDead())
+                        {
+                            World.removeSim();
+                            World.changeSim(scan);
+                        }
                     } catch (InterruptedException e) {
                         return;
                     }
@@ -140,8 +174,37 @@ public class Sim {
             thread.start();
         }
     }
-
+    
     //joget ( nambah mood nambah kesehatan turunin kekenyangan )
+    public void joget(Scanner scan)
+    {
+        System.out.print("Durasi ( detik ) : ");
+        int duration = scan.nextInt();
+        if (duration % 20 == 0)
+        {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(duration * 1000);
+                        kesehatan = kesehatan + (10 * (duration / 20));
+                        kekenyangan = kekenyangan - (5 * (duration / 20));
+                        mood = mood + (10 * (duration / 20));
+                        World.addWaktu(duration);
+                        checkKondisiSim();
+                        if (isDead())
+                        {
+                            World.removeSim();
+                            World.changeSim(scan);
+                        }
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                }
+            });
+            thread.start();
+        }
+    }
     //mati di tempat ( mood, kesehatan, kekenyangan jadi 0 )
     //nyanyi ( nambah mood )
     //stretching ( nambah kesehatan )
