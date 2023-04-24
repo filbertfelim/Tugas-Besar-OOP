@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class Rumah {
+
     private Point lokasi; // lokasi di world
     private ArrayList<Ruangan> listofRuangan;
     private int[][] matrixRumah;

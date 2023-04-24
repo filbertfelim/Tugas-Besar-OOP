@@ -15,6 +15,47 @@ public class NonMakanan extends Item implements Buyable {
         this.titikAkhir = titikAkhir;
     }
 
+    public NonMakanan(String namaItem) throws Exception {
+        super(namaItem);
+        titikAwal = null;
+        titikAkhir = null;
+        if ((namaItem.toLowerCase()).equals("kasur single")) {
+            panjang = 4;
+            lebar = 1;
+            harga = 50;
+        } else if ((namaItem.toLowerCase()).equals("kasur queen size")) {
+            panjang = 4;
+            lebar = 2;
+            harga = 100;
+        } else if ((namaItem.toLowerCase()).equals("kasur king size")) {
+            panjang = 5;
+            lebar = 2;
+            harga = 150;
+        } else if ((namaItem.toLowerCase()).equals("toilet")) {
+            panjang = 1;
+            lebar = 1;
+            harga = 50;
+        } else if ((namaItem.toLowerCase()).equals("kompor gas")) {
+            panjang = 2;
+            lebar = 1;
+            harga = 100;
+        } else if ((namaItem.toLowerCase()).equals("kompor listrik")) {
+            panjang = 1;
+            lebar = 1;
+            harga = 200;
+        } else if ((namaItem.toLowerCase()).equals("meja dan kursi")) {
+            panjang = 3;
+            lebar = 3;
+            harga = 50;
+        } else if ((namaItem.toLowerCase()).equals("jam")) {
+            panjang = 1;
+            lebar = 1;
+            harga = 50;
+        } else {
+            throw new Exception("Input tidak ada di daftar item nonmakanan!");
+        }
+    }
+
     public int getHarga() {
         return harga;
     }

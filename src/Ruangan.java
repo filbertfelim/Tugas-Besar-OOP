@@ -12,8 +12,18 @@ public class Ruangan {
     {
         this.nama = nama;
         this.ruanganke = ruanganke;
-        matrixRuangan = new int[6][6];
+        matrixRuangan = new int[panjang][lebar];
         listofObjek = new ArrayList<NonMakanan>();
+    }
+
+    public void setNamaRuangan(String nama)
+    {
+        this.nama = nama;
+    }
+
+    public String getNamaRuangan()
+    {
+        return nama;
     }
 
     public void setRuanganKe(int ruanganke)
