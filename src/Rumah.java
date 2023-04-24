@@ -14,7 +14,7 @@ public class Rumah {
         matrixRumah = new int[6][6]; // awal buat rumah
         for (int i = 0; i < matrixRumah.length ; i++)
         {
-            for (int j = 0; i < matrixRumah[i].length;i++)
+            for (int j = 0; j < matrixRumah[i].length;j++)
             {
                 matrixRumah[i][j] = 1;
             }

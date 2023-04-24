@@ -34,6 +34,11 @@ public class World {
         return lebar;
     }
 
+    public static Sim getActiveSim()
+    {
+        return activeSim;
+    }
+
     public static ArrayList<Rumah> getListofRumah()
     {
         return listofRumah;
@@ -75,8 +80,32 @@ public class World {
             waktu += time;
         }
     }
-    public static void addSim(String nama)
+    public static void addSim(Scanner scan)
     {
+        System.out.print("Nama sim baru : ");
+        String nama = scan.nextLine();
+        boolean isDuplicate = false;
+        for (int i = 0; i < listofSim.size() && !isDuplicate; i++)
+        {
+            if (listofSim.get(i).getNama().equals(nama))
+            {
+                isDuplicate = true;
+            }
+        }
+        while (isDuplicate)
+        {
+            System.out.println("Nama sudah dipakai!");
+            System.out.print("Nama sim baru : ");
+            nama = scan.nextLine();
+            isDuplicate = false;
+            for (int i = 0; i < listofSim.size() && !isDuplicate; i++)
+            {
+                if (listofSim.get(i).getNama().equals(nama))
+                {
+                    isDuplicate = true;
+                }
+            }
+        }
         if (listofRumah.size() == 64 * 64)
         {
             System.out.println("World sudah penuh!");
@@ -100,11 +129,128 @@ public class World {
         System.out.println("Daftar sim yang ada :");
         for (int i = 0; i < listofSim.size(); i++)
         {
-            System.out.println(String.valueOf( + 1) + ". " + listofSim.get(i).getNama());
+            System.out.println(String.valueOf(i + 1) + ". " + listofSim.get(i).getNama());
         }
-        System.out.print("Pilihan : ");
-        int idx = scan.nextInt();
+        System.out.println("0. Batal");
+        boolean isValid = false;
+        int idx = 1;
+        while (!isValid)
+        {
+            try {
+                System.out.print("Pilihan : ");
+                idx = scan.nextInt();
+                isValid = true;
+            }
+            catch (Exception e) {
+                System.out.println("Input invalid, silahkan diulangi!");
+                scan.nextLine();
+            }
+        }
+        if (idx == 0)
+        {
+            System.out.println("Sim aktif tidak diubah!");
+        }
+        else
+        {
+            while (idx < 0 || idx > listofSim.size())
+            {
+                System.out.println("Input invalid, silahkan diulangi!");
+                System.out.println("Daftar sim yang ada :");
+                for (int i = 0; i < listofSim.size(); i++)
+                {
+                    System.out.println(String.valueOf(i + 1) + ". " + listofSim.get(i).getNama());
+                }
+                System.out.println("0. Batal");
+                isValid = false;
+                while (!isValid)
+                {
+                    try {
+                        System.out.print("Pilihan : ");
+                        idx = scan.nextInt();
+                        isValid = true;
+                    }
+                    catch (Exception e) {
+                        System.out.println("Input invalid, silahkan diulangi!");
+                        scan.nextLine();
+                    }
+                }
+                if (idx == 0)
+                {
+                    System.out.println("Sim aktif tidak diubah!");
+                }
+            }
+            if (idx > 0 && idx <= listofSim.size())
+            {
+                activeSim = listofSim.get(idx - 1);
+                System.out.println("Sim aktif berhasil diubah!");
+            }
+        }
+        
+    }   
+
+    public static void changeSimifDead(Scanner scan)
+    {
+        System.out.println("Daftar sim yang ada :");
+        for (int i = 0; i < listofSim.size(); i++)
+        {
+            System.out.println(String.valueOf(i + 1) + ". " + listofSim.get(i).getNama());
+        }
+        boolean isValid = false;
+        int idx = 1;
+        while (!isValid)
+        {
+            try {
+                System.out.print("Pilihan : ");
+                idx = scan.nextInt();
+                isValid = true;
+            }
+            catch (Exception e) {
+                System.out.println("Input invalid, silahkan diulangi!");
+                scan.nextLine();
+            }
+        }
+        while (idx <= 0 || idx > listofSim.size())
+        {
+            System.out.println("Input invalid, silahkan diulangi!");
+            System.out.println("Daftar sim yang ada :");
+            for (int i = 0; i < listofSim.size(); i++)
+            {
+                System.out.println(String.valueOf(i + 1) + ". " + listofSim.get(i).getNama());
+            }
+            isValid = false;
+            while (!isValid)
+            {
+                try {
+                    System.out.print("Pilihan : ");
+                    idx = scan.nextInt();
+                    isValid = true;
+                }
+                catch (Exception e) {
+                    System.out.println("Input invalid, silahkan diulangi!");
+                    scan.nextLine();
+                }
+            }
+        }
         activeSim = listofSim.get(idx - 1);
         System.out.println("Sim aktif berhasil diubah!");
+    }
+
+
+    public static void removeSim()
+    {
+        int idx = 0;
+        boolean isFound = false;
+        while (!isFound)
+        {
+            if (listofSim.get(idx).getNama().equals(activeSim.getNama()))
+            {
+                isFound = true;
+            }
+            else
+            {
+                idx++;
+            }
+        }
+        listofSim.remove(idx);
     }
 }

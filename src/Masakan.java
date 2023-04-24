@@ -1,9 +1,11 @@
+import java.util.ArrayList;
+
 public class Masakan extends Item implements Edible {
 
-    private String[] bahan;
+    private ArrayList<String> bahan;
     private int kekenyangan;
 
-    public Masakan(String namaItem, BahanMakanan[] bahan, int kekenyangan) {
+    public Masakan(String namaItem, ArrayList<String> bahan, int kekenyangan) {
 
         super(namaItem);
         this.bahan = bahan;
@@ -15,29 +17,41 @@ public class Masakan extends Item implements Edible {
         super(namaItem);
         if ((namaItem.toLowerCase()).equals("nasi ayam")) {
             kekenyangan = 5;
-            bahan = ["nasi", "ayam"];
+            bahan = new ArrayList<String>();
+            bahan.add("nasi");
+            bahan.add("ayam");
         } else if ((namaItem.toLowerCase()).equals("nasi kari")) {
             kekenyangan = 4;
-            bahan = ["nasi", "kentang", "wortel", "sapi"];
+            bahan = new ArrayList<String>();
+            bahan.add("nasi");
+            bahan.add("kentang");
+            bahan.add("wortel");
+            bahan.add("sapi");
         } else if ((namaItem.toLowerCase()).equals("susu kacang")) {
             kekenyangan = 8;
-            bahan = ["susu", "kacang"];
+            bahan = new ArrayList<String>();
+            bahan.add("susu");
+            bahan.add("kacang");
         } else if ((namaItem.toLowerCase()).equals("tumis sayur")) {
             kekenyangan = 15;
-            bahan = ["wortel", "bayam"];
+            bahan = new ArrayList<String>();
+            bahan.add("wortel");
+            bahan.add("bayam");
         } else if ((namaItem.toLowerCase()).equals("bistik")) {
             kekenyangan = 2;
-            bahan = ["kentang", "sapi"];
+            bahan = new ArrayList<String>();
+            bahan.add("kentang");
+            bahan.add("sapi");
         } else {
             throw new Exception("Input tidak ada di daftar masakan!");
         }
     }
 
-    public String[] getBahan() {
+    public ArrayList<String> getBahan() {
         return bahan;
     }
 
-    public void setBahan(String[] bahan) {
+    public void setBahan(ArrayList<String> bahan) {
         this.bahan = bahan;
     }
 
