@@ -2,30 +2,21 @@ import java.util.ArrayList;
 
 public class Ruangan {
     private String namaRuangan;
-    private int ruanganKe;
-    private int panjang;
-    private int lebar;
+
+    private final int panjang = 6;
+    private final int lebar = 6;
     private int[][] matriksRuangan;
     private ArrayList<NonMakanan> listOfObjek;
     
 
     // Konstruktor
-    public Ruangan(String namaRuangan, int ruanganKe, int panjang, int lebar) {
+    public Ruangan(String namaRuangan) {
         this.namaRuangan = namaRuangan;
-        this.ruanganKe = ruanganKe;
-        this.panjang = panjang;
-        this.lebar = lebar;
-        matriksRuangan = new int[panjang][lebar];
-        listOfObjek = new ArrayList<NonMakanan>();
     }
 
     // Getter
     public String getNamaRuangan() {
         return namaRuangan;
-    }
-    
-    public int getRuanganKe() {
-        return ruanganKe;
     }
 
     public int getPanjang() {
@@ -44,12 +35,9 @@ public class Ruangan {
         return listOfObjek;
     }
 
+
     public void memasangBarang(Item item, Point point) {
         
-    }
-
-    public static ArrayList<NonMakanan> getListOfObjek() {
-        return listOfObjek;
     }
 
     public void memindahBarang() {
