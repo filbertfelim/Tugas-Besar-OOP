@@ -1,41 +1,65 @@
 import java.util.ArrayList;
 
 public class Rumah {
+    
+    private String namaRumah;
     private Point lokasi;
-    private static ArrayList<Ruangan> listofRuangan;
-    private static int[][] matrixRumah;
-    private static Sim pemilik;
+    private int panjang;
+    private int lebar;
+    private ArrayList<Ruangan> listOfRuangan = new ArrayList<Ruangan>();
+    private int[][] matriksRumah;
 
-    public Rumah(Sim namaSim, Point lokasi)
-    {
-        matrixRumah = new int[64][64]; //inisialisasi ukuran rumah pada matrix, ntar pas upgrade rumah sekalian tambah ukuran
-        matrixRumah[0][0] = 0;
-        // aku bingung bikin lokasi ruangan itu pakai point atau matriks 
+    // Konstruktor
+
+    /**
+     * @param namaRumah
+     * @param lokasi
+     * @param panjang
+     * @param lebar
+     */
+    Rumah (String namaRumah, Point lokasi, int panjang, int lebar) {
+        this.namaRumah = namaRumah;
         this.lokasi = lokasi;
-        listofRuangan = new ArrayList<Ruangan>();
-        listofRuangan.add(new Ruangan(this, new Point(0,0)));
-        pemilik = namaSim;
+        this.panjang = panjang;
+        this.lebar = lebar;
+        matriksRumah = new int[panjang][lebar];
     }
 
-    public Point getLokasiRumah()
-    {
+    // Getter dan Setter
+
+    public String getNamaRumah() {
+        return namaRumah;
+    }
+    public void setNamaRumah(String namaRumah) {
+        this.namaRumah = namaRumah;
+    }
+    public Point getLokasi() {
         return lokasi;
     }
-
-    public Sim getPemilikRumah()
-    {
-        return pemilik;
-    }
-
-    public void setLokasiRumah(Point lokasi)
-    {
+    public void setLokasi(Point lokasi) {
         this.lokasi = lokasi;
     }
-
-    public void upgradeRumah()
-    {
-
+    public int getPanjang() {
+        return panjang;
     }
+    public void setPanjang(int panjang) {
+        this.panjang = panjang;
+    }
+    public int getLebar() {
+        return lebar;
+    }
+    public void setLebar(int lebar) {
+        this.lebar = lebar;
+    }
+    public ArrayList<Ruangan> getListOfRuangan() {
+        return listOfRuangan;
+    }
+    public void setListOfRuangan(ArrayList<Ruangan> listOfRuangan) {
+        this.listOfRuangan = listOfRuangan;
+    }
+    public void tambahRuangan()
+    
 
+    
 
 }
