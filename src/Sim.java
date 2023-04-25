@@ -122,13 +122,23 @@ public class Sim {
         {
             kesehatan = 100;
         }
+        if (mood > 100)
+        {
+            mood = 100;
+        }
         if (kekenyangan > 100)
         {
             kekenyangan = 100;
         }
-        if (mood > 100)
+    }
+
+    public void checkisFull(Scanner scan)
+    {
+        if (kekenyangan > 100)
         {
-            mood = 100;
+            kekenyangan = 100;
+            System.out.println("Terlalu kenyang! Muntah dulu.");
+            muntah(scan);
         }
     }
 
@@ -147,234 +157,748 @@ public class Sim {
     // Aksi
     public void olahraga(Scanner scan)
     {
-        System.out.print("Durasi ( detik ) : ");
-        int duration = scan.nextInt();
-        if (duration % 20 == 0)
+        boolean isValid = false;
+        int duration = 1;
+        while (!isValid)
         {
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(duration * 1000);
-                        kesehatan = kesehatan + (5 * (duration / 20));
-                        kekenyangan = kekenyangan - (5 * (duration / 20));
-                        mood = mood + (10 * (duration / 20));
-                        World.addWaktu(duration);
-                        checkKondisiSim();
-                        if (isDead())
-                        {
-                            World.removeSim();
-                            World.changeSim(scan);
-                        }
-                    } catch (InterruptedException e) {
-                        return;
-                    }
-                }
-            });
-            thread.start();
+            try {
+                System.out.print("Durasi ( detik kelipatan 20 ) : ");
+                duration = scan.nextInt();
+                isValid = true;
+            }
+            catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka!");
+                scan.nextLine();
+            }
         }
+        while (duration % 20 != 0)
+        {
+            System.out.println("Input invalid ( harus kelipatan 20 ), silahkan diulangi!");
+            isValid = false;
+            while (!isValid)
+            {
+                try {
+                    System.out.print("Durasi ( detik kelipatan 20 ) : ");
+                    duration = scan.nextInt();
+                    isValid = true;
+                }
+                catch (Exception e) {
+                    System.out.println("Input invalid, silahkan input angka!");
+                    scan.nextLine();
+                }
+            }
+        }
+        int finalduration = duration;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(finalduration * 1000);
+                    System.out.println("Olahraga selesai!");
+                    kesehatan = kesehatan + (5 * (finalduration / 20));
+                    kekenyangan = kekenyangan - (5 * (finalduration / 20));
+                    mood = mood + (10 * (finalduration / 20));
+                    World.addWaktu(finalduration);
+                    checkKondisiSim();
+                    if (isDead())
+                    {
+                        World.removeSim();
+                        World.changeSim(scan);
+                    }
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
+        });
+        System.out.println("Sedang olahraga...");
+        thread.start();
     }
     
     //joget ( nambah mood nambah kesehatan turunin kekenyangan )
     public void joget(Scanner scan)
     {
-        System.out.print("Durasi ( detik ) : ");
-        int duration = scan.nextInt();
-        if (duration % 20 == 0)
+        boolean isValid = false;
+        int duration = 1;
+        while (!isValid)
         {
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(duration * 1000);
-                        kesehatan = kesehatan + (10 * (duration / 20));
-                        kekenyangan = kekenyangan - (5 * (duration / 20));
-                        mood = mood + (10 * (duration / 20));
-                        World.addWaktu(duration);
-                        checkKondisiSim();
-                        if (isDead())
-                        {
-                            World.removeSim();
-                            World.changeSim(scan);
-                        }
-                    } catch (InterruptedException e) {
-                        return;
-                    }
-                }
-            });
-            thread.start();
+            try {
+                System.out.print("Durasi ( detik kelipatan 10 ) : ");
+                duration = scan.nextInt();
+                isValid = true;
+            }
+            catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka!");
+                scan.nextLine();
+            }
         }
+        while (duration % 10 != 0)
+        {
+            System.out.println("Input invalid ( harus kelipatan 10 ), silahkan diulangi!");
+            isValid = false;
+            while (!isValid)
+            {
+                try {
+                    System.out.print("Durasi ( detik kelipatan 10 ) : ");
+                    duration = scan.nextInt();
+                    isValid = true;
+                }
+                catch (Exception e) {
+                    System.out.println("Input invalid, silahkan input angka!");
+                    scan.nextLine();
+                }
+            }
+        }
+        int finalduration = duration;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(finalduration * 1000);
+                    System.out.println("Joget selesai!");
+                    kesehatan = kesehatan + (5 * (finalduration / 10));
+                    kekenyangan = kekenyangan - (5 * (finalduration / 10));
+                    mood = mood + (5 * (finalduration / 10));
+                    World.addWaktu(finalduration);
+                    checkKondisiSim();
+                    if (isDead())
+                    {
+                        World.removeSim();
+                        World.changeSim(scan);
+                    }
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
+        });
+        System.out.println("Sedang joget...");
+        thread.start();
     }
     //mati di tempat ( mood, kesehatan, kekenyangan jadi 0 )
+    public void matiditempat(Scanner scan)
+    {
+        System.out.println(nama + " mati di tempat!");
+        kekenyangan = 0;
+        mood = 0;
+        kesehatan = 0;
+        World.removeSim();
+        World.changeSim(scan);
+    }
+
     //nyanyi ( nambah mood )
+    public void nyanyi(Scanner scan)
+    {
+        boolean isValid = false;
+        int duration = 1;
+        while (!isValid)
+        {
+            try {
+                System.out.print("Durasi ( detik kelipatan 10 ) : ");
+                duration = scan.nextInt();
+                isValid = true;
+            }
+            catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka!");
+                scan.nextLine();
+            }
+        }
+        while (duration % 10 != 0)
+        {
+            System.out.println("Input invalid ( harus kelipatan 10 ), silahkan diulangi!");
+            isValid = false;
+            while (!isValid)
+            {
+                try {
+                    System.out.print("Durasi ( detik kelipatan 10 ) : ");
+                    duration = scan.nextInt();
+                    isValid = true;
+                }
+                catch (Exception e) {
+                    System.out.println("Input invalid, silahkan input angka!");
+                    scan.nextLine();
+                }
+            }
+        }
+        int finalduration = duration;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(finalduration * 1000);
+                    System.out.println("Nyanyi selesai!");
+                    mood = mood + (5 * (finalduration / 10));
+                    World.addWaktu(finalduration);
+                    checkKondisiSim();
+                    if (isDead())
+                    {
+                        World.removeSim();
+                        World.changeSim(scan);
+                    }
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
+        });
+        System.out.println("Sedang nyanyi...");
+        thread.start();
+    }
     //stretching ( nambah kesehatan )
+    public void stretching(Scanner scan)
+    {
+        boolean isValid = false;
+        int duration = 1;
+        while (!isValid)
+        {
+            try {
+                System.out.print("Durasi ( detik kelipatan 10 ) : ");
+                duration = scan.nextInt();
+                isValid = true;
+            }
+            catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka!");
+                scan.nextLine();
+            }
+        }
+        while (duration % 10 != 0)
+        {
+            System.out.println("Input invalid ( harus kelipatan 10 ), silahkan diulangi!");
+            isValid = false;
+            while (!isValid)
+            {
+                try {
+                    System.out.print("Durasi ( detik kelipatan 10 ) : ");
+                    duration = scan.nextInt();
+                    isValid = true;
+                }
+                catch (Exception e) {
+                    System.out.println("Input invalid, silahkan input angka!");
+                    scan.nextLine();
+                }
+            }
+        }
+        int finalduration = duration;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(finalduration * 1000);
+                    System.out.println("Stretching selesai!");
+                    kesehatan = kesehatan + (5 * (finalduration / 10));
+                    World.addWaktu(finalduration);
+                    checkKondisiSim();
+                    if (isDead())
+                    {
+                        World.removeSim();
+                        World.changeSim(scan);
+                    }
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
+        });
+        System.out.println("Sedang stretching...");
+        thread.start();
+    }
     //cuci wc ( nambah mood , turunin kekenyangan )
+    public void cuciwc(Scanner scan)
+    {
+        boolean isValid = false;
+        int duration = 1;
+        while (!isValid)
+        {
+            try {
+                System.out.print("Durasi ( detik kelipatan 30 ) : ");
+                duration = scan.nextInt();
+                isValid = true;
+            }
+            catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka!");
+                scan.nextLine();
+            }
+        }
+        while (duration % 30 != 0)
+        {
+            System.out.println("Input invalid ( harus kelipatan 30 ), silahkan diulangi!");
+            isValid = false;
+            while (!isValid)
+            {
+                try {
+                    System.out.print("Durasi ( detik kelipatan 30 ) : ");
+                    duration = scan.nextInt();
+                    isValid = true;
+                }
+                catch (Exception e) {
+                    System.out.println("Input invalid, silahkan input angka!");
+                    scan.nextLine();
+                }
+            }
+        }
+        int finalduration = duration;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(finalduration * 1000);
+                    System.out.println("Cuci WC selesai!");
+                    kekenyangan = kekenyangan - (10 * (finalduration / 30));
+                    mood = mood + (10 * (finalduration / 30));
+                    World.addWaktu(finalduration);
+                    checkKondisiSim();
+                    if (isDead())
+                    {
+                        World.removeSim();
+                        World.changeSim(scan);
+                    }
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
+        });
+        System.out.println("Sedang cuci WC...");
+        thread.start();
+    }
+
     //cuci piring ( nambah mood )
-    //muntah ( nurunin kesehatan, nurunin kekenyangan )
+    public void cucipiring(Scanner scan)
+    {
+        boolean isValid = false;
+        int duration = 1;
+        while (!isValid)
+        {
+            try {
+                System.out.print("Durasi ( detik kelipatan 30 ) : ");
+                duration = scan.nextInt();
+                isValid = true;
+            }
+            catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka!");
+                scan.nextLine();
+            }
+        }
+        while (duration % 30 != 0)
+        {
+            System.out.println("Input invalid ( harus kelipatan 30 ), silahkan diulangi!");
+            isValid = false;
+            while (!isValid)
+            {
+                try {
+                    System.out.print("Durasi ( detik kelipatan 30 ) : ");
+                    duration = scan.nextInt();
+                    isValid = true;
+                }
+                catch (Exception e) {
+                    System.out.println("Input invalid, silahkan input angka!");
+                    scan.nextLine();
+                }
+            }
+        }
+        int finalduration = duration;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(finalduration * 1000);
+                    System.out.println("Cuci piring selesai!");
+                    mood = mood + (10 * (finalduration / 30));
+                    World.addWaktu(finalduration);
+                    checkKondisiSim();
+                    if (isDead())
+                    {
+                        World.removeSim();
+                        World.changeSim(scan);
+                    }
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
+        });
+        System.out.println("Sedang cuci piring...");
+        thread.start();
+    }
+
+    //muntah ( nurunin kesehatan, nurunin kekenyangan ) (kalo kekenyangan > 100, diset jadi 100 dan muntah)
+    public void muntah(Scanner scan)
+    {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(10 * 1000);
+                    System.out.println("Muntah selesai!");
+                    kekenyangan = kekenyangan - 20;
+                    World.addWaktu(10);
+                    checkKondisiSim();
+                    if (isDead())
+                    {
+                        World.removeSim();
+                        World.changeSim(scan);
+                    }
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
+        });
+        System.out.println("Sedang muntah...");
+        thread.start();
+    }
+
+    // makan
+    public void makan(Scanner scan)
+    {
+        // algoritma makan apa ( perlu inventory )
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(30 * 1000);
+                    System.out.println("Makan selesai!");
+                    kekenyangan = kekenyangan - 20; // belum diubah, sesuai makanan ( perlu inventory )
+                    World.addWaktu(30);
+                    checkisFull(scan);
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
+        });
+        System.out.println("Sedang makan...");
+        thread.start();
+    }
+
+    // tidur
+
+    // masak
+    public void masak(Scanner scan)
+    {
+        // algoritma masak apa ( perlu inventory )
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(10 * 1000);// diubah menjadi 1.5 kekenyangan makanan yg dimasak
+                    System.out.println("Makan selesai!");
+                    mood = mood + 10; //
+                    World.addWaktu(10); // diubah menjadi 1.5 kekenyangan makanan yg dimasak
+                    checkisFull(scan);
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
+        });
+        System.out.println("Sedang makan...");
+        thread.start();
+    }
+    // berkunjung
+    // buang air
+    // upgrade rumah
+    // beli barang
+    // berpindah ruangan
+    // melihat inventory
+    // memasang barang
+    // melihat waktu
 
     public void gotoObject(Scanner scan)
     {
-        posisiRuangan.listobject();
         // nanti dilanjutin untuk terima input berupa int x dan pergi ke objek ke-x di list
         // udah sampai objek, dicek objek apa yg dihampirin, lalu ditanyain mau aksi apa sesuai dengan objeknya, kalo ga mau lakukan aksi, gak jalanin aksi, kalo mau, jalanin aksi
-        System.out.println("0. Batal");
-        System.out.print("Pilihan : ");
-        int choiceobjek = scan.nextInt();
-        if (choiceobjek > posisiRuangan.getListofObjek().size() || choiceobjek < 0)
+        int choiceobjek = 1;
+        boolean isValid = false;
+        while (!isValid)
         {
-            System.out.println("Input tidak valid!");
+            try {
+                posisiRuangan.listobject();
+                System.out.println("0. Batal");
+                System.out.print("Pilihan : ");
+                choiceobjek = scan.nextInt();
+                isValid = true;
+            }
+            catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka!");
+                scan.nextLine();
+            }
+        }
+        while (choiceobjek > posisiRuangan.getListofObjek().size() || choiceobjek < 0)
+        {
+            System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
+            isValid = false;
+            while (!isValid)
+            {
+                try {
+                    posisiRuangan.listobject();
+                    System.out.println("0. Batal");
+                    System.out.print("Pilihan : ");
+                    choiceobjek = scan.nextInt();
+                    isValid = true;
+                }
+                catch (Exception e) {
+                    System.out.println("Input invalid, silahkan input angka!");
+                    scan.nextLine();
+                }
+            }
+        }
+        if (choiceobjek == 0)
+        {
+            System.out.println("Berhasil dibatalkan!");
         }
         else
         {
-            if (choiceobjek == 0)
+            NonMakanan accessed = posisiRuangan.getListofObjek().get(choiceobjek - 1);
+            posisi = accessed.getTitikAwal();
+            if (accessed.getNamaItem().equals("kasur single") || accessed.getNamaItem().equals("kasur queen size") || accessed.getNamaItem().equals("kasur king size"))
             {
-                System.out.println("Berhasil dibatalkan!");
-            }
-            else
-            {
-                NonMakanan accessed = posisiRuangan.getListofObjek().get(choiceobjek - 1);
-                // code posisi berubah
-                if (accessed.getNamaItem().equals("kasur single") || accessed.getNamaItem().equals("kasur queen size") || accessed.getNamaItem().equals("kasur king size"))
+                
+                int choiceaksi = 1;
+                isValid = false;
+                while (!isValid)
                 {
-                    System.out.println("Aksi yang bisa dilakukan : ");
-                    System.out.println("1. Tidur");
-                    System.out.println("0. Batal");
-                    System.out.print("Pilihan : ");
-                    int choiceaksi = scan.nextInt();
-                    while (choiceaksi > 1 || choiceaksi < 0)
-                    {
-                        System.out.println("Input tidak valid!");
+                    try {
                         System.out.println("Aksi yang bisa dilakukan : ");
                         System.out.println("1. Tidur");
                         System.out.println("0. Batal");
                         System.out.print("Pilihan : ");
                         choiceaksi = scan.nextInt();
+                        isValid = true;
                     }
-                    if (choiceaksi == 0)
-                    {
-                        System.out.println("Aksi tidak dilakukan!");
-                    }
-                    else
-                    {
-                        // method tidur;
+                    catch (Exception e) {
+                        System.out.println("Input invalid, silahkan input angka!");
+                        scan.nextLine();
                     }
                 }
-                else if (accessed.getNamaItem().equals("toilet"))
+                while (choiceaksi > 1 || choiceaksi < 0)
                 {
-                    System.out.println("Aksi yang bisa dilakukan : ");
-                    System.out.println("1. Buang air");
-                    System.out.println("2. Cuci WC");
-                    System.out.println("0. Batal");
-                    System.out.print("Pilihan : ");
-                    int choiceaksi = scan.nextInt();
-                    while (choiceaksi > 2 || choiceaksi < 0)
+                    System.out.println("Input tidak valid ( diluar index )!");
+                    isValid = false;
+                    while (!isValid)
                     {
-                        System.out.println("Input tidak valid!");
+                        try {
+                            System.out.println("Aksi yang bisa dilakukan : ");
+                            System.out.println("1. Tidur");
+                            System.out.println("0. Batal");
+                            System.out.print("Pilihan : ");
+                            choiceaksi = scan.nextInt();
+                            isValid = true;
+                        }
+                        catch (Exception e) {
+                            System.out.println("Input invalid, silahkan input angka!");
+                            scan.nextLine();
+                        }
+                    }
+                }
+                if (choiceaksi == 0)
+                {
+                    System.out.println("Aksi tidak dilakukan!");
+                }
+                else
+                {
+                    // method tidur;
+                }
+            }
+            else if (accessed.getNamaItem().equals("toilet"))
+            {
+                int choiceaksi = 1;
+                isValid = false;
+                while (!isValid)
+                {
+                    try {
                         System.out.println("Aksi yang bisa dilakukan : ");
                         System.out.println("1. Buang air");
                         System.out.println("2. Cuci WC");
                         System.out.println("0. Batal");
                         System.out.print("Pilihan : ");
                         choiceaksi = scan.nextInt();
+                        isValid = true;
                     }
-                    if (choiceaksi == 0)
-                    {
-                        System.out.println("Aksi tidak dilakukan!");
-                    }
-                    else if (choiceaksi == 1)
-                    {
-                        // method buangair;
-                    }
-                    else if (choiceaksi == 2)
-                    {
-                        // method cuci wc;
+                    catch (Exception e) {
+                        System.out.println("Input invalid, silahkan input angka!");
+                        scan.nextLine();
                     }
                 }
-                else if (accessed.getNamaItem().equals("kompor gas") || accessed.getNamaItem().equals("kompor listrik"))
+                while (choiceaksi > 2 || choiceaksi < 0)
                 {
-                    System.out.println("Aksi yang bisa dilakukan : ");
-                    System.out.println("1. Memasak");
-                    System.out.println("2. Cuci piring");
-                    System.out.println("0. Batal");
-                    System.out.print("Pilihan : ");
-                    int choiceaksi = scan.nextInt();
-                    while (choiceaksi > 2 || choiceaksi < 0)
+                    System.out.println("Input tidak valid ( diluar index )!");
+                    isValid = false;
+                    while (!isValid)
                     {
-                        System.out.println("Input tidak valid!");
+                        try {
+                            System.out.println("Aksi yang bisa dilakukan : ");
+                            System.out.println("1. Buang air");
+                            System.out.println("2. Cuci WC");
+                            System.out.println("0. Batal");
+                            System.out.print("Pilihan : ");
+                            choiceaksi = scan.nextInt();
+                            isValid = true;
+                        }
+                        catch (Exception e) {
+                            System.out.println("Input invalid, silahkan input angka!");
+                            scan.nextLine();
+                        }
+                    }
+                }
+                if (choiceaksi == 0)
+                {
+                    System.out.println("Aksi tidak dilakukan!");
+                }
+                else if (choiceaksi == 1)
+                {
+                    // method buangair;
+                }
+                else if (choiceaksi == 2)
+                {
+                    cuciwc(scan);
+                }
+            }
+            else if (accessed.getNamaItem().equals("kompor gas") || accessed.getNamaItem().equals("kompor listrik"))
+            {
+                int choiceaksi = 1;
+                isValid = false;
+                while (!isValid)
+                {
+                    try {
                         System.out.println("Aksi yang bisa dilakukan : ");
                         System.out.println("1. Memasak");
                         System.out.println("2. Cuci piring");
                         System.out.println("0. Batal");
                         System.out.print("Pilihan : ");
                         choiceaksi = scan.nextInt();
+                        isValid = true;
                     }
-                    if (choiceaksi == 0)
-                    {
-                        System.out.println("Aksi tidak dilakukan!");
-                    }
-                    else if (choiceaksi == 1)
-                    {
-                        // method masak;
-                    }
-                    else if (choiceaksi == 2)
-                    {
-                        // method cuci piring;
+                    catch (Exception e) {
+                        System.out.println("Input invalid, silahkan input angka!");
+                        scan.nextLine();
                     }
                 }
-                else if (accessed.getNamaItem().equals("meja dan kursi"))
+                while (choiceaksi > 2 || choiceaksi < 0)
                 {
-                    System.out.println("Aksi yang bisa dilakukan : ");
-                    System.out.println("1. Makan");
-                    System.out.println("0. Batal");
-                    System.out.print("Pilihan : ");
-                    int choiceaksi = scan.nextInt();
-                    while (choiceaksi > 1 || choiceaksi < 0)
+                    System.out.println("Input tidak valid ( diluar index )!");
+                    isValid = false;
+                    while (!isValid)
                     {
+                        try {
+                            System.out.println("Aksi yang bisa dilakukan : ");
+                            System.out.println("1. Memasak");
+                            System.out.println("2. Cuci piring");
+                            System.out.println("0. Batal");
+                            System.out.print("Pilihan : ");
+                            choiceaksi = scan.nextInt();
+                            isValid = true;
+                        }
+                        catch (Exception e) {
+                            System.out.println("Input invalid, silahkan input angka!");
+                            scan.nextLine();
+                        }
+                    }
+                }
+                if (choiceaksi == 0)
+                {
+                    System.out.println("Aksi tidak dilakukan!");
+                }
+                else if (choiceaksi == 1)
+                {
+                    // method masak;
+                }
+                else if (choiceaksi == 2)
+                {
+                    cucipiring(scan);
+                }
+            }
+            else if (accessed.getNamaItem().equals("meja dan kursi"))
+            {
+                int choiceaksi = 1;
+                isValid = false;
+                while (!isValid)
+                {
+                    try {
                         System.out.println("Input tidak valid!");
                         System.out.println("Aksi yang bisa dilakukan : ");
                         System.out.println("1. Makan");
                         System.out.println("0. Batal");
                         System.out.print("Pilihan : ");
                         choiceaksi = scan.nextInt();
+                        isValid = true;
                     }
-                    if (choiceaksi == 0)
-                    {
-                        System.out.println("Aksi tidak dilakukan!");
-                    }
-                    else if (choiceaksi == 1)
-                    {
-                        // method makan;
+                    catch (Exception e) {
+                        System.out.println("Input invalid, silahkan input angka!");
+                        scan.nextLine();
                     }
                 }
-                else if (accessed.getNamaItem().equals("jam"))
+                while (choiceaksi > 1 || choiceaksi < 0)
                 {
-                    System.out.println("Aksi yang bisa dilakukan : ");
-                    System.out.println("1. Melihat waktu");
-                    System.out.println("0. Batal");
-                    System.out.print("Pilihan : ");
-                    int choiceaksi = scan.nextInt();
-                    while (choiceaksi > 1 || choiceaksi < 0)
+                    System.out.println("Input tidak valid ( diluar index )!");
+                    isValid = false;
+                    while (!isValid)
                     {
+                        try {
+                            System.out.println("Input tidak valid!");
+                            System.out.println("Aksi yang bisa dilakukan : ");
+                            System.out.println("1. Makan");
+                            System.out.println("0. Batal");
+                            System.out.print("Pilihan : ");
+                            choiceaksi = scan.nextInt();
+                            isValid = true;
+                        }
+                        catch (Exception e) {
+                            System.out.println("Input invalid, silahkan input angka!");
+                            scan.nextLine();
+                        }
+                    }
+                }
+                if (choiceaksi == 0)
+                {
+                    System.out.println("Aksi tidak dilakukan!");
+                }
+                else if (choiceaksi == 1)
+                {
+                    makan(scan);
+                }
+            }
+            else if (accessed.getNamaItem().equals("jam"))
+            {
+                int choiceaksi = 1;
+                isValid = false;
+                while (!isValid)
+                {
+                    try {
                         System.out.println("Input tidak valid!");
                         System.out.println("Aksi yang bisa dilakukan : ");
                         System.out.println("1. Melihat waktu");
                         System.out.println("0. Batal");
                         System.out.print("Pilihan : ");
                         choiceaksi = scan.nextInt();
+                        isValid = true;
                     }
-                    if (choiceaksi == 0)
-                    {
-                        System.out.println("Aksi tidak dilakukan!");
-                    }
-                    else if (choiceaksi == 1)
-                    {
-                        // method melihat waktu;
+                    catch (Exception e) {
+                        System.out.println("Input invalid, silahkan input angka!");
+                        scan.nextLine();
                     }
                 }
-            } 
-        }
+                while (choiceaksi > 1 || choiceaksi < 0)
+                {
+                    System.out.println("Input tidak valid ( diluar index )!");
+                    isValid = false;
+                    while (!isValid)
+                    {
+                        try {
+                            System.out.println("Input tidak valid!");
+                            System.out.println("Aksi yang bisa dilakukan : ");
+                            System.out.println("1. Melihat waktu");
+                            System.out.println("0. Batal");
+                            System.out.print("Pilihan : ");
+                            choiceaksi = scan.nextInt();
+                            isValid = true;
+                        }
+                        catch (Exception e) {
+                            System.out.println("Input invalid, silahkan input angka!");
+                            scan.nextLine();
+                        }
+                    }
+                }
+                if (choiceaksi == 0)
+                {
+                    System.out.println("Aksi tidak dilakukan!");
+                }
+                else if (choiceaksi == 1)
+                {
+                    // method melihat waktu;
+                }
+            }   
+        } 
     }
-
-
-
 }
