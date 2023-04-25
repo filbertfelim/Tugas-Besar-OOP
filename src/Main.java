@@ -11,6 +11,11 @@ import org.json.simple.parser.ParseException;
 
 import java.lang.Math;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import java.io.FileWriter;
+
 public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -20,6 +25,42 @@ public class Main {
         World.addSim(scan);
         World.changeSim(scan);
         System.out.println(World.getActiveSim().getNama());
+    }
+
+    private static void save(List<List<?>> save, String namaFile) {
+
+        JSONArray daftarObjek = new JSONArray();
+        for (List<?> a : save) {
+            for (Object b : a) {
+                if (b.getClass() == Sim.class) {
+                    Sim sim = (Sim) b;
+                    JSONObject sims = new JSONObject();
+                    sims.put("nama", sim.getNama());
+                    sims.put("kekenyangan", sim.getKekenyangan());
+                    sims.put("status", sim.getStatus());
+
+                    JSONObject objekSim = new JSONObject();
+                    objekSim.put("Sim", sims);
+                    daftarObjek.add(objekSim);
+                } else if (b.getClass() == World.class) {
+                    World world = (World) b;
+                    JSONObject worlds = new JSONObject();
+                    worlds.put("panjang", world.getPanjang());
+                    worlds.put("lebar", world.getLebar());
+
+                    JSONObject objekWorld = new JSONObject();
+                    objekWorld.put("World", worlds);
+                    daftarObjek.add(objekWorld);
+                }
+            }
+        }
+
+        try (FileWriter file = new FileWriter(namaFile + ".json")) {
+            file.write(daftarObjek.toJSONString());
+            file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void load(String namaFile) {
@@ -59,6 +100,24 @@ public class Main {
             Rumah posisiRumah;
             Ruangan posisiRuangan;
 
+        } catch (NullPointerException e) {
+
+        }
+
+    }
+
+    private static void parseWorld(JSONObject object) {
+        try {
+            JSONObject worldObj = (JSONObject) object.get("World");
+
+            int panjang = Math.toIntExact((Long) worldObj.get("panjang"));
+            int lebar = Math.toIntExact((Long) worldObj.get("lebar"));
+            ArrayList<Rumah> listofRumah;
+            int[][] matrixWorld;
+            ArrayList<Sim> listofSim;
+            int waktu = Math.toIntExact((Long) worldObj.get("waktu"));
+            int harike = Math.toIntExact((Long) worldObj.get("harike"));
+            Sim activeSim;
         } catch (NullPointerException e) {
 
         }
