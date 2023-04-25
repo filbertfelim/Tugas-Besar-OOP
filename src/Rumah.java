@@ -1,8 +1,10 @@
 import java.util.ArrayList;
 
 public class Rumah {
-    private String namaRumah;
+    private String simPemilik;
     private Point lokasi;
+    private final int panjang = 1;
+    private final int lebar = 1;
     private ArrayList<Ruangan> listOfRuangan = new ArrayList<Ruangan>();
    
     // Konstruktor
@@ -20,11 +22,11 @@ public class Rumah {
 
     // Getter dan Setter
 
-    public String getNamaRumah() {
-        return namaRumah;
+    public String getSimPemilik() {
+        return simPemilik;
     }
-    public void setNamaRumah(String namaRumah) {
-        this.namaRumah = namaRumah;
+    public void setSimPemilik(String ) {
+        this.simPemilik = simPemilik;
     }
     public Point getLokasi() {
         return lokasi;
@@ -36,9 +38,11 @@ public class Rumah {
     public ArrayList<Ruangan> getListOfRuangan() {
         return listOfRuangan;
     }
+    
     public void setListOfRuangan(ArrayList<Ruangan> listOfRuangan) {
         this.listOfRuangan = listOfRuangan;
     }
+    
     public void tambahRuangan(Ruangan ruang) {
         listOfRuangan.add(ruang);
     }
