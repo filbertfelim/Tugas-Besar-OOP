@@ -21,6 +21,27 @@ public class Main {
         Scanner scan = new Scanner(System.in);
 
         List<List<?>> objectsCreatedList = new ArrayList<List<?>>();
+        List<World> worldsCreatedList = new ArrayList<World>();
+        List<Sim> simsCreatedList = new ArrayList<Sim>();
+        List<Rumah> rumahCreatedList = new ArrayList<Rumah>();
+        List<Ruangan> ruanganCreatedList = new ArrayList<Ruangan>();
+        List<Point> pointsCreatedList = new ArrayList<Point>();
+        List<Pekerjaan> pekerjaanCreatedList = new ArrayList<Pekerjaan>();
+        List<NonMakanan> nonmakananCreatedList = new ArrayList<NonMakanan>();
+        List<Masakan> masakanCreatedList = new ArrayList<Masakan>();
+        List<BahanMakanan> bahanmakananCreatedList = new ArrayList<BahanMakanan>();
+        List<Inventory> inventoryCreatedList = new ArrayList<Inventory>();
+
+        objectsCreatedList.add(worldsCreatedList);
+        objectsCreatedList.add(simsCreatedList);
+        objectsCreatedList.add(rumahCreatedList);
+        objectsCreatedList.add(ruanganCreatedList);
+        objectsCreatedList.add(pointsCreatedList);
+        objectsCreatedList.add(pekerjaanCreatedList);
+        objectsCreatedList.add(nonmakananCreatedList);
+        objectsCreatedList.add(masakanCreatedList);
+        objectsCreatedList.add(bahanmakananCreatedList);
+        objectsCreatedList.add(inventoryCreatedList);
 
         boolean isGameStarting = false;
         while (!isGameStarting) {
@@ -108,7 +129,7 @@ public class Main {
         }
     }
 
-    private static void load(String namaFile, ) {
+    private static void load(String namaFile) {
         JSONParser jsonP = new JSONParser();
 
         try (FileReader reader = new FileReader(namaFile + ".json")) {
