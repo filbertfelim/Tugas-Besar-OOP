@@ -19,6 +19,70 @@ import java.io.FileWriter;
 public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
+
+        List<List<?>> objectsCreatedList = new ArrayList<List<?>>();
+        List<World> worldsCreatedList = new ArrayList<World>();
+        List<Sim> simsCreatedList = new ArrayList<Sim>();
+        List<Rumah> rumahCreatedList = new ArrayList<Rumah>();
+        List<Ruangan> ruanganCreatedList = new ArrayList<Ruangan>();
+        List<Point> pointsCreatedList = new ArrayList<Point>();
+        List<Pekerjaan> pekerjaanCreatedList = new ArrayList<Pekerjaan>();
+        List<NonMakanan> nonmakananCreatedList = new ArrayList<NonMakanan>();
+        List<Masakan> masakanCreatedList = new ArrayList<Masakan>();
+        List<BahanMakanan> bahanmakananCreatedList = new ArrayList<BahanMakanan>();
+        List<Inventory> inventoryCreatedList = new ArrayList<Inventory>();
+
+        objectsCreatedList.add(worldsCreatedList);
+        objectsCreatedList.add(simsCreatedList);
+        objectsCreatedList.add(rumahCreatedList);
+        objectsCreatedList.add(ruanganCreatedList);
+        objectsCreatedList.add(pointsCreatedList);
+        objectsCreatedList.add(pekerjaanCreatedList);
+        objectsCreatedList.add(nonmakananCreatedList);
+        objectsCreatedList.add(masakanCreatedList);
+        objectsCreatedList.add(bahanmakananCreatedList);
+        objectsCreatedList.add(inventoryCreatedList);
+
+        boolean isGameStarting = false;
+        while (!isGameStarting) {
+            printStartingMenuCommands();
+            System.out.print(">> ");
+            String commandStartingMenu = scan.nextLine().toLowerCase();
+            if (commandStartingMenu.equals("start")) {
+                isGameStarting = true;
+
+                boolean isGameLoading = false;
+                while (!isGameLoading) {
+                    System.out.println("Do you want to load saved game? (type y/n)");
+                    System.out.print(">> ");
+                    String startingGame = scan.nextLine().toLowerCase();
+                    if (startingGame.equals("y")) {
+                        isGameLoading = true;
+                        String loadFile = scan.nextLine().toLowerCase();
+                        load(loadFile);
+                        System.out.println("Enjoy playing!");
+                        delay(2000);
+                    } else if (startingGame.equals("n")) {
+                        isGameLoading = true;
+                        System.out.println("Enjoy playing!");
+                        delay(2000);
+                    } else {
+                        System.out.println("Please type y/n!");
+                        delay(2000);
+                    }
+                }
+            } else if (commandStartingMenu.equals("help")) {
+                printHelp();
+                delay(2000);
+            } else if (commandStartingMenu.equals("exit")) {
+                System.out.println("Goodbye! Lets play again later!");
+                System.exit(0);
+            } else {
+                System.out.println("Sorry, wrong command...\n");
+                delay(500);
+            }
+        }
+
         System.out.print("Nama sim : ");
         String namasim = scan.nextLine();
         World world = new World(namasim);
@@ -124,5 +188,24 @@ public class Main {
 
         }
 
+    }
+
+    private static void printStartingMenuCommands() {
+        System.out.println("Select Command:");
+        System.out.println(">>> Start");
+        System.out.println(">>> Help");
+        System.out.println(">>> Exit");
+    }
+
+    private static void delay(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+
+        }
+    }
+
+    private static void printHelp() {
+        // print isi help
     }
 }
