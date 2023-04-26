@@ -15,6 +15,12 @@ public class Sim {
     private Rumah rumah;
     private Rumah posisiRumah;
     private Ruangan posisiRuangan;
+    private int timerBelumTidur;
+    private int timerBelumBAB;
+    private boolean perluBAB;
+    private int jatahWaktuBerkunjung;
+    private int timerWaktuKunjung;
+    private boolean isBerkunjung;
 
     // Konstruktor
     public Sim(String nama, Point alamatRumah) {
@@ -28,7 +34,12 @@ public class Sim {
         rumah = World.getListofRumah().get(alamatRumah.getX() + alamatRumah.getY() * 64);
         posisiRumah = World.getListofRumah().get(alamatRumah.getX() + alamatRumah.getY() * 64);
         posisiRuangan = World.getListofRumah().get(alamatRumah.getX() + alamatRumah.getY() * 64).getListofRuangan().get(0);
-        // posisi = .... posisi di rumah sendiri ( nentuin titik spawn default di mana)
+        posisi = new Point(0,0);
+        timerBelumTidur = 0;
+        timerBelumBAB = 0;
+        perluBAB = false;
+        jatahWaktuBerkunjung = 0;
+        timerWaktuKunjung = 0;
     }
 
     // Method
@@ -154,7 +165,193 @@ public class Sim {
         }
     }
 
+    public void addTimerBelumTidur(int duration)
+    {
+        timerBelumTidur += duration;
+    }
+
+    public void resetTimerBelumTidurAfterSleep()
+    {
+        timerBelumTidur = 0;
+    }
+
+    public void resetTimerBelumTidurAfterNoSleep()
+    {
+        if (timerBelumTidur >= 600)
+        {
+            System.out.println("Anda kurang tidur! kesehatan dan mood berkurang, segera tidur!");
+            timerBelumTidur = 0;
+            kesehatan = kesehatan - 5;
+            mood = mood - 5;
+        }
+    }
+
+    public void resetTimerBelumBAB()
+    {
+        if (timerBelumBAB > 240 && perluBAB)
+        {
+            System.out.println("Anda belum buang air setelah makan! kesehatan dan mood berkurang, segera buang air!");
+            timerBelumBAB = 0;
+            kesehatan = kesehatan - 5;
+            mood = mood - 5;
+        }
+    }
+
+    public void addTimerBelumBAB(int duration)
+    {
+        if (perluBAB)
+        {
+            timerBelumBAB += duration;
+        }   
+    }
+
+    public void addTimerWaktuKunjung(int duration)
+    {
+        if (isBerkunjung)
+        {
+            timerWaktuKunjung += duration;
+        }
+    }
+
+    public void balikdariBerkunjung(Scanner scan)
+    {
+        if (timerWaktuKunjung > jatahWaktuBerkunjung)
+        {
+            System.out.println("Waktu berkunjung sudah habis! Saatnya pulang.");
+            jatahWaktuBerkunjung = 0;
+            mood = mood + (10 * (timerWaktuKunjung / 30));
+            kekenyangan = kekenyangan - (10 * (timerWaktuKunjung / 30));
+            timerWaktuKunjung = 0;
+            isBerkunjung = false;
+            int waktubalik = rumah.getLokasi().distance(posisiRumah.getLokasi());
+            posisiRumah = rumah;
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(waktubalik * 1000);
+                        System.out.println("Sudah sampai di rumah!");
+                        World.addWaktu(waktubalik);
+                        addTimerBelumTidur(waktubalik);
+                        resetTimerBelumTidurAfterNoSleep();
+                        addTimerBelumBAB(waktubalik);
+                        resetTimerBelumBAB();
+                        checkKondisiSim();
+                        if (isDead())
+                        {
+                            World.removeSim();
+                            World.changeSim(scan);
+                        }
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                }
+            });
+            System.out.println("Sedang balik ke rumah...");
+            thread.start();
+        }
+    }
+
     // Aksi
+
+    // buang air
+    public void buangair(Scanner scan)
+    {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(10 * 1000);
+                    System.out.println("Buang air selesai!");
+                    kekenyangan = kekenyangan - 20;
+                    mood = mood + 10;
+                    World.addWaktu(10);
+                    addTimerBelumTidur(10);
+                    resetTimerBelumTidurAfterNoSleep();
+                    perluBAB = false;
+                    timerBelumBAB = 0;
+                    addTimerWaktuKunjung(10);
+                    balikdariBerkunjung(scan);
+                    checkKondisiSim();
+                    if (isDead())
+                    {
+                        World.removeSim();
+                        World.changeSim(scan);
+                    }
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
+        });
+        System.out.println("Sedang buang air...");
+        thread.start();
+    }
+
+    // tidur
+    public void tidur(Scanner scan)
+    {
+        boolean isValid = false;
+        int duration = 1;
+        while (!isValid)
+        {
+            try {
+                System.out.print("Durasi ( detik kelipatan 240 ) : ");
+                duration = scan.nextInt();
+                isValid = true;
+            }
+            catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka!");
+                scan.nextLine();
+            }
+        }
+        while (duration % 240 != 0)
+        {
+            System.out.println("Input invalid ( harus kelipatan 240 ), silahkan diulangi!");
+            isValid = false;
+            while (!isValid)
+            {
+                try {
+                    System.out.print("Durasi ( detik kelipatan 240 ) : ");
+                    duration = scan.nextInt();
+                    isValid = true;
+                }
+                catch (Exception e) {
+                    System.out.println("Input invalid, silahkan input angka!");
+                    scan.nextLine();
+                }
+            }
+        }
+        int finalduration = duration;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(finalduration * 1000);
+                    System.out.println("Tidur selesai!");
+                    kesehatan = kesehatan + 30 * (finalduration / 240);
+                    mood = mood + 20 * (finalduration / 240);
+                    World.addWaktu(finalduration);
+                    resetTimerBelumTidurAfterSleep();
+                    addTimerBelumBAB(finalduration);
+                    resetTimerBelumBAB();
+                    addTimerWaktuKunjung(finalduration);
+                    balikdariBerkunjung(scan);
+                    checkKondisiSim();
+                    if (isDead())
+                    {
+                        World.removeSim();
+                        World.changeSim(scan);
+                    }
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
+        });
+        System.out.println("Sedang tidur...");
+        thread.start();
+    }
+
+    //olahraga
     public void olahraga(Scanner scan)
     {
         boolean isValid = false;
@@ -199,6 +396,12 @@ public class Sim {
                     kekenyangan = kekenyangan - (5 * (finalduration / 20));
                     mood = mood + (10 * (finalduration / 20));
                     World.addWaktu(finalduration);
+                    addTimerBelumTidur(finalduration);
+                    resetTimerBelumTidurAfterNoSleep();
+                    addTimerBelumBAB(finalduration);
+                    resetTimerBelumBAB();
+                    addTimerWaktuKunjung(finalduration);
+                    balikdariBerkunjung(scan);
                     checkKondisiSim();
                     if (isDead())
                     {
@@ -259,6 +462,12 @@ public class Sim {
                     kekenyangan = kekenyangan - (5 * (finalduration / 10));
                     mood = mood + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
+                    addTimerBelumTidur(finalduration);
+                    resetTimerBelumTidurAfterNoSleep();
+                    addTimerBelumBAB(finalduration);
+                    resetTimerBelumBAB();
+                    addTimerWaktuKunjung(finalduration);
+                    balikdariBerkunjung(scan);
                     checkKondisiSim();
                     if (isDead())
                     {
@@ -327,6 +536,12 @@ public class Sim {
                     System.out.println("Nyanyi selesai!");
                     mood = mood + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
+                    addTimerBelumTidur(finalduration);
+                    resetTimerBelumTidurAfterNoSleep();
+                    addTimerBelumBAB(finalduration);
+                    resetTimerBelumBAB();
+                    addTimerWaktuKunjung(finalduration);
+                    balikdariBerkunjung(scan);
                     checkKondisiSim();
                     if (isDead())
                     {
@@ -384,6 +599,12 @@ public class Sim {
                     System.out.println("Stretching selesai!");
                     kesehatan = kesehatan + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
+                    addTimerBelumTidur(finalduration);
+                    resetTimerBelumTidurAfterNoSleep();
+                    addTimerBelumBAB(finalduration);
+                    resetTimerBelumBAB();
+                    addTimerWaktuKunjung(finalduration);
+                    balikdariBerkunjung(scan);
                     checkKondisiSim();
                     if (isDead())
                     {
@@ -442,6 +663,12 @@ public class Sim {
                     kekenyangan = kekenyangan - (10 * (finalduration / 30));
                     mood = mood + (10 * (finalduration / 30));
                     World.addWaktu(finalduration);
+                    addTimerBelumTidur(finalduration);
+                    resetTimerBelumTidurAfterNoSleep();
+                    addTimerBelumBAB(finalduration);
+                    resetTimerBelumBAB();
+                    addTimerWaktuKunjung(finalduration);
+                    balikdariBerkunjung(scan);
                     checkKondisiSim();
                     if (isDead())
                     {
@@ -500,6 +727,12 @@ public class Sim {
                     System.out.println("Cuci piring selesai!");
                     mood = mood + (10 * (finalduration / 30));
                     World.addWaktu(finalduration);
+                    addTimerBelumTidur(finalduration);
+                    resetTimerBelumTidurAfterNoSleep();
+                    addTimerBelumBAB(finalduration);
+                    resetTimerBelumBAB();
+                    addTimerWaktuKunjung(finalduration);
+                    balikdariBerkunjung(scan);
                     checkKondisiSim();
                     if (isDead())
                     {
@@ -526,7 +759,13 @@ public class Sim {
                     System.out.println("Muntah selesai!");
                     kekenyangan = kekenyangan - 20;
                     World.addWaktu(10);
+                    addTimerBelumTidur(10);
+                    resetTimerBelumTidurAfterNoSleep();
                     checkKondisiSim();
+                    addTimerBelumBAB(10);
+                    resetTimerBelumBAB();
+                    addTimerWaktuKunjung(10);
+                    balikdariBerkunjung(scan);
                     if (isDead())
                     {
                         World.removeSim();
@@ -553,7 +792,14 @@ public class Sim {
                     System.out.println("Makan selesai!");
                     kekenyangan = kekenyangan - 20; // belum diubah, sesuai makanan ( perlu inventory )
                     World.addWaktu(30);
+                    addTimerBelumTidur(30);
+                    resetTimerBelumTidurAfterNoSleep();
                     checkisFull(scan);
+                    addTimerBelumBAB(30);
+                    resetTimerBelumBAB();
+                    addTimerWaktuKunjung(30);
+                    balikdariBerkunjung(scan);
+                    perluBAB = true;
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -562,8 +808,6 @@ public class Sim {
         System.out.println("Sedang makan...");
         thread.start();
     }
-
-    // tidur
 
     // masak
     public void masak(Scanner scan)
@@ -577,7 +821,13 @@ public class Sim {
                     System.out.println("Makan selesai!");
                     mood = mood + 10; //
                     World.addWaktu(10); // diubah menjadi 1.5 kekenyangan makanan yg dimasak
-                    checkisFull(scan);
+                    addTimerBelumBAB(10);// diubah menjadi 1.5 kekenyangan makanan yg dimasak
+                    addTimerBelumTidur(10);// diubah menjadi 1.5 kekenyangan makanan yg dimasak
+                    resetTimerBelumBAB();
+                    resetTimerBelumTidurAfterNoSleep();
+                    addTimerWaktuKunjung(10);// diubah menjadi 1.5 kekenyangan makanan yg dimasak
+                    balikdariBerkunjung(scan);
+                    checkKondisiSim();
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -587,7 +837,136 @@ public class Sim {
         thread.start();
     }
     // berkunjung
-    // buang air
+    public void berkunjung(Scanner scan)
+    {
+        boolean isValid = false;
+        int idx = 1;
+        while (!isValid)
+        {
+            try {
+                System.out.println("Daftar rumah yang ada di World : ");
+                for (int i = 0 ; i < World.getListofRumah().size(); i++)
+                {
+                    System.out.println(String.valueOf(i + 1) + ". " + World.getListofRumah().get(i).getNama());
+                }
+                System.out.println("0. Batal");
+                System.out.print("Pilihan : ");
+                idx = scan.nextInt();
+                isValid = true;
+            }
+            catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka!");
+                scan.nextLine();
+            }
+        }
+        if (idx == 0)
+        {
+            System.out.println("Tidak jadi berkunjung!");
+        }
+        else
+        {
+            while (idx < 0 || idx > World.getListofRumah().size() || World.getListofRumah().get(idx-1).getNama().equals(rumah.getNama()))
+            {
+                if (World.getListofRumah().get(idx-1).getNama().equals(rumah.getNama()))
+                {
+                    System.out.println("Tidak bisa berkunjung ke rumah sendiri!");
+                }
+                else
+                {
+                    System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
+                }
+                System.out.println("Daftar rumah yang ada di World : ");
+                for (int i = 0 ; i < World.getListofRumah().size(); i++)
+                {
+                    System.out.println(String.valueOf(i + 1) + ". " + World.getListofRumah().get(i).getNama());
+                }
+                System.out.println("0. Batal");
+                isValid = false;
+                while (!isValid)
+                {
+                    try {
+                        System.out.print("Pilihan : ");
+                        idx = scan.nextInt();
+                        isValid = true;
+                    }
+                    catch (Exception e) {
+                        System.out.println("Input invalid, silahkan input angka!");
+                        scan.nextLine();
+                    }
+                }
+                if (idx == 0)
+                {
+                    System.out.println("Tidak jadi berkunjung!");
+                }
+            }
+            int waktuberkunjung = rumah.getLokasi().distance(World.getListofRumah().get(idx-1).getLokasi());
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(waktuberkunjung * 1000);
+                        System.out.println("Berkunjung selesai!");
+                        World.addWaktu(waktuberkunjung);
+                        addTimerBelumTidur(waktuberkunjung);
+                        resetTimerBelumTidurAfterNoSleep();
+                        addTimerBelumBAB(waktuberkunjung);
+                        resetTimerBelumBAB();
+                        checkKondisiSim();
+                        if (isDead())
+                        {
+                            World.removeSim();
+                            World.changeSim(scan);
+                        }
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                }
+            });
+            System.out.println("Sedang berkunjung...");
+            thread.start();
+            try {
+                thread.join();
+            }
+            catch (InterruptedException err) {
+                System.out.println(err.getMessage());
+            }
+            isBerkunjung = true;
+            posisiRumah = World.getListofRumah().get(idx-1);
+            isValid = false;
+            int duration = 1;
+            while (!isValid)
+            {
+                try {
+                    System.out.print("Durasi berkunjung ( detik kelipatan 30 ) : ");
+                    duration = scan.nextInt();
+                    isValid = true;
+                }
+                catch (Exception e) {
+                    System.out.println("Input invalid, silahkan input angka!");
+                    scan.nextLine();
+                }
+            }
+            while (duration % 30 != 0)
+            {
+                System.out.println("Input invalid ( harus kelipatan 30 ), silahkan diulangi!");
+                isValid = false;
+                while (!isValid)
+                {
+                    try {
+                        System.out.print("Durasi berkunjung ( detik kelipatan 30 ) : ");
+                        duration = scan.nextInt();
+                        isValid = true;
+                    }
+                    catch (Exception e) {
+                        System.out.println("Input invalid, silahkan input angka!");
+                        scan.nextLine();
+                    }
+                }
+            }
+            jatahWaktuBerkunjung = duration;
+        }
+    }
+
     // upgrade rumah
     // beli barang
     // berpindah ruangan
@@ -688,7 +1067,7 @@ public class Sim {
                 }
                 else
                 {
-                    // method tidur;
+                    tidur(scan);
                 }
             }
             else if (accessed.getNamaItem().equals("toilet"))
@@ -738,7 +1117,7 @@ public class Sim {
                 }
                 else if (choiceaksi == 1)
                 {
-                    // method buangair;
+                    buangair(scan);
                 }
                 else if (choiceaksi == 2)
                 {
@@ -792,7 +1171,7 @@ public class Sim {
                 }
                 else if (choiceaksi == 1)
                 {
-                    // method masak;
+                    masak(scan);
                 }
                 else if (choiceaksi == 2)
                 {

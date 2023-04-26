@@ -45,8 +45,11 @@ public class Point {
         return "(" + getX() + "," + getY() + ")";
     }
 
-    public static double distance(Point awal, Point akhir)
-    {
-        return(Math.sqrt(Math.pow((awal.getX()-akhir.getX()),2)+Math.pow((awal.getY()-akhir.getY()),2)));
+    public int distance(Point point)
+    { 
+        double val = Math.sqrt(Math.pow((this.getX()-this.getX()),2)+Math.pow((point.getY()-point.getY()),2));
+        float floatval = (float) val;
+        int newval = Math.round(floatval);
+        return newval;
     }
 }
