@@ -165,6 +165,18 @@ public class Sim {
         }
     }
 
+    public void getInfo()
+    {
+        System.out.printf("+=========+\tPROFILE\t+=========\n");
+        System.out.printf("Nama\t\t:"+getNama()+"\n");
+        System.out.printf("Pekerjaan\t:"+getPekerjaan()+"\n");
+        System.out.printf("Uang\t\t:"+getUang()+"\n\n");
+        System.out.printf("+=========+\t STATS \t+=========\n");
+        System.out.printf("Kekenyangan\t:"+getKekenyangan()+"\n");
+        System.out.printf("Mood\t\t:"+getMood()+"\n");
+        System.out.printf("Kesehatan\t\t:"+getKesehatan()+"\n\n");
+    }
+
     public void addTimerBelumTidur(int duration)
     {
         timerBelumTidur += duration;
