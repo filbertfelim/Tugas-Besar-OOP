@@ -1,69 +1,72 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class Inventory {
-    private ArrayList<Item> items;
-    private ArrayList<Integer> jumlah;
+public class Inventory<T> {
+    private ArrayList<Item> inventory;
+    private HashMap<String, Integer> details;
 
     public Inventory() {
-        items = new ArrayList<Item>();
-        jumlah = new ArrayList<Integer>();
+        inventory = new ArrayList<Item>();
+        details = new HashMap<String, Integer>();
     }
 
-    public ArrayList<Item> getItems() {
-        return items;
+    public ArrayList<Item> getInventory() {
+        return inventory;
     }
 
-    public ArrayList<Integer> getJumlah() {
-        return jumlah;
+    public HashMap<String, Integer> getDetails()
+    {
+        return details;
     }
 
-    public void add(Item item) {
-        boolean check = false;
-        int index = -1;
+    public int getJumlah() {
+        return inventory.size();
+    }
 
-        for (Item i : items) {
-            index++;
-            if (i.getNamaItem().equals(item.getNamaItem())) {
-                check = true;
-                break;
+    public <T extends Item> void addItem(T item)
+    {
+        int idx = 0;
+        while (idx < inventory.size() && !(((Item) item).getNamaItem().equals(((Item) inventory.get(idx)).getNamaItem())))
+        {
+            idx++;
+        }
+        if (idx < inventory.size()) // udah ada di inventory
+        {
+            details.replace(((Item) item).getNamaItem(),details.get(((Item) item).getNamaItem()) + 1);
+        }
+        else
+        {
+            inventory.add(item);
+            details.put(((Item) item).getNamaItem(), 1);
+        }
+    }
+
+    public <T extends Item> void removeItem(T item)
+    {
+        details.replace(((Item) item).getNamaItem(),details.get(((Item) item).getNamaItem()) - 1);
+        if (details.get(((Item) item).getNamaItem()) == 0) // jika habis
+        {
+            details.remove(((Item) item).getNamaItem());
+            for (int i = 0; i < inventory.size();i++)
+            {
+                if (inventory.get(i).getNamaItem().equals(item.getNamaItem()))
+                {
+                    inventory.remove(i);
+                }
             }
-        }
-        if (check) {
-            jumlah.set(index, jumlah.get(index) + 1);
-        } else {
-            items.add(item);
-            jumlah.add(1);
-        }
+        } 
     }
 
-    public void remove(String name) throws Exception {
-        boolean check = false;
-        int index = -1;
-
-        for (Item i : items) {
-            index++;
-            if (i.getNamaItem().equals(name)) {
-                check = true;
-                break;
-            }
+    public void printInventory()
+    {
+        System.out.println("ISI INVENTORY :");
+        int idx = 1;
+        for (String nama : details.keySet())
+        {
+            System.out.println(String.valueOf(idx) + ". " + nama + " (" + details.get(nama) + ")");
+            idx++;
         }
-
-        if (check) {
-            jumlah.set(index, jumlah.get(index) - 1);
-            if (jumlah.get(index) == 0) {
-                items.remove(index);
-                jumlah.remove(index);
-            }
-        } else {
-            throw new Exception("Kamu tidak mempunyai objek tersebut!");
-        }
-    }
-
-    public void printInventory() {
-        for (int i = 0; i < items.size(); i++) {
-            System.out.print((items.get(i)).getNamaItem() + ":   ");
-            System.out.println(jumlah.get(i));
-        }
-        // System.out.println("====================");
+        System.out.println("");
     }
 }
+

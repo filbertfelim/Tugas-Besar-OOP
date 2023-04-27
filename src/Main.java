@@ -87,10 +87,16 @@ public class Main {
         String namasim = scan.nextLine();
         World world = new World(namasim);
         World.addSim(scan);
-        World.addSim(scan);
-        World.changeSim(scan);
-        System.out.println(World.getActiveSim().getNama());
-        World.getActiveSim().matiditempat(scan);
+        World.getActiveSim().getInventory().addItem(new BahanMakanan("nasi"));
+        World.getActiveSim().getInventory().addItem(new BahanMakanan("nasi"));
+        World.getActiveSim().getInventory().addItem(new BahanMakanan("kentang"));
+        World.getActiveSim().getInventory().addItem(new Masakan("nasi ayam"));
+        World.getActiveSim().getInventory().printInventory();
+        World.getActiveSim().getInventory().removeItem(new Masakan("nasi ayam"));
+        World.getActiveSim().getInventory().printInventory();
+        World.getActiveSim().getInventory().removeItem(new BahanMakanan("nasi"));
+        World.getActiveSim().getInventory().printInventory();
+
     }
 
     private static void save(List<List<?>> save, String namaFile) {

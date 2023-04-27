@@ -11,7 +11,7 @@ public class BahanMakanan extends Item implements Edible, Buyable {
         this.harga = harga;
     }
 
-    public BahanMakanan(String namaItem) throws Exception {
+    public BahanMakanan(String namaItem) {
         super(namaItem);
         if ((namaItem.toLowerCase()).equals("nasi")) {
             harga = 5;
@@ -38,7 +38,7 @@ public class BahanMakanan extends Item implements Edible, Buyable {
             harga = 2;
             kekenyangan = 1;
         } else {
-            throw new Exception("Input tidak ada di daftar item bahan makanan!");
+            System.out.println("Input tidak ada di daftar item bahan makanan!");
         }
     }
 

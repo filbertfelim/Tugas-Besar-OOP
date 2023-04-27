@@ -15,7 +15,7 @@ public class NonMakanan extends Item implements Buyable {
         this.titikAkhir = titikAkhir;
     }
 
-    public NonMakanan(String namaItem) throws Exception {
+    public NonMakanan(String namaItem) {
         super(namaItem);
         titikAwal = null;
         titikAkhir = null;
@@ -52,7 +52,7 @@ public class NonMakanan extends Item implements Buyable {
             lebar = 1;
             harga = 50;
         } else {
-            throw new Exception("Input tidak ada di daftar item nonmakanan!");
+            System.out.println("Input tidak ada di daftar item nonmakanan!");
         }
     }
 

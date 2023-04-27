@@ -23,7 +23,7 @@ public class Pekerjaan {
         }
     }
 
-    public Pekerjaan(String nama) throws Exception {
+    public Pekerjaan(String nama) {
         this.nama = nama;
         if ((nama.toLowerCase()).equals("badut sulap")) {
             gaji = 15;
@@ -36,7 +36,7 @@ public class Pekerjaan {
         } else if ((nama.toLowerCase()).equals("dokter")) {
             gaji = 50;
         } else {
-            throw new Exception("Input tidak ada di daftar kerja!");
+            System.out.println("Input tidak ada di daftar kerja!");
         }
     }
 
@@ -64,8 +64,8 @@ public class Pekerjaan {
         }
     }
 
-    public void changeWork(Sim sim, String newWork) throws Exception {
-        int gajiBaru;
+    public void changeWork(Sim sim, String newWork) {
+        int gajiBaru = 1;
         if ((newWork.toLowerCase()).equals("badut sulap")) {
             gajiBaru = 15;
         } else if ((newWork.toLowerCase()).equals("koki")) {
@@ -77,7 +77,7 @@ public class Pekerjaan {
         } else if ((newWork.toLowerCase()).equals("dokter")) {
             gajiBaru = 50;
         } else {
-            throw new Exception("Input tidak ada di daftar kerja!");
+            System.out.println("Input tidak ada di daftar kerja!");
         }
 
         if (ableToChangeWork(sim.getUang(), gajiBaru)) {
@@ -87,7 +87,7 @@ public class Pekerjaan {
             sim.setUang(sim.getUang() - (gajiBaru/2));
             changeWorkatHari = World.gethariKe();
         } else {
-            throw new Exception("Kamu belum bisa mengubah pekerjaan!");
+            System.out.println("Kamu belum bisa mengubah pekerjaan!");
         }
     }
 
