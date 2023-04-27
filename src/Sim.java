@@ -6,7 +6,7 @@ public class Sim {
     private String nama;
     private Pekerjaan pekerjaan;
     private int uang;
-    private Inventory inventory;
+    private Inventory<Item> inventory;
     private int kekenyangan;
     private int mood;
     private int kesehatan;
@@ -30,7 +30,7 @@ public class Sim {
         kesehatan = 80;
         uang = 100;
         pekerjaan = new Pekerjaan();
-        inventory = new Inventory();
+        inventory = new Inventory<Item>();
         rumah = World.getListofRumah().get(alamatRumah.getX() + alamatRumah.getY() * 64);
         posisiRumah = World.getListofRumah().get(alamatRumah.getX() + alamatRumah.getY() * 64);
         posisiRuangan = World.getListofRumah().get(alamatRumah.getX() + alamatRumah.getY() * 64).getListofRuangan().get(0);
@@ -63,7 +63,7 @@ public class Sim {
         this.uang = uang;
     }
     
-    public Inventory getInventory() {
+    public Inventory<Item> getInventory() {
         return inventory;
     }
 

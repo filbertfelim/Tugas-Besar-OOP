@@ -13,7 +13,7 @@ public class Masakan extends Item implements Edible {
 
     }
 
-    public Masakan(String namaItem) throws Exception {
+    public Masakan(String namaItem) {
         super(namaItem);
         if ((namaItem.toLowerCase()).equals("nasi ayam")) {
             kekenyangan = 5;
@@ -43,7 +43,7 @@ public class Masakan extends Item implements Edible {
             bahan.add("kentang");
             bahan.add("sapi");
         } else {
-            throw new Exception("Input tidak ada di daftar masakan!");
+            System.out.println("Input tidak ada di daftar masakan!");
         }
     }
 
