@@ -43,6 +43,7 @@ public class Main {
         objectsCreatedList.add(bahanmakananCreatedList);
         objectsCreatedList.add(inventoryCreatedList);
 
+        boolean newGame = true;
         boolean isGameStarting = false;
         while (!isGameStarting) {
             printStartingMenuCommands();
@@ -58,6 +59,7 @@ public class Main {
                     String startingGame = scan.nextLine().toLowerCase();
                     if (startingGame.equals("y")) {
                         isGameLoading = true;
+                        newGame = false;
                         String loadFile = scan.nextLine().toLowerCase();
                         // load(loadFile);
                         System.out.println("Enjoy playing!");
@@ -72,30 +74,91 @@ public class Main {
                     }
                 }
             } else if (commandStartingMenu.equals("help")) {
-                // printHelp();
+                printHelp();
                 delay(2000);
             } else if (commandStartingMenu.equals("exit")) {
-                System.out.println("Goodbye! Lets play again later!");
-                System.exit(0);
+                exit();
             } else {
                 System.out.println("Sorry, wrong command...\n");
                 delay(500);
             }
         }
 
-        System.out.print("Nama sim : ");
-        String namasim = scan.nextLine();
-        World world = new World(namasim);
-        World.addSim(scan);
-        World.getActiveSim().getInventory().addItem(new BahanMakanan("nasi"));
-        World.getActiveSim().getInventory().addItem(new BahanMakanan("nasi"));
-        World.getActiveSim().getInventory().addItem(new BahanMakanan("kentang"));
-        World.getActiveSim().getInventory().addItem(new Masakan("nasi ayam"));
-        World.getActiveSim().getInventory().printInventory();
-        World.getActiveSim().getInventory().removeItem(new Masakan("nasi ayam"));
-        World.getActiveSim().getInventory().printInventory();
-        World.getActiveSim().getInventory().removeItem(new BahanMakanan("nasi"));
-        World.getActiveSim().getInventory().printInventory();
+        boolean isGameFinish = false;
+        while (!isGameFinish) {
+            if (newGame) {
+                // Game baru dimulai (modifin lagi aja belum beres)
+                System.out.print("Nama sim : ");
+                String namasim = scan.nextLine();
+                World world = new World(namasim);
+                World.addSim(scan);
+                World.getActiveSim().getInventory().addItem(new BahanMakanan("nasi"));
+                World.getActiveSim().getInventory().addItem(new BahanMakanan("nasi"));
+                World.getActiveSim().getInventory().addItem(new BahanMakanan("kentang"));
+                World.getActiveSim().getInventory().addItem(new Masakan("nasi ayam"));
+                World.getActiveSim().getInventory().printInventory();
+                World.getActiveSim().getInventory().removeItem(new Masakan("nasi ayam"));
+                World.getActiveSim().getInventory().printInventory();
+                World.getActiveSim().getInventory().removeItem(new BahanMakanan("nasi"));
+                World.getActiveSim().getInventory().printInventory();
+            }
+
+            printGameMenu();
+            System.out.print(">> ");
+            String commandMenu = scan.nextLine().toLowerCase();
+            switch (commandMenu) {
+                case "1": // Help
+                    printHelp();
+                    break;
+                case "2": // Exit
+                    boolean savingLoop = false;
+                    while (!savingLoop) {
+                        System.out.println("Do you want to save this game file? (y/n)");
+                        System.out.print(">> ");
+                        String save = scan.nextLine().toLowerCase();
+                        if (save.equals("y")) {
+                            System.out.print("Please enter the save file name: ");
+                            String nameFile = scan.nextLine().toLowerCase();
+                            save(objectsCreatedList, nameFile);
+                            System.out.println("Your game is saved!");
+                            savingLoop = true;
+                        } else if (save.equals("n")) {
+                            savingLoop = true;
+                        } else {
+                            System.out.println("Please type y/n!");
+                        }
+                    }
+                    exit();
+                    break;
+                case "3": // View Sim Info
+                    World.getActiveSim().getInfo();
+                    break;
+                case "4": // View Current Location
+                    World.getActiveSim().getCurrentLocation();
+                    break;
+                case "5": // View Inventory
+                    World.getActiveSim().getInventory().printInventory();
+                    break;
+                case "6": // Upgrade House
+                case "7": // Move Room
+                case "8": // Edit Room
+                case "9": // Add Sim
+                    World.addSim(scan);
+                    break;
+                case "10": // Change Sim
+                    World.changeSim(scan);
+                    break;
+                case "11": // List Object
+                    World.getActiveSim().getPosisiRuangan().listobject();
+                    break;
+                case "12": // Go To Object
+                    World.getActiveSim().gotoObject(scan);
+                    break;
+                case "13": // Action
+
+            }
+
+        }
 
     }
 
@@ -213,5 +276,28 @@ public class Main {
 
     private static void printHelp() {
         // print isi help
+    }
+
+    private static void printGameMenu() {
+        System.out.println("Game Menu:");
+        System.out.println("1. Help");
+        System.out.println("2. Exit");
+        System.out.println("3. View Sim Info");
+        System.out.println("4. View Current Location");
+        System.out.println("5. View Inventory");
+        System.out.println("6. Upgrade House");
+        System.out.println("7. Move Room");
+        System.out.println("8. Edit Room");
+        System.out.println("9. Add Sim");
+        System.out.println("10. Change Sim");
+        System.out.println("11. List Object");
+        System.out.println("12. Go To Object");
+        System.out.println("13. Action");
+
+    }
+
+    private static void exit() {
+        System.out.println("Goodbye! Lets play again later!");
+        System.exit(0);
     }
 }
