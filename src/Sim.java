@@ -165,6 +165,18 @@ public class Sim {
         }
     }
 
+    public void getInfo()
+    {
+        System.out.printf("+=========+\tPROFILE\t+=========\n");
+        System.out.printf("Nama\t\t:"+getNama()+"\n");
+        System.out.printf("Pekerjaan\t:"+getPekerjaan()+"\n");
+        System.out.printf("Uang\t\t:"+getUang()+"\n\n");
+        System.out.printf("+=========+\t STATS \t+=========\n");
+        System.out.printf("Kekenyangan\t:"+getKekenyangan()+"\n");
+        System.out.printf("Mood\t\t:"+getMood()+"\n");
+        System.out.printf("Kesehatan\t\t:"+getKesehatan()+"\n\n");
+    }
+
     public void addTimerBelumTidur(int duration)
     {
         timerBelumTidur += duration;
@@ -349,6 +361,72 @@ public class Sim {
         });
         System.out.println("Sedang tidur...");
         thread.start();
+    }
+
+    //kerja
+    public void doKerja(Scanner scan) {
+        if (World.gethariKe() > pekerjaan.getChangeWorkAtHari()) {
+            boolean isValid = false;
+            int duration = 1;
+            while (!isValid)
+            {
+                try {
+                    System.out.print("Durasi ( detik kelipatan 120 ) : ");
+                    duration = scan.nextInt();
+                    isValid = true;
+                }
+                catch (Exception e) {
+                    System.out.println("Input invalid, silahkan input angka!");
+                    scan.nextLine();
+                }
+            }
+            while (duration % 120 != 0)
+            {
+                System.out.println("Input invalid ( harus kelipatan 120 ), silahkan diulangi!");
+                isValid = false;
+                while (!isValid)
+                {
+                    try {
+                        System.out.print("Durasi ( detik kelipatan 120 ) : ");
+                        duration = scan.nextInt();
+                        isValid = true;
+                    }
+                    catch (Exception e) {
+                        System.out.println("Input invalid, silahkan input angka!");
+                        scan.nextLine();
+                    }
+                }
+            }
+            int finalduration = duration;
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(finalduration * 1000);
+                        pekerjaan.addLamaBekerja(finalduration);
+                        setKekenyangan(getKekenyangan() - (10 * finalduration / 30));
+                        setMood(getMood() - (10 * finalduration / 30));
+                        setUang(getUang() + (pekerjaan.getGaji() * finalduration / 240));
+                        World.addWaktu(finalduration);
+                        addTimerBelumTidur(finalduration);
+                        resetTimerBelumTidurAfterNoSleep();
+                        addTimerBelumBAB(finalduration);
+                        resetTimerBelumBAB();
+                        checkKondisiSim();
+                        if (isDead())
+                        {
+                            World.removeSim();
+                            World.changeSim(scan);
+                        }
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                }
+            });
+            thread.start();
+        } else {
+            System.out.println("Belum bisa bekerja dengan pekerjaan baru!");
+        }
     }
 
     //olahraga

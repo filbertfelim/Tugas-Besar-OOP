@@ -1,5 +1,4 @@
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.*;
 
 public class Pekerjaan {
     private String nama;
@@ -52,6 +51,10 @@ public class Pekerjaan {
         return lamaBekerja;
     }
 
+    public int getChangeWorkAtHari() {
+        return changeWorkatHari;
+    }
+
     public void addLamaBekerja(int num) {
         lamaBekerja += num;
     }
@@ -88,41 +91,6 @@ public class Pekerjaan {
             changeWorkatHari = World.gethariKe();
         } else {
             System.out.println("Kamu belum bisa mengubah pekerjaan!");
-        }
-    }
-
-    public void doKerja(Sim sim, int waktu,Scanner scan) {
-        if (World.gethariKe() > changeWorkatHari) {
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(240 * 1000);
-                        addLamaBekerja(waktu);
-                        sim.setKekenyangan(sim.getKekenyangan() - 80);
-                        sim.setMood(sim.getMood() - 80);
-                        sim.setUang(sim.getUang() + gaji);
-                        World.addWaktu(240);
-                        sim.addTimerBelumTidur(240);
-                        sim.resetTimerBelumTidurAfterNoSleep();
-                        sim.addTimerBelumBAB(240);
-                        sim.resetTimerBelumBAB();
-                        sim.checkKondisiSim();
-                        if (sim.isDead())
-                        {
-                            World.removeSim();
-                            World.changeSim(scan);
-                        }
-                    } catch (InterruptedException e) {
-                        return;
-                    }
-                }
-            });
-            thread.start();
-        }
-        else
-        {
-            System.out.println("Belum bisa bekerja dengan pekerjaan baru!");
         }
     }
 }
