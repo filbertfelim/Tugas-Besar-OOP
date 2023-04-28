@@ -20,6 +20,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
+        // Load dan save file belum beres
         List<List<?>> objectsCreatedList = new ArrayList<List<?>>();
         List<World> worldsCreatedList = new ArrayList<World>();
         List<Sim> simsCreatedList = new ArrayList<Sim>();
@@ -87,20 +88,20 @@ public class Main {
         boolean isGameFinish = false;
         while (!isGameFinish) {
             if (newGame) {
-                // Game baru dimulai (modifin lagi aja belum beres)
+                // Game baru dimulai
                 System.out.print("Nama sim : ");
                 String namasim = scan.nextLine();
                 World world = new World(namasim);
                 World.addSim(scan);
-                World.getActiveSim().getInventory().addItem(new BahanMakanan("nasi"));
-                World.getActiveSim().getInventory().addItem(new BahanMakanan("nasi"));
-                World.getActiveSim().getInventory().addItem(new BahanMakanan("kentang"));
-                World.getActiveSim().getInventory().addItem(new Masakan("nasi ayam"));
-                World.getActiveSim().getInventory().printInventory();
-                World.getActiveSim().getInventory().removeItem(new Masakan("nasi ayam"));
-                World.getActiveSim().getInventory().printInventory();
-                World.getActiveSim().getInventory().removeItem(new BahanMakanan("nasi"));
-                World.getActiveSim().getInventory().printInventory();
+                // World.getActiveSim().getInventory().addItem(new BahanMakanan("nasi"));
+                // World.getActiveSim().getInventory().addItem(new BahanMakanan("nasi"));
+                // World.getActiveSim().getInventory().addItem(new BahanMakanan("kentang"));
+                // World.getActiveSim().getInventory().addItem(new Masakan("nasi ayam"));
+                // World.getActiveSim().getInventory().printInventory();
+                // World.getActiveSim().getInventory().removeItem(new Masakan("nasi ayam"));
+                // World.getActiveSim().getInventory().printInventory();
+                // World.getActiveSim().getInventory().removeItem(new BahanMakanan("nasi"));
+                // World.getActiveSim().getInventory().printInventory();
             }
 
             printGameMenu();
