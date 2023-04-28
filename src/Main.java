@@ -31,7 +31,7 @@ public class Main {
         List<NonMakanan> nonmakananCreatedList = new ArrayList<NonMakanan>();
         List<Masakan> masakanCreatedList = new ArrayList<Masakan>();
         List<BahanMakanan> bahanmakananCreatedList = new ArrayList<BahanMakanan>();
-        List<Inventory> inventoryCreatedList = new ArrayList<Inventory>();
+        List<Inventory<Item>> inventoryCreatedList = new ArrayList<Inventory<Item>>();
 
         objectsCreatedList.add(worldsCreatedList);
         objectsCreatedList.add(simsCreatedList);
@@ -62,7 +62,7 @@ public class Main {
                         isGameLoading = true;
                         newGame = false;
                         String loadFile = scan.nextLine().toLowerCase();
-                        // load(loadFile);
+                        load(loadFile);
                         System.out.println("Enjoy playing!");
                         delay(2000);
                     } else if (startingGame.equals("n")) {
