@@ -183,6 +183,39 @@ public class Sim {
         System.out.printf("Kesehatan\t\t:"+getKesehatan()+"\n\n");
     }
 
+    public void printEdibleList()
+    {
+        System.out.println("Makanan dan masakan yang tersedia :");
+        System.out.printf("%-3s %-15s %15s %10s\n","No","Makanan","Kekenyangan","Jumlah");
+        int idx = 1;
+        for (Item item : inventory.getInventory())
+        {
+            if (item instanceof BahanMakanan)
+            {
+                System.out.printf("%-3s %-15s %15s %10s\n",idx,item.getNamaItem(),((BahanMakanan) item).getKekenyangan(),inventory.getDetails().get(item.getNamaItem()));
+                idx++;
+            }
+            else if (item instanceof Masakan)
+            {
+                System.out.printf("%-3s %-15s %15s %10s\n",idx,item.getNamaItem(),((Masakan) item).getKekenyangan(),inventory.getDetails().get(item.getNamaItem()));
+                idx++;
+            }
+        }
+    }
+
+    public int countEdible()
+    {
+        int count = 0;
+        for (Item item : inventory.getInventory())
+        {
+            if (item instanceof BahanMakanan || item instanceof Masakan)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
     public void printBuyableList()
     {
         System.out.printf("%-2s %-20s %-10s %10s\n","No","Barang","Harga","Dimensi");
@@ -974,26 +1007,101 @@ public class Sim {
     // makan
     public void makan(Scanner scan)
     {
-        // algoritma makan apa ( perlu inventory )
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(30 * 1000);
-                    System.out.println("Makan selesai!");
-                    kekenyangan = kekenyangan + 20; // belum diubah, sesuai makanan ( perlu inventory )
-                    World.addWaktu(30);
-                    checkisFull(scan);
-                    World.checkAllSimTimer(30, scan);
-                    perluBAB = true;
-                } catch (InterruptedException e) {
-                    return;
+        boolean isValid = false;
+        int idx = 1;
+        while (!isValid)
+        {
+            try {
+                printEdibleList();
+                System.out.println("0  Batal");
+                System.out.print("Pilihan : ");
+                idx = scan.nextInt();
+                isValid = true;
+            }
+            catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka!");
+                scan.nextLine();
+            }
+        }
+        if (idx == 0)
+        {
+            System.out.println("Tidak jadi makan!");
+        }
+        else
+        {
+            while (idx < 0 || idx > countEdible())
+            {
+                System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
+                printEdibleList();
+                System.out.println("0  Batal");
+                System.out.print("Pilihan : ");
+                isValid = false;
+                while (!isValid)
+                {
+                    try {
+                        idx = scan.nextInt();
+                        isValid = true;
+                    }
+                    catch (Exception e) {
+                        System.out.println("Input invalid, silahkan input angka!");
+                        scan.nextLine();
+                    }
+                }
+                if (idx == 0)
+                {
+                    System.out.println("Tidak jadi makan!");
                 }
             }
-        });
-        System.out.println("Sedang makan...");
-        thread.start();
-    }
+            int makananke = 0;
+            Item yangdimakan = new Masakan("nasi ayam");
+            for (Item item : inventory.getInventory())
+            {
+                if (item instanceof BahanMakanan) 
+                {
+                    makananke++;
+                    if (makananke == idx)
+                    {
+                        yangdimakan = item;
+                    }
+                }
+                else if (item instanceof Masakan)
+                {
+                    makananke++;
+                    if (makananke == idx)
+                    {
+                        yangdimakan = item;
+                    }
+                }
+            }
+            inventory.removeItem(yangdimakan);
+            Item dimakan = yangdimakan;
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(30 * 1000);
+                        System.out.println("Makan selesai!");
+                        if (dimakan instanceof BahanMakanan)
+                        {
+                            kekenyangan = kekenyangan + ((BahanMakanan)dimakan).getKekenyangan();
+                        }
+                        else
+                        {
+                            kekenyangan = kekenyangan + ((Masakan)dimakan).getKekenyangan();
+                        }
+                        World.addWaktu(30);
+                        checkisFull(scan);
+                        World.checkAllSimTimer(30, scan);
+                        perluBAB = true;
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                }
+            });
+            System.out.println("Sedang makan...");
+            thread.start();
+        }
+}
 
     // masak
     public void masak(Scanner scan)
