@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Sim {
 
@@ -21,6 +23,8 @@ public class Sim {
     private int jatahWaktuBerkunjung;
     private int timerWaktuKunjung;
     private boolean isBerkunjung;
+    private ArrayList<Item> barangdibeli;
+    private ArrayList<Integer> timerbarangdibeli;
 
     // Konstruktor
     public Sim(String nama, Point alamatRumah) {
@@ -40,6 +44,8 @@ public class Sim {
         perluBAB = false;
         jatahWaktuBerkunjung = 0;
         timerWaktuKunjung = 0;
+        barangdibeli = new ArrayList<Item>();
+        timerbarangdibeli = new ArrayList<Integer>();
     }
 
     // Method
@@ -177,6 +183,162 @@ public class Sim {
         System.out.printf("Kesehatan\t\t:"+getKesehatan()+"\n\n");
     }
 
+    public void printBuyableList()
+    {
+        System.out.printf("%-2s %-20s %-10s %10s\n","No","Barang","Harga","Dimensi");
+        System.out.printf("%-2s %-20s %-10s %10s\n",1,"Kasur Single",50,"4 x 1");
+        System.out.printf("%-2s %-20s %-10s %10s\n",2,"Kasur Queen Size",100,"4 x 2");
+        System.out.printf("%-2s %-20s %-10s %10s\n",3,"Kasur King Size",150,"5 x 2");
+        System.out.printf("%-2s %-20s %-10s %10s\n",4,"Toilet",50,"1 x 1");
+        System.out.printf("%-2s %-20s %-10s %10s\n",5,"Kompor Gas",100,"2 x 1");
+        System.out.printf("%-2s %-20s %-10s %10s\n",6,"Kompor Listrik",200,"1 x 1");
+        System.out.printf("%-2s %-20s %-10s %10s\n",7,"Meja dan Kursi",50,"3 x 3");
+        System.out.printf("%-2s %-20s %-10s %10s\n",8,"Jam",10,"1 x 1");
+        System.out.printf("\n%-2s %-20s %-10s %10s\n","No","Bahan Makanan","Harga","Kekenyangan");
+        System.out.printf("%-2s %-20s %-10s %10s\n",9,"Nasi",5,5);
+        System.out.printf("%-2s %-20s %-10s %10s\n",10,"Kentang",3,4);
+        System.out.printf("%-2s %-20s %-10s %10s\n",11,"Ayam",10,8);
+        System.out.printf("%-2s %-20s %-10s %10s\n",12,"Sapi",12,15);
+        System.out.printf("%-2s %-20s %-10s %10s\n",13,"Wortel",3,2);
+        System.out.printf("%-2s %-20s %-10s %10s\n",14,"Bayam",3,2);
+        System.out.printf("%-2s %-20s %-10s %10s\n",15,"Kacang",2,2);
+        System.out.printf("%-2s %-20s %-10s %10s\n",16,"Susu",2,1);
+    }
+
+    public Item getBarang(int idx)
+    {
+        if (idx == 1)
+        {
+            return new NonMakanan("kasur single");
+        }
+        else if (idx == 2)
+        {
+            return new NonMakanan("kasur queen size");
+        }
+        else if (idx == 3)
+        {
+            return new NonMakanan("kasur king size");
+        }
+        else if (idx == 4)
+        {
+            return new NonMakanan("toilet");
+        }
+        else if (idx == 5)
+        {
+            return new NonMakanan("kompor gas");
+        }
+        else if (idx == 6)
+        {
+            return new NonMakanan("kompor listrik");
+        }
+        else if (idx == 7)
+        {
+            return new NonMakanan("meja dan kursi");
+        }
+        else if (idx == 8)
+        {
+            return new NonMakanan("jam");
+        }
+        else if (idx == 9)
+        {
+            return new BahanMakanan("susu");
+        }
+        else if (idx == 10)
+        {
+            return new BahanMakanan("kentang");
+        }
+        else if (idx == 11)
+        {
+            return new BahanMakanan("ayam");
+        }
+        else if (idx == 12)
+        {
+            return new BahanMakanan("sapi");
+        }
+        else if (idx == 13)
+        {
+            return new BahanMakanan("wortel");
+        }
+        else if (idx == 14)
+        {
+            return new BahanMakanan("bayam");
+        }
+        else if (idx == 15)
+        {
+            return new BahanMakanan("kacang");
+        }
+        else
+        {
+            return new BahanMakanan("susu");
+        }
+    }
+
+    public int getHargaBarang(int idx)
+    {
+        if (idx == 1 || idx == 4 || idx == 7)
+        {
+            return 50;
+        }
+        else if (idx == 2 || idx == 5)
+        {
+            return 100;
+        }
+        else if (idx == 3)
+        {   
+            return 150;
+        }
+        else if (idx == 6)
+        {
+            return 200;
+        }
+        else if (idx == 8 || idx == 11)
+        {
+            return 10;
+        }
+        else if (idx == 9)
+        {
+            return 5;
+        }
+        else if (idx == 10 || idx == 13 || idx == 14)
+        {
+            return 3;
+        }
+        else if (idx == 12)
+        {
+            return 12;
+        }
+        else if (idx == 15 || idx == 16)
+        {
+            return 2;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public void addTimerBeliBarang(int duration)
+    {
+        for (int time : timerbarangdibeli)
+        {
+            time = time - duration;
+        }
+    }
+
+    public void checkkirimBarang()
+    {
+        for (int i = 0 ; i < timerbarangdibeli.size(); i++)
+        {
+            if (timerbarangdibeli.get(i) <= 0)
+            {
+                System.out.println(barangdibeli.get(i).getNamaItem() + " sudah sampai untuk " + nama + ", " + barangdibeli.get(i).getNamaItem() + " dimasukkan ke inventory!");
+                timerbarangdibeli.remove(i);
+                barangdibeli.remove(i);
+                inventory.addItem(barangdibeli.get(i));
+            }
+        }
+    }
+
     public void addTimerBelumTidur(int duration)
     {
         timerBelumTidur += duration;
@@ -191,7 +353,7 @@ public class Sim {
     {
         if (timerBelumTidur >= 600)
         {
-            System.out.println("Anda kurang tidur! kesehatan dan mood berkurang, segera tidur!");
+            System.out.println(getNama() + " kurang tidur! kesehatan dan mood berkurang, segera tidur!");
             timerBelumTidur = 0;
             kesehatan = kesehatan - 5;
             mood = mood - 5;
@@ -202,7 +364,7 @@ public class Sim {
     {
         if (timerBelumBAB > 240 && perluBAB)
         {
-            System.out.println("Anda belum buang air setelah makan! kesehatan dan mood berkurang, segera buang air!");
+            System.out.println(getNama() + " belum buang air setelah makan! kesehatan dan mood berkurang, segera buang air!");
             timerBelumBAB = 0;
             kesehatan = kesehatan - 5;
             mood = mood - 5;
@@ -229,7 +391,7 @@ public class Sim {
     {
         if (timerWaktuKunjung > jatahWaktuBerkunjung)
         {
-            System.out.println("Waktu berkunjung sudah habis! Saatnya pulang.");
+            System.out.println("Waktu berkunjung " + getNama() +  " sudah habis! Saatnya pulang.");
             jatahWaktuBerkunjung = 0;
             mood = mood + (10 * (timerWaktuKunjung / 30));
             kekenyangan = kekenyangan - (10 * (timerWaktuKunjung / 30));
@@ -244,14 +406,11 @@ public class Sim {
                         Thread.sleep(waktubalik * 1000);
                         System.out.println("Sudah sampai di rumah!");
                         World.addWaktu(waktubalik);
-                        addTimerBelumTidur(waktubalik);
-                        resetTimerBelumTidurAfterNoSleep();
-                        addTimerBelumBAB(waktubalik);
-                        resetTimerBelumBAB();
+                        World.checkAllSimTimer(waktubalik, scan);
                         checkKondisiSim();
                         if (isDead())
                         {
-                            World.removeSim();
+                            World.removeActiveSim();
                             World.changeSim(scan);
                         }
                     } catch (InterruptedException e) {
@@ -278,16 +437,13 @@ public class Sim {
                     kekenyangan = kekenyangan - 20;
                     mood = mood + 10;
                     World.addWaktu(10);
-                    addTimerBelumTidur(10);
-                    resetTimerBelumTidurAfterNoSleep();
                     perluBAB = false;
                     timerBelumBAB = 0;
-                    addTimerWaktuKunjung(10);
-                    balikdariBerkunjung(scan);
+                    World.checkAllSimTimer(10, scan);
                     checkKondisiSim();
                     if (isDead())
                     {
-                        World.removeSim();
+                        World.removeActiveSim();
                         World.changeSim(scan);
                     }
                 } catch (InterruptedException e) {
@@ -343,15 +499,11 @@ public class Sim {
                     kesehatan = kesehatan + 30 * (finalduration / 240);
                     mood = mood + 20 * (finalduration / 240);
                     World.addWaktu(finalduration);
-                    resetTimerBelumTidurAfterSleep();
-                    addTimerBelumBAB(finalduration);
-                    resetTimerBelumBAB();
-                    addTimerWaktuKunjung(finalduration);
-                    balikdariBerkunjung(scan);
+                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
                     if (isDead())
                     {
-                        World.removeSim();
+                        World.removeActiveSim();
                         World.changeSim(scan);
                     }
                 } catch (InterruptedException e) {
@@ -408,14 +560,11 @@ public class Sim {
                         setMood(getMood() - (10 * finalduration / 30));
                         setUang(getUang() + (pekerjaan.getGaji() * finalduration / 240));
                         World.addWaktu(finalduration);
-                        addTimerBelumTidur(finalduration);
-                        resetTimerBelumTidurAfterNoSleep();
-                        addTimerBelumBAB(finalduration);
-                        resetTimerBelumBAB();
+                        World.checkAllSimTimer(finalduration,scan);
                         checkKondisiSim();
                         if (isDead())
                         {
-                            World.removeSim();
+                            World.removeActiveSim();
                             World.changeSim(scan);
                         }
                     } catch (InterruptedException e) {
@@ -474,16 +623,11 @@ public class Sim {
                     kekenyangan = kekenyangan - (5 * (finalduration / 20));
                     mood = mood + (10 * (finalduration / 20));
                     World.addWaktu(finalduration);
-                    addTimerBelumTidur(finalduration);
-                    resetTimerBelumTidurAfterNoSleep();
-                    addTimerBelumBAB(finalduration);
-                    resetTimerBelumBAB();
-                    addTimerWaktuKunjung(finalduration);
-                    balikdariBerkunjung(scan);
+                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
                     if (isDead())
                     {
-                        World.removeSim();
+                        World.removeActiveSim();
                         World.changeSim(scan);
                     }
                 } catch (InterruptedException e) {
@@ -540,16 +684,11 @@ public class Sim {
                     kekenyangan = kekenyangan - (5 * (finalduration / 10));
                     mood = mood + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
-                    addTimerBelumTidur(finalduration);
-                    resetTimerBelumTidurAfterNoSleep();
-                    addTimerBelumBAB(finalduration);
-                    resetTimerBelumBAB();
-                    addTimerWaktuKunjung(finalduration);
-                    balikdariBerkunjung(scan);
+                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
                     if (isDead())
                     {
-                        World.removeSim();
+                        World.removeActiveSim();
                         World.changeSim(scan);
                     }
                 } catch (InterruptedException e) {
@@ -567,7 +706,7 @@ public class Sim {
         kekenyangan = 0;
         mood = 0;
         kesehatan = 0;
-        World.removeSim();
+        World.removeActiveSim();
         World.changeSim(scan);
     }
 
@@ -614,16 +753,11 @@ public class Sim {
                     System.out.println("Nyanyi selesai!");
                     mood = mood + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
-                    addTimerBelumTidur(finalduration);
-                    resetTimerBelumTidurAfterNoSleep();
-                    addTimerBelumBAB(finalduration);
-                    resetTimerBelumBAB();
-                    addTimerWaktuKunjung(finalduration);
-                    balikdariBerkunjung(scan);
+                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
                     if (isDead())
                     {
-                        World.removeSim();
+                        World.removeActiveSim();
                         World.changeSim(scan);
                     }
                 } catch (InterruptedException e) {
@@ -677,16 +811,11 @@ public class Sim {
                     System.out.println("Stretching selesai!");
                     kesehatan = kesehatan + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
-                    addTimerBelumTidur(finalduration);
-                    resetTimerBelumTidurAfterNoSleep();
-                    addTimerBelumBAB(finalduration);
-                    resetTimerBelumBAB();
-                    addTimerWaktuKunjung(finalduration);
-                    balikdariBerkunjung(scan);
+                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
                     if (isDead())
                     {
-                        World.removeSim();
+                        World.removeActiveSim();
                         World.changeSim(scan);
                     }
                 } catch (InterruptedException e) {
@@ -741,16 +870,11 @@ public class Sim {
                     kekenyangan = kekenyangan - (10 * (finalduration / 30));
                     mood = mood + (10 * (finalduration / 30));
                     World.addWaktu(finalduration);
-                    addTimerBelumTidur(finalduration);
-                    resetTimerBelumTidurAfterNoSleep();
-                    addTimerBelumBAB(finalduration);
-                    resetTimerBelumBAB();
-                    addTimerWaktuKunjung(finalduration);
-                    balikdariBerkunjung(scan);
+                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
                     if (isDead())
                     {
-                        World.removeSim();
+                        World.removeActiveSim();
                         World.changeSim(scan);
                     }
                 } catch (InterruptedException e) {
@@ -805,16 +929,11 @@ public class Sim {
                     System.out.println("Cuci piring selesai!");
                     mood = mood + (10 * (finalduration / 30));
                     World.addWaktu(finalduration);
-                    addTimerBelumTidur(finalduration);
-                    resetTimerBelumTidurAfterNoSleep();
-                    addTimerBelumBAB(finalduration);
-                    resetTimerBelumBAB();
-                    addTimerWaktuKunjung(finalduration);
-                    balikdariBerkunjung(scan);
+                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
                     if (isDead())
                     {
-                        World.removeSim();
+                        World.removeActiveSim();
                         World.changeSim(scan);
                     }
                 } catch (InterruptedException e) {
@@ -837,16 +956,10 @@ public class Sim {
                     System.out.println("Muntah selesai!");
                     kekenyangan = kekenyangan - 20;
                     World.addWaktu(10);
-                    addTimerBelumTidur(10);
-                    resetTimerBelumTidurAfterNoSleep();
-                    checkKondisiSim();
-                    addTimerBelumBAB(10);
-                    resetTimerBelumBAB();
-                    addTimerWaktuKunjung(10);
-                    balikdariBerkunjung(scan);
+                    World.checkAllSimTimer(10, scan);
                     if (isDead())
                     {
-                        World.removeSim();
+                        World.removeActiveSim();
                         World.changeSim(scan);
                     }
                 } catch (InterruptedException e) {
@@ -868,15 +981,10 @@ public class Sim {
                 try {
                     Thread.sleep(30 * 1000);
                     System.out.println("Makan selesai!");
-                    kekenyangan = kekenyangan - 20; // belum diubah, sesuai makanan ( perlu inventory )
+                    kekenyangan = kekenyangan + 20; // belum diubah, sesuai makanan ( perlu inventory )
                     World.addWaktu(30);
-                    addTimerBelumTidur(30);
-                    resetTimerBelumTidurAfterNoSleep();
                     checkisFull(scan);
-                    addTimerBelumBAB(30);
-                    resetTimerBelumBAB();
-                    addTimerWaktuKunjung(30);
-                    balikdariBerkunjung(scan);
+                    World.checkAllSimTimer(30, scan);
                     perluBAB = true;
                 } catch (InterruptedException e) {
                     return;
@@ -899,13 +1007,7 @@ public class Sim {
                     System.out.println("Makan selesai!");
                     mood = mood + 10; //
                     World.addWaktu(10); // diubah menjadi 1.5 kekenyangan makanan yg dimasak
-                    addTimerBelumBAB(10);// diubah menjadi 1.5 kekenyangan makanan yg dimasak
-                    addTimerBelumTidur(10);// diubah menjadi 1.5 kekenyangan makanan yg dimasak
-                    resetTimerBelumBAB();
-                    resetTimerBelumTidurAfterNoSleep();
-                    addTimerWaktuKunjung(10);// diubah menjadi 1.5 kekenyangan makanan yg dimasak
-                    balikdariBerkunjung(scan);
-                    checkKondisiSim();
+                    World.checkAllSimTimer(10, scan);
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -914,6 +1016,7 @@ public class Sim {
         System.out.println("Sedang makan...");
         thread.start();
     }
+    
     // berkunjung
     public void berkunjung(Scanner scan)
     {
@@ -985,14 +1088,11 @@ public class Sim {
                         Thread.sleep(waktuberkunjung * 1000);
                         System.out.println("Berkunjung selesai!");
                         World.addWaktu(waktuberkunjung);
-                        addTimerBelumTidur(waktuberkunjung);
-                        resetTimerBelumTidurAfterNoSleep();
-                        addTimerBelumBAB(waktuberkunjung);
-                        resetTimerBelumBAB();
+                        World.checkAllSimTimer(waktuberkunjung, scan);
                         checkKondisiSim();
                         if (isDead())
                         {
-                            World.removeSim();
+                            World.removeActiveSim();
                             World.changeSim(scan);
                         }
                     } catch (InterruptedException e) {
@@ -1008,8 +1108,6 @@ public class Sim {
             catch (InterruptedException err) {
                 System.out.println(err.getMessage());
             }
-            isBerkunjung = true;
-            posisiRumah = World.getListofRumah().get(idx-1);
             isValid = false;
             int duration = 1;
             while (!isValid)
@@ -1042,15 +1140,191 @@ public class Sim {
                 }
             }
             jatahWaktuBerkunjung = duration;
+            isBerkunjung = true;
+            posisiRumah = World.getListofRumah().get(idx-1);
         }
     }
 
-    // upgrade rumah
-    // beli barang
     // berpindah ruangan
+    public void pindahruangan(Scanner scan)
+    {
+        boolean isValid = false;
+        int idx = 1;
+        while (!isValid)
+        {
+            try {
+                System.out.println("Ruangan yang ada : ");
+                int i = 1;
+                for (Ruangan ruangan : posisiRumah.getListofRuangan())
+                {
+                    System.out.println(String.valueOf(i) + ". " + ruangan.getNamaRuangan());
+                    i++;
+                }
+                System.out.println("0. Batal");
+                System.out.print("Pilihan : ");
+                idx = scan.nextInt();
+                isValid = true;
+            }
+            catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka!");
+                scan.nextLine();
+            }
+        }
+        if (idx == 0)
+        {
+            System.out.println("Tidak jadi berpindah ruangan!");
+        }
+        else
+        {
+            while (idx < 0 || idx > posisiRumah.getListofRuangan().size() || posisiRumah.getListofRuangan().get(idx-1).getNamaRuangan().equals(posisiRuangan.getNamaRuangan()))
+            {
+                if (posisiRumah.getListofRuangan().get(idx-1).getNamaRuangan().equals(posisiRuangan.getNamaRuangan()))
+                {
+                    System.out.println("Tidak bisa berpindah ke ruangan yang sedang ditempati");
+                }
+                else
+                {
+                    System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
+                }
+                System.out.println("Ruangan yang ada : ");
+                int i = 1;
+                for (Ruangan ruangan : posisiRumah.getListofRuangan())
+                {
+                    System.out.println(String.valueOf(i) + ". " + ruangan.getNamaRuangan());
+                    i++;
+                    
+                }
+                System.out.println("0. Batal");
+                isValid = false;
+                while (!isValid)
+                {
+                    try {
+                        System.out.print("Pilihan : ");
+                        idx = scan.nextInt();
+                        isValid = true;
+                    }
+                    catch (Exception e) {
+                        System.out.println("Input invalid, silahkan input angka!");
+                        scan.nextLine();
+                    }
+                }
+                if (idx == 0)
+                {
+                    System.out.println("Tidak jadi berpindah ruangan!");
+                }
+            }
+            posisiRuangan = posisiRumah.getListofRuangan().get(idx);
+        }
+    }
+
     // melihat inventory
+    public void seeinventory()
+    {
+        inventory.printInventory();
+    }
+
+    // upgrade rumah
+
+    public void upgraderumah()
+    {
+
+    }
+
+    // beli barang
+    public void belibarang(Scanner scan)
+    {
+        boolean isValid = false;
+        int idx = 1;
+        while (!isValid)
+        {
+            try {
+                printBuyableList();
+                System.out.println("0  Batal");
+                System.out.print("Pilihan : ");
+                idx = scan.nextInt();
+                isValid = true;
+            }
+            catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka!");
+                scan.nextLine();
+            }
+        }
+        if (idx == 0)
+        {
+            System.out.println("Tidak jadi membeli barang!");
+        }
+        else
+        {
+            while (idx < 0 || idx > 16 || uang < getHargaBarang(idx))
+            {
+                if (uang < getHargaBarang(idx))
+                {
+                    System.out.println("Uang tidak cukup! Silakan pilih yang lain!");
+                }
+                else
+                {
+                    System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
+                }
+                printBuyableList();
+                System.out.println("0  Batal");
+                System.out.print("Pilihan : ");
+                isValid = false;
+                while (!isValid)
+                {
+                    try {
+                        idx = scan.nextInt();
+                        isValid = true;
+                    }
+                    catch (Exception e) {
+                        System.out.println("Input invalid, silahkan input angka!");
+                        scan.nextLine();
+                    }
+                }
+                if (idx == 0)
+                {
+                    System.out.println("Tidak jadi membeli barang!");
+                }
+            }
+            barangdibeli.add(getBarang(idx));
+            Random random = new Random();
+            double randomNumber = 0.1 + (1.5 - 0.1) * random.nextDouble();
+            int shippingtime = (int) randomNumber * 30;
+            timerbarangdibeli.add(shippingtime);
+            uang = uang - getHargaBarang(idx);
+            System.out.println("Barang berhasil dibeli! Silakan ditunggu untuk pengantarannya!");
+        }
+    }
+
     // memasang barang
+    public void memasangbarang()
+    {
+
+    }
+
     // melihat waktu
+    public void seetime()
+    {
+        int menit = (720 - World.getWaktu()) / 60;
+        int detik = (720 - World.getWaktu()) % 60;
+        System.out.println("Sisa waktu hari ini :");
+        System.out.println(String.valueOf(menit) + " menit " + String.valueOf(detik) + " detik");
+
+        // print waktu sisa untuk beli barang
+        if (barangdibeli.size() > 0)
+        {
+            System.out.println("Sisa waktu pembelian barang :");
+            System.out.printf("%-4s %-20s %-30s\n","No","Barang","Sisa Waktu Pengiriman");
+            for (int i = 0;i < barangdibeli.size();i++)
+            {
+                menit = timerbarangdibeli.get(i) / 60;
+                detik = timerbarangdibeli.get(i) % 60;
+                System.out.printf("%-4s %-20s %-30s\n",i+1,barangdibeli.get(i).getNamaItem(),menit + " menit " + detik + " detik");
+            }
+        }
+
+        // print waktu sisa untuk upgrade rumah
+        // kode.....
+    }
 
     public void gotoObject(Scanner scan)
     {
@@ -1353,7 +1627,7 @@ public class Sim {
                 }
                 else if (choiceaksi == 1)
                 {
-                    // method melihat waktu;
+                    seetime();
                 }
             }   
         } 

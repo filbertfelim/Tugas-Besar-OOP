@@ -189,56 +189,9 @@ public class World {
         
     }   
 
-    // public static void changeSimifDead(Scanner scan)
-    // {
-    //     System.out.println("Daftar sim yang ada :");
-    //     for (int i = 0; i < listofSim.size(); i++)
-    //     {
-    //         System.out.println(String.valueOf(i + 1) + ". " + listofSim.get(i).getNama());
-    //     }
-    //     boolean isValid = false;
-    //     int idx = 1;
-    //     while (!isValid)
-    //     {
-    //         try {
-    //             System.out.print("Pilihan : ");
-    //             idx = scan.nextInt();
-    //             isValid = true;
-    //         }
-    //         catch (Exception e) {
-    //             System.out.println("Input invalid, silahkan input angka!");
-    //             scan.nextLine();
-    //         }
-    //     }
-    //     while (idx <= 0 || idx > listofSim.size())
-    //     {
-    //         System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
-    //         System.out.println("Daftar sim yang ada :");
-    //         for (int i = 0; i < listofSim.size(); i++)
-    //         {
-    //             System.out.println(String.valueOf(i + 1) + ". " + listofSim.get(i).getNama());
-    //         }
-    //         isValid = false;
-    //         while (!isValid)
-    //         {
-    //             try {
-    //                 System.out.print("Pilihan : ");
-    //                 idx = scan.nextInt();
-    //                 isValid = true;
-    //             }
-    //             catch (Exception e) {
-    //                 System.out.println("Input invalid, silahkan input angka!");
-    //                 scan.nextLine();
-    //             }
-    //         }
-    //     }
-    //     activeSim = listofSim.get(idx - 1);
-    //     System.out.println("Sim aktif berhasil diubah!");
-    // }
-
-
-    public static void removeSim()
+    public static void removeActiveSim()
     {
+        System.out.println("Sim " + activeSim.getNama() + " telah mati!");
         int idx = 0;
         boolean isFound = false;
         while (!isFound)
@@ -253,5 +206,51 @@ public class World {
             }
         }
         listofSim.remove(idx);
+    }
+
+    public static void removeSim(Sim sim)
+    {
+        int idx = 0;
+        boolean isFound = false;
+        while (!isFound)
+        {
+            if (listofSim.get(idx).getNama().equals(sim.getNama()))
+            {
+                isFound = true;
+            }
+            else
+            {
+                idx++;
+            }
+        }
+        listofSim.remove(idx);
+    }
+
+    public static void checkAllSimTimer(int duration, Scanner scan)
+    {
+        for (Sim sim : listofSim)
+        {
+            sim.addTimerBelumTidur(duration);
+            sim.resetTimerBelumTidurAfterNoSleep();
+            sim.addTimerBelumBAB(duration);
+            sim.resetTimerBelumBAB();
+            sim.addTimerWaktuKunjung(duration);
+            sim.balikdariBerkunjung(scan);
+            sim.addTimerBeliBarang(duration);
+            sim.checkkirimBarang();
+            if (sim.isDead())
+            {
+                
+                if (sim.getNama().equals(getActiveSim().getNama()))
+                {
+                    World.removeActiveSim();
+                    World.changeSim(scan);
+                }
+                else
+                {
+                    World.removeSim(sim);
+                }
+            }
+        }
     }
 }
