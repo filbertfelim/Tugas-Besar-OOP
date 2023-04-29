@@ -64,6 +64,50 @@ public class World {
         return harike;
     }
 
+    public static boolean isRumah(Point point)
+    {
+        int lokasiX = point.getX();
+        int lokasiY = point.getY();
+        int idx = 0;
+        boolean isFound = false;
+
+        while((!isFound) || (idx < listofRumah.size())){
+            if(listofRumah.get(idx).getLokasi().getX() == lokasiX){
+                if(listofRumah.get(idx).getLokasi().getY() == lokasiY){
+                    isFound = true;
+                } else{
+                    idx++;
+                }
+            } else{
+                idx++;
+            }
+        }
+        return isFound;
+    }
+
+    public static void printPeta()
+    {
+        System.out.println("_________________");
+        for(int y = 0; y < lebar; y++)
+        {
+            String line = "|";
+            for(int x = 0; x < panjang; x++)
+            {
+                Point tmp = new Point(x, y);
+                if(isRumah(tmp))
+                {
+                    line += "_";
+                } else
+                {
+                    line += "A";
+                }
+            }
+            line += "|";
+            System.out.println(line);
+        } 
+        System.out.println("_________________\n");
+    }
+
     public static void addHari()
     {
         harike++;
