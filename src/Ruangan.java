@@ -68,36 +68,53 @@ public class Ruangan {
         }
     }
     
-    public boolean memasangBarang(NonMakanan barang, int x, int y) throws areaNotAvaibleException
+    public boolean memasangBarang(NonMakanan barang, int x, int y) 
     {
         p = barang.panjang;
         l = barang.lebar;
         for (int i = y; i < y + p; y++) {
             for (int j = x; j <= x + l; x++) {
-                if (matriksRuangan[i][j] != 0) {
+                if (matriksRuangan[i][j] != 0) { // cek koordinat tersedia atau tidak
                     return false;
                 }
             }
         }
         for (int y = y1; i <= y2; y--) {
             for (int x = x1; x <= x2; x++) {
-                matriksRuangan[i][j] = barang.kode;
+                matriksRuangan[i][j] = barang.kode; // koordinat diisi kode barang
             }
         }
         listofObjek.add(barang);
         return true;
     }
     
-    
-    
-    public int getRuangTerhubung(int arah) 
+    public boolean memindahBarang(NonMakanan barang, int x, int y) 
     {
-        return ruangTerhubung[arah]; 
+        p = barang.panjang;
+        l = barang.lebar;
+        for (int i = y; i < y + p; y++) {
+            for (int j = x; j <= x + l; x++) {
+                if (matriksRuangan[i][j] != 0 && matriksRuangan[i][j] != barang.kode) { // cek koordinat tersedia atau tidak
+                    return false;
+                }
+            }
+        }
+        for (int y = y1; i <= y2; y--) {
+            for (int x = x1; x <= x2; x++) {
+                matriksRuangan[i][j] = barang.kode; // koordinat diisi kode barang
+            }
+        }
+        return true;
     }
     
-    public void setRuangTerhubung(int arah, int ruanganKe)
+    public int getRuangTerhubung(int sisi) 
     {
-        ruangTerhubung[arah] = ruanganKe;
+        return ruangTerhubung[sisi]; 
+    }
+    
+    public void setRuangTerhubung(int sisi, int ruanganKe)
+    {
+        ruangTerhubung[sisi] = ruanganKe;
     }
     
 }
