@@ -173,7 +173,7 @@ public class Sim {
     public void getInfo() {
         System.out.printf("+=========+\tPROFILE\t+=========\n");
         System.out.printf("Nama\t\t:" + getNama() + "\n");
-        System.out.printf("Pekerjaan\t:" + getPekerjaan() + "\n");
+        System.out.printf("Pekerjaan\t:" + getPekerjaan().getNama() + "\n");
         System.out.printf("Uang\t\t:" + getUang() + "\n\n");
         System.out.printf("+=========+\t STATS \t+=========\n");
         System.out.printf("Kekenyangan\t:" + getKekenyangan() + "\n");
@@ -1086,10 +1086,27 @@ public class Sim {
         while (!isValid) {
             try {
                 System.out.println("Ruangan yang ada : ");
-                int i = 1;
-                for (Ruangan ruangan : posisiRumah.getListofRuangan()) {
-                    System.out.println(String.valueOf(i) + ". " + ruangan.getNamaRuangan());
+                int i = 0;
+                for (int ruangan : posisiRuangan.getArrayRuangTerhubung()) {
+                    if (i == 0) {
+                        System.out.print(String.valueOf(i + 1) + ". Ruangan atas = ");
+                    } else if (i == 1) {
+                        System.out.print(String.valueOf(i + 1) + ". Ruangan bawah = ");
+                    } else if (i == 2) {
+                        System.out.print(String.valueOf(i + 1) + ". Ruangan kanan = ");
+                    } else if (i == 3) {
+                        System.out.print(String.valueOf(i + 1) + ". Ruangan kiri = ");
+                    }
                     i++;
+
+                    for (Ruangan ruanganRumah : posisiRumah.getListofRuangan()) {
+                        if (ruanganRumah.getRuanganKe() == ruangan) {
+                            System.out.print(ruanganRumah.getNamaRuangan() + "\n");
+                        }
+                    }
+                    if (ruangan == 0) {
+                        System.out.print("Tidak ada\n");
+                    }
                 }
                 System.out.println("0. Batal");
                 System.out.print("Pilihan : ");
@@ -1103,20 +1120,30 @@ public class Sim {
         if (idx == 0) {
             System.out.println("Tidak jadi berpindah ruangan!");
         } else {
-            while (idx < 0 || idx > posisiRumah.getListofRuangan().size() || posisiRumah.getListofRuangan().get(idx - 1)
-                    .getNamaRuangan().equals(posisiRuangan.getNamaRuangan())) {
-                if (posisiRumah.getListofRuangan().get(idx - 1).getNamaRuangan()
-                        .equals(posisiRuangan.getNamaRuangan())) {
-                    System.out.println("Tidak bisa berpindah ke ruangan yang sedang ditempati");
-                } else {
-                    System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
-                }
+            while (idx < 0 || idx > 3) {
+                System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
                 System.out.println("Ruangan yang ada : ");
-                int i = 1;
-                for (Ruangan ruangan : posisiRumah.getListofRuangan()) {
-                    System.out.println(String.valueOf(i) + ". " + ruangan.getNamaRuangan());
+                int i = 0;
+                for (int ruangan : posisiRuangan.getArrayRuangTerhubung()) {
+                    if (i == 0) {
+                        System.out.print(String.valueOf(i + 1) + ". Ruangan atas = ");
+                    } else if (i == 1) {
+                        System.out.print(String.valueOf(i + 1) + ". Ruangan bawah = ");
+                    } else if (i == 2) {
+                        System.out.print(String.valueOf(i + 1) + ". Ruangan kanan = ");
+                    } else if (i == 3) {
+                        System.out.print(String.valueOf(i + 1) + ". Ruangan kiri = ");
+                    }
                     i++;
 
+                    for (Ruangan ruanganRumah : posisiRumah.getListofRuangan()) {
+                        if (ruanganRumah.getRuanganKe() == ruangan) {
+                            System.out.print(ruanganRumah.getNamaRuangan() + "\n");
+                        }
+                    }
+                    if (ruangan == 0) {
+                        System.out.print("Tidak ada\n");
+                    }
                 }
                 System.out.println("0. Batal");
                 isValid = false;
@@ -1134,7 +1161,12 @@ public class Sim {
                     System.out.println("Tidak jadi berpindah ruangan!");
                 }
             }
-            posisiRuangan = posisiRumah.getListofRuangan().get(idx);
+
+            for (Ruangan ruang : posisiRumah.getListofRuangan()) {
+                if (ruang.getRuanganKe() == posisiRuangan.getRuangTerhubung(idx - 1)) {
+                    posisiRuangan = ruang;
+                }
+            }
         }
     }
 
@@ -1150,16 +1182,22 @@ public class Sim {
             System.out.println("Ruangan apa yang ingin ditambah ruang tetangganya?");
             rumah.printListOfRuangan();
             String namaRuangan = scan.nextLine().toLowerCase();
-            for (Ruangan ruangan : rumah.getListofRuangan()) {
-                if (namaRuangan.equals(ruangan.getNamaRuangan())) {
+            for (int i = 0; i < rumah.getListofRuangan().size(); i++) {
+                if (namaRuangan.equals((rumah.getListofRuangan().get(i)).getNamaRuangan().toLowerCase())) {
+                    System.out.print("Nama ruangan baru: ");
                     String namaRuanganBaru = scan.nextLine();
-                    System.out.println("Pilih sisi pada ruangan " + ruangan.getNamaRuangan()
+                    System.out.println("Pilih sisi pada ruangan " + (rumah.getListofRuangan().get(i)).getNamaRuangan()
                             + " untuk ditambah ruangan " + namaRuanganBaru);
                     System.out.println("Ketik 0 untuk sisi atas, 1 untuk bawah, 2 untuk kanan, atau 3 untuk kiri");
                     int sisi = scan.nextInt();
-                    rumah.addRuangan(namaRuanganBaru, ruangan, sisi);
+                    if ((rumah.getListofRuangan().get(i)).getRuangTerhubung(sisi) == 0) {
+                        rumah.addRuangan(namaRuanganBaru, (rumah.getListofRuangan().get(i)), sisi);
+                    } else {
+                        System.out.println("Maaf sudah ada ruangan di sisi tersebut");
+                    }
                 }
             }
+
         } else {
             System.out.println("Maaf, upgrade rumah hanya bisa dilakukan di rumah pribadi Sim ini");
         }

@@ -114,6 +114,10 @@ public class Ruangan {
         return ada;
     }
 
+    public int[] getArrayRuangTerhubung() {
+        return ruangTerhubung;
+    }
+
     public int getRuangTerhubung(int sisi) {
         return ruangTerhubung[sisi];
     }

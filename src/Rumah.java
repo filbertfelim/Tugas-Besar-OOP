@@ -42,7 +42,12 @@ public class Rumah {
             switch (sisi) {
                 case 0:
                     System.out.println("Sisi atas ruangan ini sudah ada");
-
+                case 1:
+                    System.out.println("Sisi bawah ruangan ini sudah ada");
+                case 2:
+                    System.out.println("Sisi kanan ruangan ini sudah ada");
+                case 3:
+                    System.out.println("Sisi kiri ruangan ini sudah ada");
             }
         }
     }
