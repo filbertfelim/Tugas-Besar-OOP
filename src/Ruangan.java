@@ -60,7 +60,7 @@ public class Ruangan {
         }
     }
 
-    public void memasangBarang(NonMakanan barang, int x, int y) {
+    public boolean memasangBarang(NonMakanan barang, int x, int y) {
         int p = barang.getPanjang();
         int l = barang.getLebar();
 
@@ -74,15 +74,17 @@ public class Ruangan {
         }
 
         if (kosong) {
-            for (int y = y1; i <= y2; y--) {
-                for (int x = x1; x <= x2; x++) {
-                    matrixRuangan[i][j] = barang.kode; // koordinat diisi kode barang
+            for (int i = y; i < y + p; y++) {
+                for (int j = x; j <= x + l; x++) {
+                    matrixRuangan[i][j] = barang.getKodeJenisBarang();
                 }
             }
             listofObjek.add(barang);
         } else {
             System.out.println("Maaf titik tersebut penuh untuk disimpan objek " + barang.getNamaItem());
         }
+
+        return kosong;
     }
 
     public boolean memindahBarang(NonMakanan barang, int x, int y) {

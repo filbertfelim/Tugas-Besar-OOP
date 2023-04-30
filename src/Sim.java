@@ -1218,63 +1218,75 @@ public class Sim {
     }
 
     // memasang barang
-    public void memasangbarang()
-    {
-        int x = 0;
-        int y = 0;
-        boolean selesai = false;
-        int p = barang.getPanjang();
-        int l = barang.getLebar();
-        while (!Selesai) {
-            try {
-                System.out.println(barang.namaItem + ": ");
-                for (int i = 0; i < l; i++) {
-                    for (int j = 0; j < p; j++) {
-                        System.out.print("1");
-                    }
-                    System.out.print("\n");
-                }
-                System.out.println(Ruangan.getNamaRuang + ": ");
-                ruang.printMatrixRuangan();
-                System.out.println(" Pilihan: \n 1. Pilih letak (area kosong 0)\n 2. Putar barang\n 3. Batal");
-                Scanner read = new Scanner(System.in);
-                int pilihan = read.nextInt;
-                if (pilihan == 1) {
-                    while (!selesai) {
-                        try {
-                            System.out.print("Pilih titik horizontal awal: ");
-                            x = read.nextInt;
-                            if (x < 0 || x > 5) // out of bound
-                                throw new InputMismatchException;
-                            System.out.print("Pilih titik vertikal awal: ")
-                            y = read.nextInt; 
-                            if (y < 0 || y > 5) //out of bound
-                                throw new InputMismatchException;
-                            
-                            boolean berhasil = ruang.memasangBarang(barang, x, y); // true kalau area kosong, false kalau udah ada barang lain
-                            if (berhasil) {
-                                System.out.println(Barang.getNamaBarang + " berhasil dipasang");
-                                selesai = true;
-                            } else {
-                                System.out.println("Area tidak kosong, Pilih titik lain!");
-                            }
-                        } catch (InputMismatchException e) {
-                            System.out.println("Pilih koordinat yang valid! (0-5)");
+    public void memasangbarang(NonMakanan barang) {
+        if (rumah.equals(posisiRumah)) {
+            int x = 0;
+            int y = 0;
+            boolean selesai = false;
+            int p = barang.getPanjang();
+            int l = barang.getLebar();
+            while (!selesai) {
+                try {
+                    System.out.println(barang.getNamaItem() + ": ");
+                    for (int i = 0; i < l; i++) {
+                        for (int j = 0; j < p; j++) {
+                            System.out.print("1");
                         }
-                    }  
-                } else if (pilihan == 2) { // Putar barang
-                    p = p + l;
-                    l = p - l;
-                    p = p - l; // ditukar panjang sama lebar
-                } else if (pilihan == 3) { // Batal
-                    selesai = true;
-                } else {
-                    throw new InputMismatchException;
+                        System.out.print("\n");
+                    }
+                    System.out.println(posisiRuangan.getNamaRuangan() + ": ");
+                    posisiRuangan.printMatriksRuangan();
+                    System.out.println(" Pilihan: \n 1. Pilih letak (area kosong 0)\n 2. Putar barang\n 3. Batal");
+                    Scanner read = new Scanner(System.in);
+                    int pilihan = read.nextInt();
+                    if (pilihan == 1) {
+                        while (!selesai) {
+                            try {
+                                System.out.print("Pilih titik horizontal awal: ");
+                                x = read.nextInt();
+                                if (x < 0 || x > 5) {
+                                    throw new InputMismatchException();
+                                }
+
+                                System.out.print("Pilih titik vertikal awal: ");
+                                y = read.nextInt();
+                                if (y < 0 || y > 5) {
+                                    throw new InputMismatchException();
+                                }
+
+                                boolean berhasil = posisiRuangan.memasangBarang(barang, x, y); // true kalau area
+                                                                                               // kosong, false kalau
+                                                                                               // udah ada barang lain
+                                if (berhasil) {
+                                    System.out.println(barang.getNamaItem() + " berhasil dipasang");
+                                    selesai = true;
+                                } else {
+                                    System.out.println("Area tidak kosong, Pilih titik lain!");
+                                }
+                            } catch (InputMismatchException e) {
+                                System.out.println("Pilih koordinat yang valid! (0-5)");
+                            }
+                        }
+                    } else if (pilihan == 2) { // Putar barang
+                        p = p + l;
+                        l = p - l;
+                        p = p - l; // ditukar panjang sama lebar
+                        barang.setPanjang(p);
+                        barang.setLebar(l);
+                    } else if (pilihan == 3) { // Batal
+                        selesai = true;
+                    } else {
+                        throw new InputMismatchException();
+                    }
+                } catch (InputMismatchException e) { // input tidak valid
+                    System.out.println("Input invalid (masukan pilihan angka yang tersedia)");
                 }
-            } catch (InputMismatchException e) { // input tidak valid
-                System.out.println("Input invalid (masukan pilihan angka yang tersedia)");    
             }
+
+        } else {
+            System.out.println("Maaf, anda hanya bisa memasang barang pada rumah pribadi Sim ini");
         }
+
     }
 
     // melihat waktu

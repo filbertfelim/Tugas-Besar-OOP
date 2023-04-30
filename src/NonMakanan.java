@@ -5,6 +5,7 @@ public class NonMakanan extends Item implements Buyable {
     private int lebar;
     private Point titikAwal;
     private Point titikAkhir;
+    private int kodeJenisBarang;
 
     public NonMakanan(String namaItem, int harga, int panjang, int lebar, Point titikAwal, Point titikAkhir) {
         super(namaItem);
@@ -23,34 +24,42 @@ public class NonMakanan extends Item implements Buyable {
             panjang = 4;
             lebar = 1;
             harga = 50;
+            kodeJenisBarang = 1;
         } else if ((namaItem.toLowerCase()).equals("kasur queen size")) {
             panjang = 4;
             lebar = 2;
             harga = 100;
+            kodeJenisBarang = 2;
         } else if ((namaItem.toLowerCase()).equals("kasur king size")) {
             panjang = 5;
             lebar = 2;
             harga = 150;
+            kodeJenisBarang = 3;
         } else if ((namaItem.toLowerCase()).equals("toilet")) {
             panjang = 1;
             lebar = 1;
             harga = 50;
+            kodeJenisBarang = 4;
         } else if ((namaItem.toLowerCase()).equals("kompor gas")) {
             panjang = 2;
             lebar = 1;
             harga = 100;
+            kodeJenisBarang = 5;
         } else if ((namaItem.toLowerCase()).equals("kompor listrik")) {
             panjang = 1;
             lebar = 1;
             harga = 200;
+            kodeJenisBarang = 6;
         } else if ((namaItem.toLowerCase()).equals("meja dan kursi")) {
             panjang = 3;
             lebar = 3;
             harga = 50;
+            kodeJenisBarang = 7;
         } else if ((namaItem.toLowerCase()).equals("jam")) {
             panjang = 1;
             lebar = 1;
             harga = 50;
+            kodeJenisBarang = 8;
         } else {
             System.out.println("Input tidak ada di daftar item nonmakanan!");
         }
@@ -94,5 +103,13 @@ public class NonMakanan extends Item implements Buyable {
 
     public void setTitikAkhir(Point titikAkhir) {
         this.titikAkhir = titikAkhir;
+    }
+
+    public int getKodeJenisBarang() {
+        return kodeJenisBarang;
+    }
+
+    public void setKodeJenisBarang(int kodeJenisBarang) {
+        this.kodeJenisBarang = kodeJenisBarang;
     }
 }
