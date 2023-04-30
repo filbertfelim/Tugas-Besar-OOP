@@ -33,10 +33,11 @@ public class Ruangan {
         return ruanganKe;
     }
 
-    public void listobject() {
+    public void printListOfObjek() {
         System.out.println("Daftar objek yang ada di ruangan: ");
         for (int i = 0; i < listofObjek.size(); i++) {
-            System.out.println(String.valueOf(i + 1) + ". " + listofObjek.get(i).getNamaItem());
+            System.out.println(String.valueOf(i + 1) + ". " + listofObjek.get(i).getNamaItem() + " dengan kode "
+                    + listofObjek.get(i).getKodeJenisBarang());
         }
     }
 
@@ -65,8 +66,8 @@ public class Ruangan {
         int l = barang.getLebar();
 
         boolean kosong = true;
-        for (int i = y; i < y + p; y++) {
-            for (int j = x; j <= x + l; x++) {
+        for (int i = y; i < y + p; i++) {
+            for (int j = x; j <= x + l; j++) {
                 if (matrixRuangan[i][j] != 0) { // cek koordinat tersedia atau tidak
                     kosong = false;
                 }
@@ -74,12 +75,13 @@ public class Ruangan {
         }
 
         if (kosong) {
-            for (int i = y; i < y + p; y++) {
-                for (int j = x; j <= x + l; x++) {
+            for (int i = y; i < y + p; i++) {
+                for (int j = x; j <= x + l; j++) {
                     matrixRuangan[i][j] = barang.getKodeJenisBarang();
                 }
             }
             listofObjek.add(barang);
+            barang.setTitikAwal(new Point(x, y));
         } else {
             System.out.println("Maaf titik tersebut penuh untuk disimpan objek " + barang.getNamaItem());
         }
@@ -87,23 +89,29 @@ public class Ruangan {
         return kosong;
     }
 
-    public boolean memindahBarang(NonMakanan barang, int x, int y) {
-        p = barang.panjang;
-        l = barang.lebar;
-        for (int i = y; i < y + p; y++) {
-            for (int j = x; j <= x + l; x++) {
-                if (matriksRuangan[i][j] != 0 && matriksRuangan[i][j] != barang.kode) { // cek koordinat tersedia atau
-                                                                                        // tidak
-                    return false;
+    public boolean memindahBarang(NonMakanan barang, int x_Current, int y_Current, int x_Baru, int y_Baru) {
+        // x dan y adalah posisi barang yang ada di ruangan
+
+        int p = barang.getPanjang();
+        int l = barang.getLebar();
+        boolean ada = true;
+
+        if (matrixRuangan[x_Current][y_Current] != barang.getKodeJenisBarang()) {
+            ada = false;
+        }
+
+        if (ada) {
+            // menghapus letak awal barang
+            for (int i = barang.getTitikAwal().getY(); i < barang.getTitikAwal().getY() + p; i++) {
+                for (int j = barang.getTitikAwal().getX(); j <= barang.getTitikAwal().getX() + l; j++) {
+                    matrixRuangan[i][j] = 0;
                 }
             }
+
+            // memasang lokasi baru barang
+            memasangBarang(barang, x_Baru, y_Baru);
         }
-        for (int y = y1; i <= y2; y--) {
-            for (int x = x1; x <= x2; x++) {
-                matriksRuangan[i][j] = barang.kode; // koordinat diisi kode barang
-            }
-        }
-        return true;
+        return ada;
     }
 
     public int getRuangTerhubung(int sisi) {

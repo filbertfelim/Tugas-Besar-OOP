@@ -11,7 +11,6 @@ public class Rumah {
         this.lokasi = lokasi;
         listofRuangan = new ArrayList<Ruangan>(0);
         listofRuangan.add(new Ruangan("Ruangan pertama", 1));
-        matrixRumah = new int[6][6]; // awal buat rumah
 
     }
 

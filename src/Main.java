@@ -150,7 +150,7 @@ public class Main {
                     World.changeSim(scan);
                     break;
                 case "11": // List Object
-                    World.getActiveSim().getPosisiRuangan().listobject();
+                    World.getActiveSim().getPosisiRuangan().printListOfObjek();
                     break;
                 case "12": // Go To Object
                     World.getActiveSim().gotoObject(scan);
