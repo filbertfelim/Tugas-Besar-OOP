@@ -178,7 +178,7 @@ public class Sim {
         System.out.printf("+=========+\t STATS \t+=========\n");
         System.out.printf("Kekenyangan\t:" + getKekenyangan() + "\n");
         System.out.printf("Mood\t\t:" + getMood() + "\n");
-        System.out.printf("Kesehatan\t\t:" + getKesehatan() + "\n\n");
+        System.out.printf("Kesehatan\t:" + getKesehatan() + "\n\n");
     }
 
     public void printEdibleList() {

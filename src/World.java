@@ -61,15 +61,13 @@ public class World {
         return harike;
     }
 
-    public static boolean isRumah(Point point) {
-        int lokasiX = point.getX();
-        int lokasiY = point.getY();
+    public static boolean isRumah(int x, int y) {
         int idx = 0;
         boolean isFound = false;
 
         while ((!isFound) || (idx < listofRumah.size())) {
-            if (listofRumah.get(idx).getLokasi().getX() == lokasiX) {
-                if (listofRumah.get(idx).getLokasi().getY() == lokasiY) {
+            if (listofRumah.get(idx).getLokasi().getX() == x) {
+                if (listofRumah.get(idx).getLokasi().getY() == y) {
                     isFound = true;
                 } else {
                     idx++;
@@ -86,8 +84,7 @@ public class World {
         for (int y = 0; y < lebar; y++) {
             String line = "|";
             for (int x = 0; x < panjang; x++) {
-                Point tmp = new Point(x, y);
-                if (isRumah(tmp)) {
+                if (!isRumah(x, y)) {
                     line += "_";
                 } else {
                     line += "A";
