@@ -33,6 +33,10 @@ public class Ruangan {
         return ruanganKe;
     }
 
+    public int[][] getMatrixRuangan() {
+        return matrixRuangan;
+    }
+
     public void printListOfObjek() {
         System.out.println("Daftar objek yang ada di ruangan: ");
         for (int i = 0; i < listofObjek.size(); i++) {

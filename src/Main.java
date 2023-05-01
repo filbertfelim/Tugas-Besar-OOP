@@ -227,18 +227,122 @@ public class Main {
     private static void save(List<World> save, String namaFile) {
 
         JSONArray daftarObjek = new JSONArray();
-        for (World a : save) {
+        World world = save.get(0);
 
-            World world = (World) a;
-            JSONObject worlds = new JSONObject();
-            worlds.put("panjang", world.getPanjang());
-            worlds.put("lebar", world.getLebar());
+        // JSON world
+        JSONObject worldJSON = new JSONObject();
 
-            JSONObject objekWorld = new JSONObject();
-            objekWorld.put("World", worlds);
-            daftarObjek.add(objekWorld);
+        // atribut waktu (World)
+        worldJSON.put("waktu", world.getWaktu());
+        // atribut harike (World)
+        worldJSON.put("harike", world.gethariKe());
 
+        // atribut listofRumah (World)
+        JSONObject rumahJSON = new JSONObject();
+        for (Rumah rumah : world.getListofRumah()) {
+            // objek Rumah
+            JSONObject rumahSim = new JSONObject();
+
+            // atribut nama (Rumah)
+            rumahSim.put("nama", rumah.getNama());
+            // atribut lokasi (Rumah)
+            rumahSim.put("lokasiX", rumah.getLokasi().getX());
+            rumahSim.put("lokasiY", rumah.getLokasi().getY());
+
+            // atribut listofruangan (Rumah)
+            JSONObject ruanganJSON = new JSONObject();
+            for (Ruangan ruangan : rumah.getListofRuangan()) {
+                // objek Ruangan
+                JSONObject ruanganRumahSim = new JSONObject();
+
+                // atribut nama (Ruangan)
+                ruanganRumahSim.put("nama", ruangan.getNamaRuangan());
+                // atribut ruanganke (Ruangan)
+                ruanganRumahSim.put("ruanganke", ruangan.getRuanganKe());
+
+                // atribut array ruanganTerhubung (Ruangan)
+                JSONObject ruanganTerhubung = new JSONObject();
+                for (int i = 0; i < ruangan.getArrayRuangTerhubung().length; i++) {
+                    ruanganTerhubung.put(i, ruangan.getRuangTerhubung(i));
+                }
+                ruanganRumahSim.put("ruanganterhubung", ruanganTerhubung);
+
+                // atribut array matrixRuangan (Ruangan)
+                JSONObject matrixRuangan = new JSONObject();
+                for (int x = 0; x < 6; x++) {
+                    JSONObject isiMatriks = new JSONObject();
+                    for (int y = 0; y < 6; y++) {
+                        isiMatriks.put(y, ruangan.getMatrixRuangan()[x][y]);
+                    }
+
+                    matrixRuangan.put(x, isiMatriks);
+                }
+                ruanganRumahSim.put("matrixruangan", matrixRuangan);
+
+                // atribut listofobjek (Ruangan)
+                JSONObject objekRuanganJSON = new JSONObject();
+                for (NonMakanan objek : ruangan.getListofObjek()) {
+                    // atribut namaItem (NonMakanan)
+                    objekRuanganJSON.put("namaitem", objek.getNamaItem());
+                }
+                ruanganRumahSim.put("listofobjek", objekRuanganJSON);
+
+                ruanganJSON.put("Ruangan", ruanganRumahSim);
+            }
+            rumahSim.put("listofruangan", ruanganJSON);
+
+            rumahJSON.put("Rumah", rumahSim);
         }
+        worldJSON.put("listofrumah", rumahJSON);
+
+        // atribut listofsim (World)
+        JSONObject simListJSON = new JSONObject();
+        for (Sim sim : world.getListofSim()) {
+            // objek Sim
+            JSONObject simJSON = new JSONObject();
+
+            // atribut String nama;
+            simJSON.put("nama", sim.getNama());
+
+            // atribut Pekerjaan pekerjaan;
+
+            // atribut int uang;
+            simJSON.put("uang", sim.getUang());
+
+            // atribut Inventory<Item> inventory;
+
+            // atribut int kekenyangan;
+            simJSON.put("kekenyangan", sim.getKekenyangan());
+
+            // atribut int mood;
+            simJSON.put("mood", sim.getMood());
+
+            // atribut int kesehatan;
+            simJSON.put("kesehatan", sim.getKesehatan());
+
+            // atribut String status;
+            simJSON.put("status", sim.getStatus());
+
+            // atribut Point posisi; // di dalam rumah
+            // atribut Rumah rumah;
+            // atribut Rumah posisiRumah;
+            // atribut Ruangan posisiRuangan;
+            // atribut int timerBelumTidur;
+
+            // atribut int timerBelumBAB;
+            // atribut boolean perluBAB;
+            // atribut int jatahWaktuBerkunjung;
+            // atribut int timerWaktuKunjung;
+            // atribut boolean isBerkunjung;
+            // atribut ArrayList<Item> barangdibeli;
+            // atribut ArrayList<Integer> timerbarangdibeli;
+            simListJSON.put("Sim", simJSON);
+        }
+        worldJSON.put("listofsim", simListJSON);
+
+        // atribut ActiveSim (World)
+
+        daftarObjek.add(worldJSON);
 
         try (FileWriter file = new FileWriter(namaFile + ".json")) {
             file.write(daftarObjek.toJSONString());
