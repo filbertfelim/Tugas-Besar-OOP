@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Random;
 
 public class Sim {
@@ -172,196 +173,133 @@ public class Sim {
     public void getInfo() {
         System.out.printf("+=========+\tPROFILE\t+=========\n");
         System.out.printf("Nama\t\t:" + getNama() + "\n");
-        System.out.printf("Pekerjaan\t:" + getPekerjaan() + "\n");
+        System.out.printf("Pekerjaan\t:" + getPekerjaan().getNama() + "\n");
         System.out.printf("Uang\t\t:" + getUang() + "\n\n");
         System.out.printf("+=========+\t STATS \t+=========\n");
         System.out.printf("Kekenyangan\t:" + getKekenyangan() + "\n");
         System.out.printf("Mood\t\t:" + getMood() + "\n");
-        System.out.printf("Kesehatan\t\t:" + getKesehatan() + "\n\n");
+        System.out.printf("Kesehatan\t:" + getKesehatan() + "\n\n");
     }
 
-    public void printEdibleList()
-    {
+    public void printEdibleList() {
         System.out.println("Makanan dan masakan yang tersedia :");
-        System.out.printf("%-3s %-15s %15s %10s\n","No","Makanan","Kekenyangan","Jumlah");
+        System.out.printf("%-3s %-15s %15s %10s\n", "No", "Makanan", "Kekenyangan", "Jumlah");
         int idx = 1;
-        for (Item item : inventory.getInventory())
-        {
-            if (item instanceof BahanMakanan)
-            {
-                System.out.printf("%-3s %-15s %15s %10s\n",idx,item.getNamaItem(),((BahanMakanan) item).getKekenyangan(),inventory.getDetails().get(item.getNamaItem()));
+        for (Item item : inventory.getInventory()) {
+            if (item instanceof BahanMakanan) {
+                System.out.printf("%-3s %-15s %15s %10s\n", idx, item.getNamaItem(),
+                        ((BahanMakanan) item).getKekenyangan(), inventory.getDetails().get(item.getNamaItem()));
                 idx++;
-            }
-            else if (item instanceof Masakan)
-            {
-                System.out.printf("%-3s %-15s %15s %10s\n",idx,item.getNamaItem(),((Masakan) item).getKekenyangan(),inventory.getDetails().get(item.getNamaItem()));
+            } else if (item instanceof Masakan) {
+                System.out.printf("%-3s %-15s %15s %10s\n", idx, item.getNamaItem(), ((Masakan) item).getKekenyangan(),
+                        inventory.getDetails().get(item.getNamaItem()));
                 idx++;
             }
         }
     }
 
-    public int countEdible()
-    {
+    public int countEdible() {
         int count = 0;
-        for (Item item : inventory.getInventory())
-        {
-            if (item instanceof BahanMakanan || item instanceof Masakan)
-            {
+        for (Item item : inventory.getInventory()) {
+            if (item instanceof BahanMakanan || item instanceof Masakan) {
                 count++;
             }
         }
         return count;
     }
 
-    public void printBuyableList()
-    {
-        System.out.printf("%-2s %-20s %-10s %10s\n","No","Barang","Harga","Dimensi");
-        System.out.printf("%-2s %-20s %-10s %10s\n",1,"Kasur Single",50,"4 x 1");
-        System.out.printf("%-2s %-20s %-10s %10s\n",2,"Kasur Queen Size",100,"4 x 2");
-        System.out.printf("%-2s %-20s %-10s %10s\n",3,"Kasur King Size",150,"5 x 2");
-        System.out.printf("%-2s %-20s %-10s %10s\n",4,"Toilet",50,"1 x 1");
-        System.out.printf("%-2s %-20s %-10s %10s\n",5,"Kompor Gas",100,"2 x 1");
-        System.out.printf("%-2s %-20s %-10s %10s\n",6,"Kompor Listrik",200,"1 x 1");
-        System.out.printf("%-2s %-20s %-10s %10s\n",7,"Meja dan Kursi",50,"3 x 3");
-        System.out.printf("%-2s %-20s %-10s %10s\n",8,"Jam",10,"1 x 1");
-        System.out.printf("\n%-2s %-20s %-10s %10s\n","No","Bahan Makanan","Harga","Kekenyangan");
-        System.out.printf("%-2s %-20s %-10s %10s\n",9,"Nasi",5,5);
-        System.out.printf("%-2s %-20s %-10s %10s\n",10,"Kentang",3,4);
-        System.out.printf("%-2s %-20s %-10s %10s\n",11,"Ayam",10,8);
-        System.out.printf("%-2s %-20s %-10s %10s\n",12,"Sapi",12,15);
-        System.out.printf("%-2s %-20s %-10s %10s\n",13,"Wortel",3,2);
-        System.out.printf("%-2s %-20s %-10s %10s\n",14,"Bayam",3,2);
-        System.out.printf("%-2s %-20s %-10s %10s\n",15,"Kacang",2,2);
-        System.out.printf("%-2s %-20s %-10s %10s\n",16,"Susu",2,1);
+    public void printBuyableList() {
+        System.out.printf("%-2s %-20s %-10s %10s\n", "No", "Barang", "Harga", "Dimensi");
+        System.out.printf("%-2s %-20s %-10s %10s\n", 1, "Kasur Single", 50, "4 x 1");
+        System.out.printf("%-2s %-20s %-10s %10s\n", 2, "Kasur Queen Size", 100, "4 x 2");
+        System.out.printf("%-2s %-20s %-10s %10s\n", 3, "Kasur King Size", 150, "5 x 2");
+        System.out.printf("%-2s %-20s %-10s %10s\n", 4, "Toilet", 50, "1 x 1");
+        System.out.printf("%-2s %-20s %-10s %10s\n", 5, "Kompor Gas", 100, "2 x 1");
+        System.out.printf("%-2s %-20s %-10s %10s\n", 6, "Kompor Listrik", 200, "1 x 1");
+        System.out.printf("%-2s %-20s %-10s %10s\n", 7, "Meja dan Kursi", 50, "3 x 3");
+        System.out.printf("%-2s %-20s %-10s %10s\n", 8, "Jam", 10, "1 x 1");
+        System.out.printf("\n%-2s %-20s %-10s %10s\n", "No", "Bahan Makanan", "Harga", "Kekenyangan");
+        System.out.printf("%-2s %-20s %-10s %10s\n", 9, "Nasi", 5, 5);
+        System.out.printf("%-2s %-20s %-10s %10s\n", 10, "Kentang", 3, 4);
+        System.out.printf("%-2s %-20s %-10s %10s\n", 11, "Ayam", 10, 8);
+        System.out.printf("%-2s %-20s %-10s %10s\n", 12, "Sapi", 12, 15);
+        System.out.printf("%-2s %-20s %-10s %10s\n", 13, "Wortel", 3, 2);
+        System.out.printf("%-2s %-20s %-10s %10s\n", 14, "Bayam", 3, 2);
+        System.out.printf("%-2s %-20s %-10s %10s\n", 15, "Kacang", 2, 2);
+        System.out.printf("%-2s %-20s %-10s %10s\n", 16, "Susu", 2, 1);
     }
 
-    public Item getBarang(int idx)
-    {
-        if (idx == 1)
-        {
+    public Item getBarang(int idx) {
+        if (idx == 1) {
             return new NonMakanan("kasur single");
-        }
-        else if (idx == 2)
-        {
+        } else if (idx == 2) {
             return new NonMakanan("kasur queen size");
-        }
-        else if (idx == 3)
-        {
+        } else if (idx == 3) {
             return new NonMakanan("kasur king size");
-        }
-        else if (idx == 4)
-        {
+        } else if (idx == 4) {
             return new NonMakanan("toilet");
-        }
-        else if (idx == 5)
-        {
+        } else if (idx == 5) {
             return new NonMakanan("kompor gas");
-        }
-        else if (idx == 6)
-        {
+        } else if (idx == 6) {
             return new NonMakanan("kompor listrik");
-        }
-        else if (idx == 7)
-        {
+        } else if (idx == 7) {
             return new NonMakanan("meja dan kursi");
-        }
-        else if (idx == 8)
-        {
+        } else if (idx == 8) {
             return new NonMakanan("jam");
-        }
-        else if (idx == 9)
-        {
+        } else if (idx == 9) {
             return new BahanMakanan("susu");
-        }
-        else if (idx == 10)
-        {
+        } else if (idx == 10) {
             return new BahanMakanan("kentang");
-        }
-        else if (idx == 11)
-        {
+        } else if (idx == 11) {
             return new BahanMakanan("ayam");
-        }
-        else if (idx == 12)
-        {
+        } else if (idx == 12) {
             return new BahanMakanan("sapi");
-        }
-        else if (idx == 13)
-        {
+        } else if (idx == 13) {
             return new BahanMakanan("wortel");
-        }
-        else if (idx == 14)
-        {
+        } else if (idx == 14) {
             return new BahanMakanan("bayam");
-        }
-        else if (idx == 15)
-        {
+        } else if (idx == 15) {
             return new BahanMakanan("kacang");
-        }
-        else
-        {
+        } else {
             return new BahanMakanan("susu");
         }
     }
 
-    public int getHargaBarang(int idx)
-    {
-        if (idx == 1 || idx == 4 || idx == 7)
-        {
+    public int getHargaBarang(int idx) {
+        if (idx == 1 || idx == 4 || idx == 7) {
             return 50;
-        }
-        else if (idx == 2 || idx == 5)
-        {
+        } else if (idx == 2 || idx == 5) {
             return 100;
-        }
-        else if (idx == 3)
-        {   
+        } else if (idx == 3) {
             return 150;
-        }
-        else if (idx == 6)
-        {
+        } else if (idx == 6) {
             return 200;
-        }
-        else if (idx == 8 || idx == 11)
-        {
+        } else if (idx == 8 || idx == 11) {
             return 10;
-        }
-        else if (idx == 9)
-        {
+        } else if (idx == 9) {
             return 5;
-        }
-        else if (idx == 10 || idx == 13 || idx == 14)
-        {
+        } else if (idx == 10 || idx == 13 || idx == 14) {
             return 3;
-        }
-        else if (idx == 12)
-        {
+        } else if (idx == 12) {
             return 12;
-        }
-        else if (idx == 15 || idx == 16)
-        {
+        } else if (idx == 15 || idx == 16) {
             return 2;
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }
 
-    public void addTimerBeliBarang(int duration)
-    {
-        for (int time : timerbarangdibeli)
-        {
+    public void addTimerBeliBarang(int duration) {
+        for (int time : timerbarangdibeli) {
             time = time - duration;
         }
     }
 
-    public void checkkirimBarang()
-    {
-        for (int i = 0 ; i < timerbarangdibeli.size(); i++)
-        {
-            if (timerbarangdibeli.get(i) <= 0)
-            {
-                System.out.println(barangdibeli.get(i).getNamaItem() + " sudah sampai untuk " + nama + ", " + barangdibeli.get(i).getNamaItem() + " dimasukkan ke inventory!");
+    public void checkkirimBarang() {
+        for (int i = 0; i < timerbarangdibeli.size(); i++) {
+            if (timerbarangdibeli.get(i) <= 0) {
+                System.out.println(barangdibeli.get(i).getNamaItem() + " sudah sampai untuk " + nama + ", "
+                        + barangdibeli.get(i).getNamaItem() + " dimasukkan ke inventory!");
                 timerbarangdibeli.remove(i);
                 barangdibeli.remove(i);
                 inventory.addItem(barangdibeli.get(i));
@@ -369,8 +307,7 @@ public class Sim {
         }
     }
 
-    public void addTimerBelumTidur(int duration)
-    {
+    public void addTimerBelumTidur(int duration) {
         timerBelumTidur += duration;
     }
 
@@ -378,10 +315,8 @@ public class Sim {
         timerBelumTidur = 0;
     }
 
-    public void resetTimerBelumTidurAfterNoSleep()
-    {
-        if (timerBelumTidur >= 600)
-        {
+    public void resetTimerBelumTidurAfterNoSleep() {
+        if (timerBelumTidur >= 600) {
             System.out.println(getNama() + " kurang tidur! kesehatan dan mood berkurang, segera tidur!");
             timerBelumTidur = 0;
             kesehatan = kesehatan - 5;
@@ -389,11 +324,10 @@ public class Sim {
         }
     }
 
-    public void resetTimerBelumBAB()
-    {
-        if (timerBelumBAB > 240 && perluBAB)
-        {
-            System.out.println(getNama() + " belum buang air setelah makan! kesehatan dan mood berkurang, segera buang air!");
+    public void resetTimerBelumBAB() {
+        if (timerBelumBAB > 240 && perluBAB) {
+            System.out.println(
+                    getNama() + " belum buang air setelah makan! kesehatan dan mood berkurang, segera buang air!");
             timerBelumBAB = 0;
             kesehatan = kesehatan - 5;
             mood = mood - 5;
@@ -412,11 +346,9 @@ public class Sim {
         }
     }
 
-    public void balikdariBerkunjung(Scanner scan)
-    {
-        if (timerWaktuKunjung > jatahWaktuBerkunjung)
-        {
-            System.out.println("Waktu berkunjung " + getNama() +  " sudah habis! Saatnya pulang.");
+    public void balikdariBerkunjung(Scanner scan) {
+        if (timerWaktuKunjung > jatahWaktuBerkunjung) {
+            System.out.println("Waktu berkunjung " + getNama() + " sudah habis! Saatnya pulang.");
             jatahWaktuBerkunjung = 0;
             mood = mood + (10 * (timerWaktuKunjung / 30));
             kekenyangan = kekenyangan - (10 * (timerWaktuKunjung / 30));
@@ -433,8 +365,7 @@ public class Sim {
                         World.addWaktu(waktubalik);
                         World.checkAllSimTimer(waktubalik, scan);
                         checkKondisiSim();
-                        if (isDead())
-                        {
+                        if (isDead()) {
                             World.removeActiveSim();
                             World.changeSim(scan);
                         }
@@ -465,8 +396,7 @@ public class Sim {
                     timerBelumBAB = 0;
                     World.checkAllSimTimer(10, scan);
                     checkKondisiSim();
-                    if (isDead())
-                    {
+                    if (isDead()) {
                         World.removeActiveSim();
                         World.changeSim(scan);
                     }
@@ -519,8 +449,7 @@ public class Sim {
                     World.addWaktu(finalduration);
                     World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead())
-                    {
+                    if (isDead()) {
                         World.removeActiveSim();
                         World.changeSim(scan);
                     }
@@ -573,10 +502,9 @@ public class Sim {
                         setMood(getMood() - (10 * finalduration / 30));
                         setUang(getUang() + (pekerjaan.getGaji() * finalduration / 240));
                         World.addWaktu(finalduration);
-                        World.checkAllSimTimer(finalduration,scan);
+                        World.checkAllSimTimer(finalduration, scan);
                         checkKondisiSim();
-                        if (isDead())
-                        {
+                        if (isDead()) {
                             World.removeActiveSim();
                             World.changeSim(scan);
                         }
@@ -632,8 +560,7 @@ public class Sim {
                     World.addWaktu(finalduration);
                     World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead())
-                    {
+                    if (isDead()) {
                         World.removeActiveSim();
                         World.changeSim(scan);
                     }
@@ -687,8 +614,7 @@ public class Sim {
                     World.addWaktu(finalduration);
                     World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead())
-                    {
+                    if (isDead()) {
                         World.removeActiveSim();
                         World.changeSim(scan);
                     }
@@ -750,8 +676,7 @@ public class Sim {
                     World.addWaktu(finalduration);
                     World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead())
-                    {
+                    if (isDead()) {
                         World.removeActiveSim();
                         World.changeSim(scan);
                     }
@@ -803,8 +728,7 @@ public class Sim {
                     World.addWaktu(finalduration);
                     World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead())
-                    {
+                    if (isDead()) {
                         World.removeActiveSim();
                         World.changeSim(scan);
                     }
@@ -857,8 +781,7 @@ public class Sim {
                     World.addWaktu(finalduration);
                     World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead())
-                    {
+                    if (isDead()) {
                         World.removeActiveSim();
                         World.changeSim(scan);
                     }
@@ -910,8 +833,7 @@ public class Sim {
                     World.addWaktu(finalduration);
                     World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead())
-                    {
+                    if (isDead()) {
                         World.removeActiveSim();
                         World.changeSim(scan);
                     }
@@ -936,8 +858,7 @@ public class Sim {
                     kekenyangan = kekenyangan - 20;
                     World.addWaktu(10);
                     World.checkAllSimTimer(10, scan);
-                    if (isDead())
-                    {
+                    if (isDead()) {
                         World.removeActiveSim();
                         World.changeSim(scan);
                     }
@@ -954,66 +875,51 @@ public class Sim {
     public void makan(Scanner scan) {
         boolean isValid = false;
         int idx = 1;
-        while (!isValid)
-        {
+        while (!isValid) {
             try {
                 printEdibleList();
                 System.out.println("0  Batal");
                 System.out.print("Pilihan : ");
                 idx = scan.nextInt();
                 isValid = true;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Input invalid, silahkan input angka!");
                 scan.nextLine();
             }
         }
-        if (idx == 0)
-        {
+        if (idx == 0) {
             System.out.println("Tidak jadi makan!");
-        }
-        else
-        {
-            while (idx < 0 || idx > countEdible())
-            {
+        } else {
+            while (idx < 0 || idx > countEdible()) {
                 System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
                 printEdibleList();
                 System.out.println("0  Batal");
                 System.out.print("Pilihan : ");
                 isValid = false;
-                while (!isValid)
-                {
+                while (!isValid) {
                     try {
                         idx = scan.nextInt();
                         isValid = true;
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         System.out.println("Input invalid, silahkan input angka!");
                         scan.nextLine();
                     }
                 }
-                if (idx == 0)
-                {
+                if (idx == 0) {
                     System.out.println("Tidak jadi makan!");
                 }
             }
             int makananke = 0;
             Item yangdimakan = new Masakan("nasi ayam");
-            for (Item item : inventory.getInventory())
-            {
-                if (item instanceof BahanMakanan) 
-                {
+            for (Item item : inventory.getInventory()) {
+                if (item instanceof BahanMakanan) {
                     makananke++;
-                    if (makananke == idx)
-                    {
+                    if (makananke == idx) {
                         yangdimakan = item;
                     }
-                }
-                else if (item instanceof Masakan)
-                {
+                } else if (item instanceof Masakan) {
                     makananke++;
-                    if (makananke == idx)
-                    {
+                    if (makananke == idx) {
                         yangdimakan = item;
                     }
                 }
@@ -1026,13 +932,10 @@ public class Sim {
                     try {
                         Thread.sleep(30 * 1000);
                         System.out.println("Makan selesai!");
-                        if (dimakan instanceof BahanMakanan)
-                        {
-                            kekenyangan = kekenyangan + ((BahanMakanan)dimakan).getKekenyangan();
-                        }
-                        else
-                        {
-                            kekenyangan = kekenyangan + ((Masakan)dimakan).getKekenyangan();
+                        if (dimakan instanceof BahanMakanan) {
+                            kekenyangan = kekenyangan + ((BahanMakanan) dimakan).getKekenyangan();
+                        } else {
+                            kekenyangan = kekenyangan + ((Masakan) dimakan).getKekenyangan();
                         }
                         World.addWaktu(30);
                         checkisFull(scan);
@@ -1046,7 +949,7 @@ public class Sim {
             System.out.println("Sedang makan...");
             thread.start();
         }
-}
+    }
 
     // masak
     public void masak(Scanner scan) {
@@ -1128,8 +1031,7 @@ public class Sim {
                         World.addWaktu(waktuberkunjung);
                         World.checkAllSimTimer(waktuberkunjung, scan);
                         checkKondisiSim();
-                        if (isDead())
-                        {
+                        if (isDead()) {
                             World.removeActiveSim();
                             World.changeSim(scan);
                         }
@@ -1173,147 +1075,173 @@ public class Sim {
             }
             jatahWaktuBerkunjung = duration;
             isBerkunjung = true;
-            posisiRumah = World.getListofRumah().get(idx-1);
+            posisiRumah = World.getListofRumah().get(idx - 1);
         }
     }
 
     // berpindah ruangan
-    public void pindahruangan(Scanner scan)
-    {
+    public void pindahruangan(Scanner scan) {
         boolean isValid = false;
         int idx = 1;
-        while (!isValid)
-        {
+        while (!isValid) {
             try {
                 System.out.println("Ruangan yang ada : ");
-                int i = 1;
-                for (Ruangan ruangan : posisiRumah.getListofRuangan())
-                {
-                    System.out.println(String.valueOf(i) + ". " + ruangan.getNamaRuangan());
+                int i = 0;
+                for (int ruangan : posisiRuangan.getArrayRuangTerhubung()) {
+                    if (i == 0) {
+                        System.out.print(String.valueOf(i + 1) + ". Ruangan atas = ");
+                    } else if (i == 1) {
+                        System.out.print(String.valueOf(i + 1) + ". Ruangan bawah = ");
+                    } else if (i == 2) {
+                        System.out.print(String.valueOf(i + 1) + ". Ruangan kanan = ");
+                    } else if (i == 3) {
+                        System.out.print(String.valueOf(i + 1) + ". Ruangan kiri = ");
+                    }
                     i++;
+
+                    for (Ruangan ruanganRumah : posisiRumah.getListofRuangan()) {
+                        if (ruanganRumah.getRuanganKe() == ruangan) {
+                            System.out.print(ruanganRumah.getNamaRuangan() + "\n");
+                        }
+                    }
+                    if (ruangan == 0) {
+                        System.out.print("Tidak ada\n");
+                    }
                 }
                 System.out.println("0. Batal");
                 System.out.print("Pilihan : ");
                 idx = scan.nextInt();
                 isValid = true;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Input invalid, silahkan input angka!");
                 scan.nextLine();
             }
         }
-        if (idx == 0)
-        {
+        if (idx == 0) {
             System.out.println("Tidak jadi berpindah ruangan!");
-        }
-        else
-        {
-            while (idx < 0 || idx > posisiRumah.getListofRuangan().size() || posisiRumah.getListofRuangan().get(idx-1).getNamaRuangan().equals(posisiRuangan.getNamaRuangan()))
-            {
-                if (posisiRumah.getListofRuangan().get(idx-1).getNamaRuangan().equals(posisiRuangan.getNamaRuangan()))
-                {
-                    System.out.println("Tidak bisa berpindah ke ruangan yang sedang ditempati");
-                }
-                else
-                {
-                    System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
-                }
+        } else {
+            while (idx < 0 || idx > 3) {
+                System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
                 System.out.println("Ruangan yang ada : ");
-                int i = 1;
-                for (Ruangan ruangan : posisiRumah.getListofRuangan())
-                {
-                    System.out.println(String.valueOf(i) + ". " + ruangan.getNamaRuangan());
+                int i = 0;
+                for (int ruangan : posisiRuangan.getArrayRuangTerhubung()) {
+                    if (i == 0) {
+                        System.out.print(String.valueOf(i + 1) + ". Ruangan atas = ");
+                    } else if (i == 1) {
+                        System.out.print(String.valueOf(i + 1) + ". Ruangan bawah = ");
+                    } else if (i == 2) {
+                        System.out.print(String.valueOf(i + 1) + ". Ruangan kanan = ");
+                    } else if (i == 3) {
+                        System.out.print(String.valueOf(i + 1) + ". Ruangan kiri = ");
+                    }
                     i++;
-                    
+
+                    for (Ruangan ruanganRumah : posisiRumah.getListofRuangan()) {
+                        if (ruanganRumah.getRuanganKe() == ruangan) {
+                            System.out.print(ruanganRumah.getNamaRuangan() + "\n");
+                        }
+                    }
+                    if (ruangan == 0) {
+                        System.out.print("Tidak ada\n");
+                    }
                 }
                 System.out.println("0. Batal");
                 isValid = false;
-                while (!isValid)
-                {
+                while (!isValid) {
                     try {
                         System.out.print("Pilihan : ");
                         idx = scan.nextInt();
                         isValid = true;
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         System.out.println("Input invalid, silahkan input angka!");
                         scan.nextLine();
                     }
                 }
-                if (idx == 0)
-                {
+                if (idx == 0) {
                     System.out.println("Tidak jadi berpindah ruangan!");
                 }
             }
-            posisiRuangan = posisiRumah.getListofRuangan().get(idx);
+
+            for (Ruangan ruang : posisiRumah.getListofRuangan()) {
+                if (ruang.getRuanganKe() == posisiRuangan.getRuangTerhubung(idx - 1)) {
+                    posisiRuangan = ruang;
+                }
+            }
         }
     }
 
     // melihat inventory
-    public void seeinventory()
-    {
+    public void seeinventory() {
         inventory.printInventory();
     }
 
     // upgrade rumah
 
-    public void upgraderumah()
-    {
+    public void upgraderumah(Scanner scan) {
+        if (rumah.equals(posisiRumah)) {
+            System.out.println("Ruangan apa yang ingin ditambah ruang tetangganya?");
+            rumah.printListOfRuangan();
+            String namaRuangan = scan.nextLine().toLowerCase();
+            for (int i = 0; i < rumah.getListofRuangan().size(); i++) {
+                if (namaRuangan.equals((rumah.getListofRuangan().get(i)).getNamaRuangan().toLowerCase())) {
+                    System.out.print("Nama ruangan baru: ");
+                    String namaRuanganBaru = scan.nextLine();
+                    System.out.println("Pilih sisi pada ruangan " + (rumah.getListofRuangan().get(i)).getNamaRuangan()
+                            + " untuk ditambah ruangan " + namaRuanganBaru);
+                    System.out.println("Ketik 0 untuk sisi atas, 1 untuk bawah, 2 untuk kanan, atau 3 untuk kiri");
+                    int sisi = scan.nextInt();
+                    if ((rumah.getListofRuangan().get(i)).getRuangTerhubung(sisi) == 0) {
+                        rumah.addRuangan(namaRuanganBaru, (rumah.getListofRuangan().get(i)), sisi);
+                    } else {
+                        System.out.println("Maaf sudah ada ruangan di sisi tersebut");
+                    }
+                }
+            }
 
+        } else {
+            System.out.println("Maaf, upgrade rumah hanya bisa dilakukan di rumah pribadi Sim ini");
+        }
     }
 
     // beli barang
-    public void belibarang(Scanner scan)
-    {
+    public void belibarang(Scanner scan) {
         boolean isValid = false;
         int idx = 1;
-        while (!isValid)
-        {
+        while (!isValid) {
             try {
                 printBuyableList();
                 System.out.println("0  Batal");
                 System.out.print("Pilihan : ");
                 idx = scan.nextInt();
                 isValid = true;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Input invalid, silahkan input angka!");
                 scan.nextLine();
             }
         }
-        if (idx == 0)
-        {
+        if (idx == 0) {
             System.out.println("Tidak jadi membeli barang!");
-        }
-        else
-        {
-            while (idx < 0 || idx > 16 || uang < getHargaBarang(idx))
-            {
-                if (uang < getHargaBarang(idx))
-                {
+        } else {
+            while (idx < 0 || idx > 16 || uang < getHargaBarang(idx)) {
+                if (uang < getHargaBarang(idx)) {
                     System.out.println("Uang tidak cukup! Silakan pilih yang lain!");
-                }
-                else
-                {
+                } else {
                     System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
                 }
                 printBuyableList();
                 System.out.println("0  Batal");
                 System.out.print("Pilihan : ");
                 isValid = false;
-                while (!isValid)
-                {
+                while (!isValid) {
                     try {
                         idx = scan.nextInt();
                         isValid = true;
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         System.out.println("Input invalid, silahkan input angka!");
                         scan.nextLine();
                     }
                 }
-                if (idx == 0)
-                {
+                if (idx == 0) {
                     System.out.println("Tidak jadi membeli barang!");
                 }
             }
@@ -1327,84 +1255,147 @@ public class Sim {
         }
     }
 
-    // memasang barang
-    public void memasangbarang()
-    {
-        int x = 0;
-        int y = 0;
-        boolean selesai = false;
-        int p = barang.getPanjang();
-        int l = barang.getLebar();
-        while (!Selesai) {
-            try {
-                System.out.println(barang.namaItem + ": ");
-                for (int i = 0; i < l; i++) {
-                    for (int j = 0; j < p; j++) {
-                        System.out.print("1");
-                    }
-                    System.out.print("\n");
-                }
-                System.out.println(Ruangan.getNamaRuang + ": ");
-                ruang.printMatrixRuangan();
-                System.out.println(" Pilihan: \n 1. Pilih letak (area kosong 0)\n 2. Putar barang\n 3. Batal");
-                Scanner read = new Scanner(System.in);
-                int pilihan = read.nextInt;
-                if (pilihan == 1) {
-                    while (!selesai) {
-                        try {
-                            System.out.print("Pilih titik horizontal awal: ");
-                            x = read.nextInt;
-                            if (x < 0 || x > 5) // out of bound
-                                throw new InputMismatchException;
-                            System.out.print("Pilih titik vertikal awal: ")
-                            y = read.nextInt; 
-                            if (y < 0 || y > 5) //out of bound
-                                throw new InputMismatchException;
-                            
-                            boolean berhasil = ruang.memasangBarang(barang, x, y); // true kalau area kosong, false kalau udah ada barang lain
-                            if (berhasil) {
-                                System.out.println(Barang.getNamaBarang + " berhasil dipasang");
-                                selesai = true;
-                            } else {
-                                System.out.println("Area tidak kosong, Pilih titik lain!");
-                            }
-                        } catch (InputMismatchException e) {
-                            System.out.println("Pilih koordinat yang valid! (0-5)");
-                        }
-                    }  
-                } else if (pilihan == 2) { // Putar barang
-                    p = p + l;
-                    l = p - l;
-                    p = p - l; // ditukar panjang sama lebar
-                } else if (pilihan == 3) { // Batal
-                    selesai = true;
-                } else {
-                    throw new InputMismatchException;
-                }
-            } catch (InputMismatchException e) { // input tidak valid
-                System.out.println("Input invalid (masukan pilihan angka yang tersedia)");    
+    // memindah barang
+    public void memindahBarang() {
+        if (rumah.equals(posisiRumah)) {
+            posisiRuangan.printListOfObjek();
+            posisiRuangan.printMatriksRuangan();
+
+            System.out.println("Pilih barang yang ingin dipindah");
+            Scanner scan = new Scanner(System.in);
+            String namaBarang = scan.nextLine().toLowerCase();
+
+            System.out.println("Ketik posisi sekarang barang yang ingin dipindah");
+            System.out.print("x: ");
+            int x_Current = scan.nextInt();
+            System.out.print("y: ");
+            int y_Current = scan.nextInt();
+
+            System.out.println("Ketik posisi baru barang yang ingin dipindah");
+            System.out.print("x: ");
+            int x_Baru = scan.nextInt();
+            System.out.print("y: ");
+            int y_Baru = scan.nextInt();
+
+            NonMakanan barang = new NonMakanan(namaBarang);
+            boolean berhasil = posisiRuangan.memindahBarang(barang, x_Current, y_Current, x_Baru, y_Baru);
+            if (berhasil) {
+                System.out.println(barang.getNamaItem() + " berhasil dipindah");
+            } else {
+                System.out.println("Barang gagal dipindah!");
             }
+
         }
     }
 
+    // memasang barang
+    public void memasangbarang() {
+        if (rumah.equals(posisiRumah)) {
+            // Pilih barang di inventory
+            seeinventory();
+            System.out.println("Pilih barang yang ingin dipasang");
+            Scanner scan = new Scanner(System.in);
+            String namaBarang = scan.nextLine().toLowerCase();
+
+            for (String nama : inventory.getDetails().keySet()) {
+                if (namaBarang.equals(nama.toLowerCase())) {
+
+                    NonMakanan barang = new NonMakanan(namaBarang);
+                    int x;
+                    int y;
+                    boolean selesai = false;
+                    int p = barang.getPanjang();
+                    int l = barang.getLebar();
+                    while (!selesai) {
+                        try {
+                            System.out.println(barang.getNamaItem() + ": ");
+                            for (int i = 0; i < l; i++) {
+                                for (int j = 0; j < p; j++) {
+                                    System.out.print("1");
+                                }
+                                System.out.print("\n");
+                            }
+                            System.out.println(posisiRuangan.getNamaRuangan() + ": ");
+                            posisiRuangan.printMatriksRuangan();
+                            System.out.println(
+                                    " Pilihan: \n 1. Pilih letak (area kosong 0)\n 2. Putar barang\n 3. Batal");
+                            Scanner read = new Scanner(System.in);
+                            int pilihan = read.nextInt();
+                            if (pilihan == 1) {
+                                while (!selesai) {
+                                    try {
+                                        System.out.print("Pilih titik horizontal awal: ");
+                                        x = read.nextInt();
+                                        if (x < 0 || x > 5) {
+                                            throw new InputMismatchException();
+                                        }
+
+                                        System.out.print("Pilih titik vertikal awal: ");
+                                        y = read.nextInt();
+                                        if (y < 0 || y > 5) {
+                                            throw new InputMismatchException();
+                                        }
+
+                                        boolean berhasil = posisiRuangan.memasangBarang(barang, x, y); // true kalau
+                                                                                                       // area
+                                                                                                       // kosong, false
+                                                                                                       // kalau
+                                                                                                       // udah ada
+                                                                                                       // barang lain
+                                        if (berhasil) {
+                                            inventory.removeItem(barang);
+                                            System.out.println(barang.getNamaItem() + " berhasil dipasang");
+                                            selesai = true;
+                                        } else {
+                                            System.out.println("Area tidak kosong, Pilih titik lain!");
+                                        }
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Pilih koordinat yang valid! (0-5)");
+                                    }
+                                }
+                            } else if (pilihan == 2) { // Putar barang
+                                p = p + l;
+                                l = p - l;
+                                p = p - l; // ditukar panjang sama lebar
+                                barang.setPanjang(p);
+                                barang.setLebar(l);
+                            } else if (pilihan == 3) { // Batal
+                                selesai = true;
+                            } else {
+                                throw new InputMismatchException();
+                            }
+                        } catch (InputMismatchException e) { // input tidak valid
+                            System.out.println("Input invalid (masukan pilihan angka yang tersedia)");
+                        }
+                    }
+
+                } else {
+                    System.out.println("Anda tidak memiliki barang tersebut");
+                }
+            }
+
+        } else {
+            System.out.println("Maaf, anda hanya bisa memasang barang pada rumah pribadi Sim ini");
+        }
+
+    }
+
     // melihat waktu
-    public void seetime()
-    {
+    public void seetime() {
         int menit = (720 - World.getWaktu()) / 60;
         int detik = (720 - World.getWaktu()) % 60;
         System.out.println("Sisa waktu hari ini :");
         System.out.println(String.valueOf(menit) + " menit " + String.valueOf(detik) + " detik");
 
         // print waktu sisa untuk beli barang
-        if (barangdibeli.size() > 0)
-        {
+        if (barangdibeli.size() > 0) {
             System.out.println("Sisa waktu pembelian barang :");
-            System.out.printf("%-4s %-20s %-30s\n","No","Barang","Sisa Waktu Pengiriman");
-            for (int i = 0;i < barangdibeli.size();i++)
-            {
+            System.out.printf("%-4s %-20s %-30s\n", "No", "Barang", "Sisa Waktu Pengiriman");
+            for (int i = 0; i < barangdibeli.size(); i++) {
                 menit = timerbarangdibeli.get(i) / 60;
                 detik = timerbarangdibeli.get(i) % 60;
-                System.out.printf("%-4s %-20s %-30s\n",i+1,barangdibeli.get(i).getNamaItem(),menit + " menit " + detik + " detik");
+                System.out.printf("%-4s %-20s %-30s\n", i + 1, barangdibeli.get(i).getNamaItem(),
+                        menit + " menit " + detik + " detik");
             }
         }
 
@@ -1422,7 +1413,7 @@ public class Sim {
         boolean isValid = false;
         while (!isValid) {
             try {
-                posisiRuangan.listobject();
+                posisiRuangan.printListOfObjek();
                 System.out.println("0. Batal");
                 System.out.print("Pilihan : ");
                 choiceobjek = scan.nextInt();
@@ -1437,7 +1428,7 @@ public class Sim {
             isValid = false;
             while (!isValid) {
                 try {
-                    posisiRuangan.listobject();
+                    posisiRuangan.printListOfObjek();
                     System.out.println("0. Batal");
                     System.out.print("Pilihan : ");
                     choiceobjek = scan.nextInt();
@@ -1654,9 +1645,7 @@ public class Sim {
                 }
                 if (choiceaksi == 0) {
                     System.out.println("Aksi tidak dilakukan!");
-                }
-                else if (choiceaksi == 1)
-                {
+                } else if (choiceaksi == 1) {
                     seetime();
                 }
             }

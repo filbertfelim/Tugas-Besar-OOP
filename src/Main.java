@@ -21,28 +21,7 @@ public class Main {
         Scanner scan = new Scanner(System.in);
 
         // Load dan save file belum beres
-        List<List<?>> objectsCreatedList = new ArrayList<List<?>>();
         List<World> worldsCreatedList = new ArrayList<World>();
-        List<Sim> simsCreatedList = new ArrayList<Sim>();
-        List<Rumah> rumahCreatedList = new ArrayList<Rumah>();
-        List<Ruangan> ruanganCreatedList = new ArrayList<Ruangan>();
-        List<Point> pointsCreatedList = new ArrayList<Point>();
-        List<Pekerjaan> pekerjaanCreatedList = new ArrayList<Pekerjaan>();
-        List<NonMakanan> nonmakananCreatedList = new ArrayList<NonMakanan>();
-        List<Masakan> masakanCreatedList = new ArrayList<Masakan>();
-        List<BahanMakanan> bahanmakananCreatedList = new ArrayList<BahanMakanan>();
-        List<Inventory<Item>> inventoryCreatedList = new ArrayList<Inventory<Item>>();
-
-        objectsCreatedList.add(worldsCreatedList);
-        objectsCreatedList.add(simsCreatedList);
-        objectsCreatedList.add(rumahCreatedList);
-        objectsCreatedList.add(ruanganCreatedList);
-        objectsCreatedList.add(pointsCreatedList);
-        objectsCreatedList.add(pekerjaanCreatedList);
-        objectsCreatedList.add(nonmakananCreatedList);
-        objectsCreatedList.add(masakanCreatedList);
-        objectsCreatedList.add(bahanmakananCreatedList);
-        objectsCreatedList.add(inventoryCreatedList);
 
         boolean newGame = true;
         boolean isGameStarting = false;
@@ -62,7 +41,7 @@ public class Main {
                         isGameLoading = true;
                         newGame = false;
                         String loadFile = scan.nextLine().toLowerCase();
-                        load(loadFile);
+                        // load(loadFile);
                         System.out.println("Enjoy playing!");
                         delay(2000);
                     } else if (startingGame.equals("n")) {
@@ -85,24 +64,25 @@ public class Main {
             }
         }
 
+        if (newGame) {
+            // Game baru dimulai
+            System.out.print("Nama sim : ");
+            String namasim = scan.nextLine();
+            World world = new World(namasim);
+            // World.addSim(scan);
+            // World.getActiveSim().getInventory().addItem(new BahanMakanan("nasi"));
+            // World.getActiveSim().getInventory().addItem(new BahanMakanan("nasi"));
+            // World.getActiveSim().getInventory().addItem(new BahanMakanan("kentang"));
+            // World.getActiveSim().getInventory().addItem(new Masakan("nasi ayam"));
+            // World.getActiveSim().getInventory().printInventory();
+            // World.getActiveSim().getInventory().removeItem(new Masakan("nasi ayam"));
+            // World.getActiveSim().getInventory().printInventory();
+            // World.getActiveSim().getInventory().removeItem(new BahanMakanan("nasi"));
+            // World.getActiveSim().getInventory().printInventory();
+        }
+
         boolean isGameFinish = false;
         while (!isGameFinish) {
-            if (newGame) {
-                // Game baru dimulai
-                System.out.print("Nama sim : ");
-                String namasim = scan.nextLine();
-                World world = new World(namasim);
-                World.addSim(scan);
-                // World.getActiveSim().getInventory().addItem(new BahanMakanan("nasi"));
-                // World.getActiveSim().getInventory().addItem(new BahanMakanan("nasi"));
-                // World.getActiveSim().getInventory().addItem(new BahanMakanan("kentang"));
-                // World.getActiveSim().getInventory().addItem(new Masakan("nasi ayam"));
-                // World.getActiveSim().getInventory().printInventory();
-                // World.getActiveSim().getInventory().removeItem(new Masakan("nasi ayam"));
-                // World.getActiveSim().getInventory().printInventory();
-                // World.getActiveSim().getInventory().removeItem(new BahanMakanan("nasi"));
-                // World.getActiveSim().getInventory().printInventory();
-            }
 
             printGameMenu();
             System.out.print(">> ");
@@ -110,6 +90,11 @@ public class Main {
             switch (commandMenu) {
                 case "1": // Help
                     printHelp();
+                    delay(2000);
+
+                    System.out.println("Tekan enter untuk lanjut");
+                    System.out.println(">> ");
+                    String enter = scan.nextLine();
                     break;
                 case "2": // Exit
                     boolean savingLoop = false;
@@ -120,7 +105,7 @@ public class Main {
                         if (save.equals("y")) {
                             System.out.print("Please enter the save file name: ");
                             String nameFile = scan.nextLine().toLowerCase();
-                            save(objectsCreatedList, nameFile);
+                            save(worldsCreatedList, nameFile);
                             System.out.println("Your game is saved!");
                             savingLoop = true;
                         } else if (save.equals("n")) {
@@ -130,66 +115,234 @@ public class Main {
                         }
                     }
                     exit();
+
+                    System.out.println("Tekan enter untuk lanjut");
+                    System.out.println(">> ");
+                    enter = scan.nextLine();
                     break;
                 case "3": // View Sim Info
                     World.getActiveSim().getInfo();
+                    delay(2000);
+
+                    System.out.println("Tekan enter untuk lanjut");
+                    System.out.println(">> ");
+                    enter = scan.nextLine();
                     break;
                 case "4": // View Current Location
                     World.getActiveSim().getCurrentLocation();
+                    delay(2000);
+
+                    System.out.println("Tekan enter untuk lanjut");
+                    System.out.println(">> ");
+                    enter = scan.nextLine();
                     break;
                 case "5": // View Inventory
                     World.getActiveSim().getInventory().printInventory();
+                    delay(2000);
+
+                    System.out.println("Tekan enter untuk lanjut");
+                    System.out.println(">> ");
+                    enter = scan.nextLine();
                     break;
                 case "6": // Upgrade House
+                    World.getActiveSim().upgraderumah(scan);
+                    delay(2000);
+
+                    System.out.println("Tekan enter untuk lanjut");
+                    System.out.println(">> ");
+                    enter = scan.nextLine();
+                    break;
                 case "7": // Move Room
+                    World.getActiveSim().pindahruangan(scan);
+                    delay(2000);
+
+                    System.out.println("Tekan enter untuk lanjut");
+                    System.out.println(">> ");
+                    enter = scan.nextLine();
+                    break;
                 case "8": // Edit Room
+                    System.out.println("Pilih salah satu opsi berikut:");
+                    System.out.println("1. Pembelian barang");
+                    System.out.println("2. Meletakkan barang dari inventory");
+                    System.out.println("3. Memindahkan barang yang sudah ada di ruangan");
+                    int pilihan = scan.nextInt();
+                    if (pilihan == 1) {
+                        World.getActiveSim().belibarang(scan);
+                    } else if (pilihan == 2) {
+                        World.getActiveSim().memasangbarang();
+                    } else if (pilihan == 3) {
+                        World.getActiveSim().memindahBarang();
+                    }
+                    delay(2000);
+
+                    System.out.println("Tekan enter untuk lanjut");
+                    System.out.println(">> ");
+                    enter = scan.nextLine();
+                    break;
                 case "9": // Add Sim
                     World.addSim(scan);
+                    delay(2000);
+
+                    System.out.println("Tekan enter untuk lanjut");
+                    System.out.println(">> ");
+                    enter = scan.nextLine();
                     break;
                 case "10": // Change Sim
                     World.changeSim(scan);
+                    delay(2000);
+
+                    System.out.println("Tekan enter untuk lanjut");
+                    System.out.println(">> ");
+                    enter = scan.nextLine();
                     break;
                 case "11": // List Object
-                    World.getActiveSim().getPosisiRuangan().listobject();
+                    World.getActiveSim().getPosisiRuangan().printListOfObjek();
+                    delay(2000);
+
+                    System.out.println("Tekan enter untuk lanjut");
+                    System.out.println(">> ");
+                    enter = scan.nextLine();
                     break;
                 case "12": // Go To Object
                     World.getActiveSim().gotoObject(scan);
+                    delay(2000);
+
+                    System.out.println("Tekan enter untuk lanjut");
+                    System.out.println(">> ");
+                    enter = scan.nextLine();
                     break;
                 case "13": // Action
+                    delay(2000);
 
+                    System.out.println("Tekan enter untuk lanjut");
+                    System.out.println(">> ");
+                    enter = scan.nextLine();
+                    break;
             }
 
         }
 
     }
 
-    private static void save(List<List<?>> save, String namaFile) {
+    private static void save(List<World> save, String namaFile) {
 
         JSONArray daftarObjek = new JSONArray();
-        for (List<?> a : save) {
-            for (Object b : a) {
-                if (b.getClass() == Sim.class) {
-                    Sim sim = (Sim) b;
-                    JSONObject sims = new JSONObject();
-                    sims.put("nama", sim.getNama());
-                    sims.put("kekenyangan", sim.getKekenyangan());
-                    sims.put("status", sim.getStatus());
+        World world = save.get(0);
 
-                    JSONObject objekSim = new JSONObject();
-                    objekSim.put("Sim", sims);
-                    daftarObjek.add(objekSim);
-                } else if (b.getClass() == World.class) {
-                    World world = (World) b;
-                    JSONObject worlds = new JSONObject();
-                    worlds.put("panjang", world.getPanjang());
-                    worlds.put("lebar", world.getLebar());
+        // JSON world
+        JSONObject worldJSON = new JSONObject();
 
-                    JSONObject objekWorld = new JSONObject();
-                    objekWorld.put("World", worlds);
-                    daftarObjek.add(objekWorld);
+        // atribut waktu (World)
+        worldJSON.put("waktu", world.getWaktu());
+        // atribut harike (World)
+        worldJSON.put("harike", world.gethariKe());
+
+        // atribut listofRumah (World)
+        JSONObject rumahJSON = new JSONObject();
+        for (Rumah rumah : world.getListofRumah()) {
+            // objek Rumah
+            JSONObject rumahSim = new JSONObject();
+
+            // atribut nama (Rumah)
+            rumahSim.put("nama", rumah.getNama());
+            // atribut lokasi (Rumah)
+            rumahSim.put("lokasiX", rumah.getLokasi().getX());
+            rumahSim.put("lokasiY", rumah.getLokasi().getY());
+
+            // atribut listofruangan (Rumah)
+            JSONObject ruanganJSON = new JSONObject();
+            for (Ruangan ruangan : rumah.getListofRuangan()) {
+                // objek Ruangan
+                JSONObject ruanganRumahSim = new JSONObject();
+
+                // atribut nama (Ruangan)
+                ruanganRumahSim.put("nama", ruangan.getNamaRuangan());
+                // atribut ruanganke (Ruangan)
+                ruanganRumahSim.put("ruanganke", ruangan.getRuanganKe());
+
+                // atribut array ruanganTerhubung (Ruangan)
+                JSONObject ruanganTerhubung = new JSONObject();
+                for (int i = 0; i < ruangan.getArrayRuangTerhubung().length; i++) {
+                    ruanganTerhubung.put(i, ruangan.getRuangTerhubung(i));
                 }
+                ruanganRumahSim.put("ruanganterhubung", ruanganTerhubung);
+
+                // atribut array matrixRuangan (Ruangan)
+                JSONObject matrixRuangan = new JSONObject();
+                for (int x = 0; x < 6; x++) {
+                    JSONObject isiMatriks = new JSONObject();
+                    for (int y = 0; y < 6; y++) {
+                        isiMatriks.put(y, ruangan.getMatrixRuangan()[x][y]);
+                    }
+
+                    matrixRuangan.put(x, isiMatriks);
+                }
+                ruanganRumahSim.put("matrixruangan", matrixRuangan);
+
+                // atribut listofobjek (Ruangan)
+                JSONObject objekRuanganJSON = new JSONObject();
+                for (NonMakanan objek : ruangan.getListofObjek()) {
+                    // atribut namaItem (NonMakanan)
+                    objekRuanganJSON.put("namaitem", objek.getNamaItem());
+                }
+                ruanganRumahSim.put("listofobjek", objekRuanganJSON);
+
+                ruanganJSON.put("Ruangan", ruanganRumahSim);
             }
+            rumahSim.put("listofruangan", ruanganJSON);
+
+            rumahJSON.put("Rumah", rumahSim);
         }
+        worldJSON.put("listofrumah", rumahJSON);
+
+        // atribut listofsim (World)
+        JSONObject simListJSON = new JSONObject();
+        for (Sim sim : world.getListofSim()) {
+            // objek Sim
+            JSONObject simJSON = new JSONObject();
+
+            // atribut String nama;
+            simJSON.put("nama", sim.getNama());
+
+            // atribut Pekerjaan pekerjaan;
+
+            // atribut int uang;
+            simJSON.put("uang", sim.getUang());
+
+            // atribut Inventory<Item> inventory;
+
+            // atribut int kekenyangan;
+            simJSON.put("kekenyangan", sim.getKekenyangan());
+
+            // atribut int mood;
+            simJSON.put("mood", sim.getMood());
+
+            // atribut int kesehatan;
+            simJSON.put("kesehatan", sim.getKesehatan());
+
+            // atribut String status;
+            simJSON.put("status", sim.getStatus());
+
+            // atribut Point posisi; // di dalam rumah
+            // atribut Rumah rumah;
+            // atribut Rumah posisiRumah;
+            // atribut Ruangan posisiRuangan;
+            // atribut int timerBelumTidur;
+
+            // atribut int timerBelumBAB;
+            // atribut boolean perluBAB;
+            // atribut int jatahWaktuBerkunjung;
+            // atribut int timerWaktuKunjung;
+            // atribut boolean isBerkunjung;
+            // atribut ArrayList<Item> barangdibeli;
+            // atribut ArrayList<Integer> timerbarangdibeli;
+            simListJSON.put("Sim", simJSON);
+        }
+        worldJSON.put("listofsim", simListJSON);
+
+        // atribut ActiveSim (World)
+
+        daftarObjek.add(worldJSON);
 
         try (FileWriter file = new FileWriter(namaFile + ".json")) {
             file.write(daftarObjek.toJSONString());
