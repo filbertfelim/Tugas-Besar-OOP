@@ -69,6 +69,7 @@ public class Main {
             System.out.print("Nama sim : ");
             String namasim = scan.nextLine();
             World world = new World(namasim);
+            worldsCreatedList.add(world);
             // World.addSim(scan);
             // World.getActiveSim().getInventory().addItem(new BahanMakanan("nasi"));
             // World.getActiveSim().getInventory().addItem(new BahanMakanan("nasi"));
@@ -213,7 +214,7 @@ public class Main {
                     break;
                 case "13": // Action
                     delay(2000);
-                    
+
                     System.out.println("Tekan enter untuk lanjut");
                     System.out.println(">> ");
                     enter = scan.nextLine();
@@ -328,12 +329,23 @@ public class Main {
             // atribut Rumah posisiRumah;
             // atribut Ruangan posisiRuangan;
             // atribut int timerBelumTidur;
+            simJSON.put("timerbelumtidur", sim.getTimerBelumTidur());
 
             // atribut int timerBelumBAB;
+            simJSON.put("timerbelumbab", sim.getTimerBelumBab());
+
             // atribut boolean perluBAB;
+            simJSON.put("perlubab", sim.getPerluBab());
+
             // atribut int jatahWaktuBerkunjung;
+            simJSON.put("jatahwaktuberkunjung", sim.getJatahWaktuBerkunjung());
+
             // atribut int timerWaktuKunjung;
+            simJSON.put("timerwaktukunjung", sim.getTimerWaktuKunjung());
+
             // atribut boolean isBerkunjung;
+            simJSON.put("isberkunjung", sim.getIsBerkunjung());
+
             // atribut ArrayList<Item> barangdibeli;
             // atribut ArrayList<Integer> timerbarangdibeli;
             simListJSON.put("Sim", simJSON);
