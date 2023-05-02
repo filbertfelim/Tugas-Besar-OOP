@@ -306,11 +306,22 @@ public class Main {
             simJSON.put("nama", sim.getNama());
 
             // atribut Pekerjaan pekerjaan;
+            JSONObject pekerjaanJSON = new JSONObject();
+            pekerjaanJSON.put("nama", sim.getPekerjaan().getNama());
+            pekerjaanJSON.put("gaji", sim.getPekerjaan().getGaji());
+            pekerjaanJSON.put("lamabekerja", sim.getPekerjaan().getLamaBekerja());
+            pekerjaanJSON.put("changeworkathari", sim.getPekerjaan().getChangeWorkAtHari());
+            simJSON.put("pekerjaan", pekerjaanJSON);
 
             // atribut int uang;
             simJSON.put("uang", sim.getUang());
 
             // atribut Inventory<Item> inventory;
+            JSONObject inventoryJSON = new JSONObject();
+            for (String namaItem : sim.getInventory().getDetails().keySet()) {
+                inventoryJSON.put(namaItem, sim.getInventory().getDetails().get(namaItem));
+            }
+            simJSON.put("inventory", inventoryJSON);
 
             // atribut int kekenyangan;
             simJSON.put("kekenyangan", sim.getKekenyangan());
@@ -325,9 +336,18 @@ public class Main {
             simJSON.put("status", sim.getStatus());
 
             // atribut Point posisi; // di dalam rumah
+            simJSON.put("posisiX", sim.getPosisi().getX());
+            simJSON.put("posisiY", sim.getPosisi().getY());
+
             // atribut Rumah rumah;
+            simJSON.put("rumah", sim.getRumah().getNama());
+
             // atribut Rumah posisiRumah;
+            simJSON.put("posisirumah", sim.getPosisiRumah().getNama());
+
             // atribut Ruangan posisiRuangan;
+            simJSON.put("posisiruangan", sim.getPosisiRuangan().getNamaRuangan());
+
             // atribut int timerBelumTidur;
             simJSON.put("timerbelumtidur", sim.getTimerBelumTidur());
 
@@ -347,16 +367,29 @@ public class Main {
             simJSON.put("isberkunjung", sim.getIsBerkunjung());
 
             // atribut ArrayList<Item> barangdibeli;
+            JSONObject barangdibeliJSON = new JSONObject();
+            for (Item item : sim.getBarangDiBeli()) {
+                barangdibeliJSON.put("namaitem", item.getNamaItem());
+            }
+            simJSON.put("barangdibeli", barangdibeliJSON);
+
             // atribut ArrayList<Integer> timerbarangdibeli;
+            JSONObject timerbarangdibeliJSON = new JSONObject();
+            for (Integer time : sim.getTimerBarangDibeli()) {
+                timerbarangdibeliJSON.put("timer", time);
+            }
+            simJSON.put("barangdibeli", barangdibeliJSON);
+
             simListJSON.put("Sim", simJSON);
         }
         worldJSON.put("listofsim", simListJSON);
 
         // atribut ActiveSim (World)
+        worldJSON.put("activesim", world.getActiveSim().getNama());
 
         daftarObjek.add(worldJSON);
 
-        try (FileWriter file = new FileWriter(namaFile + ".json")) {
+        try (FileWriter file = new FileWriter("savefile/" + namaFile + ".json")) {
             file.write(daftarObjek.toJSONString());
             file.flush();
         } catch (IOException e) {
@@ -367,7 +400,7 @@ public class Main {
     private static void load(String namaFile) {
         JSONParser jsonP = new JSONParser();
 
-        try (FileReader reader = new FileReader(namaFile + ".json")) {
+        try (FileReader reader = new FileReader("savefile/" + namaFile + ".json")) {
             // Read JSON File
             Object obj = jsonP.parse(reader);
             JSONArray objList = (JSONArray) obj;
