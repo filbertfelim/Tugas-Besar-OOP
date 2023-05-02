@@ -70,16 +70,16 @@ public class NonMakanan extends Item implements Buyable {
             lebar = 1;
             harga = 100;
             kodeJenisBarang = 10;
-        } else if ((namaItem.toLowerCase()).equals("treadmill")) {
-            panjang = 2;
+        } else if ((namaItem.toLowerCase()).equals("radio")) {
+            panjang = 1;
             lebar = 1;
-            harga = 200;
+            harga = 100;
             kodeJenisBarang = 11;
         } else if ((namaItem.toLowerCase()).equals("piano")) {
             panjang = 2;
             lebar = 1;
             harga = 200;
-            kodeJenisBarang = 11;
+            kodeJenisBarang = 12;
         } else {
             System.out.println("Input tidak ada di daftar item nonmakanan!");
         }
