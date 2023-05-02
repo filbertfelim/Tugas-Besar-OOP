@@ -1,4 +1,7 @@
 import java.util.Scanner;
+
+import javax.lang.model.util.ElementScanner14;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Random;
@@ -1278,6 +1281,7 @@ public class Sim {
             int y_Baru = scan.nextInt();
 
             NonMakanan barang = new NonMakanan(namaBarang);
+            barang.setTitikAwal(new Point(x_Current, y_Current));
             boolean berhasil = posisiRuangan.memindahBarang(barang, x_Current, y_Current, x_Baru, y_Baru);
             if (berhasil) {
                 System.out.println(barang.getNamaItem() + " berhasil dipindah");
@@ -1290,14 +1294,16 @@ public class Sim {
 
     // memasang barang
     public void memasangbarang() {
-        if (rumah.equals(posisiRumah)) {
+        if (rumah.getNama().equals(posisiRumah.getNama())) {
             // Pilih barang di inventory
             seeinventory();
             System.out.println("Pilih barang yang ingin dipasang");
             Scanner scan = new Scanner(System.in);
             String namaBarang = scan.nextLine().toLowerCase();
+            int idx = 0;
 
             for (String nama : inventory.getDetails().keySet()) {
+                idx++;
                 if (namaBarang.equals(nama.toLowerCase())) {
 
                     NonMakanan barang = new NonMakanan(namaBarang);
@@ -1346,8 +1352,6 @@ public class Sim {
                                             inventory.removeItem(barang);
                                             System.out.println(barang.getNamaItem() + " berhasil dipasang");
                                             selesai = true;
-                                        } else {
-                                            System.out.println("Area tidak kosong, Pilih titik lain!");
                                         }
                                     } catch (InputMismatchException e) {
                                         System.out.println("Pilih koordinat yang valid! (0-5)");
@@ -1368,9 +1372,14 @@ public class Sim {
                             System.out.println("Input invalid (masukan pilihan angka yang tersedia)");
                         }
                     }
-
-                } else {
+                    break;
+                } else if (idx == inventory.getJumlah()){
                     System.out.println("Anda tidak memiliki barang tersebut");
+                    break;
+                }
+                else
+                {
+                    continue;
                 }
             }
 
