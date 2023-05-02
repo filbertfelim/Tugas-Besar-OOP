@@ -280,21 +280,21 @@ public class Sim {
     public int getHargaBarang(int idx) {
         if (idx == 1 || idx == 4 || idx == 7) {
             return 50;
-        } else if (idx == 2 || idx == 5) {
+        } else if (idx == 2 || idx == 5 || idx == 10) {
             return 100;
         } else if (idx == 3) {
             return 150;
-        } else if (idx == 6) {
+        } else if (idx == 6 || idx == 9 || idx == 11 || idx == 12) {
             return 200;
         } else if (idx == 8 || idx == 11) {
             return 10;
-        } else if (idx == 9) {
+        } else if (idx == 13) {
             return 5;
-        } else if (idx == 10 || idx == 13 || idx == 14) {
+        } else if (idx == 14 || idx == 17 || idx == 18) {
             return 3;
-        } else if (idx == 12) {
+        } else if (idx == 16) {
             return 12;
-        } else if (idx == 15 || idx == 16) {
+        } else if (idx == 19 || idx == 20) {
             return 2;
         } else {
             return 0;
