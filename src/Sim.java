@@ -135,6 +135,30 @@ public class Sim {
         this.posisiRuangan = posisiRuangan;
     }
 
+    public int getTimerBelumTidur() {
+        return timerBelumTidur;
+    }
+
+    public int getTimerBelumBab() {
+        return timerBelumBAB;
+    }
+
+    public boolean getPerluBab() {
+        return perluBAB;
+    }
+
+    public int getJatahWaktuBerkunjung() {
+        return jatahWaktuBerkunjung;
+    }
+
+    public int getTimerWaktuKunjung() {
+        return timerWaktuKunjung;
+    }
+
+    public boolean getIsBerkunjung() {
+        return isBerkunjung;
+    }
+
     public void getCurrentLocation() {
         System.out.println("Sim ini berada di rumah: " + getPosisiRumah().getNama() + " yang berposisi di "
                 + getPosisiRumah().getLokasi().toString());
