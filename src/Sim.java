@@ -220,7 +220,7 @@ public class Sim {
         System.out.printf("%-2s %-20s %-10s %10s\n", 8, "Jam", 10, "1 x 1");
         System.out.printf("%-2s %-20s %-10s %10s\n", 9, "Play Station", 200, "2 x 1");
         System.out.printf("%-2s %-20s %-10s %10s\n", 10, "Lemari Buku", 100, "1 x 1");
-        System.out.printf("%-2s %-20s %-10s %10s\n", 11, "Treadmill", 200, "2 x 1");
+        System.out.printf("%-2s %-20s %-10s %10s\n", 11, "Radio", 100, "1 x 1");
         System.out.printf("%-2s %-20s %-10s %10s\n", 12, "Piano", 200, "2 x 1");
         System.out.printf("\n%-2s %-20s %-10s %10s\n", "No", "Bahan Makanan", "Harga", "Kekenyangan");
         System.out.printf("%-2s %-20s %-10s %10s\n", 13, "Nasi", 5, 5);
@@ -255,7 +255,7 @@ public class Sim {
         } else if (idx == 10) {
             return new NonMakanan("lemari buku");
         } else if (idx == 11) {
-            return new NonMakanan("treadmill");
+            return new NonMakanan("radio");
         } else if (idx == 12) {
             return new NonMakanan("piano");
         } else if (idx == 13) {
@@ -280,11 +280,11 @@ public class Sim {
     public int getHargaBarang(int idx) {
         if (idx == 1 || idx == 4 || idx == 7) {
             return 50;
-        } else if (idx == 2 || idx == 5 || idx == 10) {
+        } else if (idx == 2 || idx == 5 || idx == 10 || idx == 11) {
             return 100;
         } else if (idx == 3) {
             return 150;
-        } else if (idx == 6 || idx == 9 || idx == 11 || idx == 12) {
+        } else if (idx == 6 || idx == 9 || idx == 12) {
             return 200;
         } else if (idx == 8 || idx == 11) {
             return 10;
@@ -741,6 +741,59 @@ public class Sim {
             }
         });
         System.out.println("Sedang bermain piano...");
+        thread.start();
+    }
+
+    // main piano
+    public void dengarmusik(Scanner scan) {
+        boolean isValid = false;
+        int duration = 1;
+        while (!isValid) {
+            try {
+                System.out.print("Durasi ( detik kelipatan 10 ) : ");
+                duration = scan.nextInt();
+                isValid = true;
+            } catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka!");
+                scan.nextLine();
+            }
+        }
+        while (duration % 10 != 0) {
+            System.out.println("Input invalid ( harus kelipatan 10 ), silahkan diulangi!");
+            isValid = false;
+            while (!isValid) {
+                try {
+                    System.out.print("Durasi ( detik kelipatan 10 ) : ");
+                    duration = scan.nextInt();
+                    isValid = true;
+                } catch (Exception e) {
+                    System.out.println("Input invalid, silahkan input angka!");
+                    scan.nextLine();
+                }
+            }
+        }
+        int finalduration = duration;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(finalduration * 1000);
+                    System.out.println("Mendengarkan musik selesai!");
+                    kekenyangan = kekenyangan - (5 * (finalduration / 10));
+                    mood = mood + (5 * (finalduration / 10));
+                    World.addWaktu(finalduration);
+                    World.checkAllSimTimer(finalduration, scan);
+                    checkKondisiSim();
+                    if (isDead()) {
+                        World.removeActiveSim();
+                        World.changeSim(scan);
+                    }
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
+        });
+        System.out.println("Sedang mendengarkan musik...");
         thread.start();
     }
 
@@ -1958,14 +2011,14 @@ public class Sim {
                 } else if (choiceaksi == 1) {
                     bacabuku(scan);
                 }
-            } else if (accessed.getNamaItem().equals("treadmill")) {
+            } else if (accessed.getNamaItem().equals("radio")) {
                 int choiceaksi = 1;
                 isValid = false;
                 while (!isValid) {
                     try {
                         System.out.println("Input tidak valid!");
                         System.out.println("Aksi yang bisa dilakukan : ");
-                        System.out.println("1. Olahraga");
+                        System.out.println("1. Mendengarkan musik");
                         System.out.println("0. Batal");
                         System.out.print("Pilihan : ");
                         choiceaksi = scan.nextInt();
@@ -1982,7 +2035,7 @@ public class Sim {
                         try {
                             System.out.println("Input tidak valid!");
                             System.out.println("Aksi yang bisa dilakukan : ");
-                            System.out.println("1. Olahraga");
+                            System.out.println("1. Mendengarkan musik");
                             System.out.println("0. Batal");
                             System.out.print("Pilihan : ");
                             choiceaksi = scan.nextInt();
@@ -1996,7 +2049,7 @@ public class Sim {
                 if (choiceaksi == 0) {
                     System.out.println("Aksi tidak dilakukan!");
                 } else if (choiceaksi == 1) {
-                    olahraga(scan);
+                    dengarmusik(scan);
                 }
             } else if (accessed.getNamaItem().equals("piano")) {
                 int choiceaksi = 1;
