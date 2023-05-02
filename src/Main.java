@@ -238,8 +238,11 @@ public class Main {
         // atribut harike (World)
         worldJSON.put("harike", world.gethariKe());
 
+        // jumlah rumah
+        worldJSON.put("jumlahrumah", world.getListofRumah().size());
         // atribut listofRumah (World)
         JSONObject rumahJSON = new JSONObject();
+        int rumahKe = 1;
         for (Rumah rumah : world.getListofRumah()) {
             // objek Rumah
             JSONObject rumahSim = new JSONObject();
@@ -250,6 +253,8 @@ public class Main {
             rumahSim.put("lokasiX", rumah.getLokasi().getX());
             rumahSim.put("lokasiY", rumah.getLokasi().getY());
 
+            // jumlah ruangan
+            rumahSim.put("jumlahruangan", rumah.getListofRuangan().size());
             // atribut listofruangan (Rumah)
             JSONObject ruanganJSON = new JSONObject();
             for (Ruangan ruangan : rumah.getListofRuangan()) {
@@ -288,14 +293,18 @@ public class Main {
                 }
                 ruanganRumahSim.put("listofobjek", objekRuanganJSON);
 
-                ruanganJSON.put("Ruangan", ruanganRumahSim);
+                ruanganJSON.put("Ruangan " + ruangan.getRuanganKe(), ruanganRumahSim);
             }
             rumahSim.put("listofruangan", ruanganJSON);
 
-            rumahJSON.put("Rumah", rumahSim);
+            rumahJSON.put("Rumah " + rumahKe, rumahSim);
+            rumahKe++;
         }
         worldJSON.put("listofrumah", rumahJSON);
 
+        // jumlah sim
+        worldJSON.put("jumlahsim", world.getListofSim().size());
+        int simKe = 1;
         // atribut listofsim (World)
         JSONObject simListJSON = new JSONObject();
         for (Sim sim : world.getListofSim()) {
@@ -380,7 +389,8 @@ public class Main {
             }
             simJSON.put("barangdibeli", barangdibeliJSON);
 
-            simListJSON.put("Sim", simJSON);
+            simListJSON.put("Sim " + simKe, simJSON);
+            simKe++;
         }
         worldJSON.put("listofsim", simListJSON);
 
