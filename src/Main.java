@@ -41,7 +41,7 @@ public class Main {
                         isGameLoading = true;
                         newGame = false;
                         String loadFile = scan.nextLine().toLowerCase();
-                        // load(loadFile);
+                        load(loadFile);
                         System.out.println("Enjoy playing!");
                         delay(2000);
                     } else if (startingGame.equals("n")) {
@@ -213,7 +213,7 @@ public class Main {
                     break;
                 case "13": // Action
                     delay(2000);
-
+                    
                     System.out.println("Tekan enter untuk lanjut");
                     System.out.println(">> ");
                     enter = scan.nextLine();

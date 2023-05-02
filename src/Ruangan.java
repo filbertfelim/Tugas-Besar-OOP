@@ -71,7 +71,7 @@ public class Ruangan {
 
         boolean kosong = true;
         for (int i = y; i < y + p; i++) {
-            for (int j = x; j <= x + l; j++) {
+            for (int j = x; j < x + l; j++) {
                 if (matrixRuangan[i][j] != 0) { // cek koordinat tersedia atau tidak
                     kosong = false;
                 }
@@ -80,7 +80,7 @@ public class Ruangan {
 
         if (kosong) {
             for (int i = y; i < y + p; i++) {
-                for (int j = x; j <= x + l; j++) {
+                for (int j = x; j < x + l; j++) {
                     matrixRuangan[i][j] = barang.getKodeJenisBarang();
                 }
             }
@@ -107,7 +107,7 @@ public class Ruangan {
         if (ada) {
             // menghapus letak awal barang
             for (int i = barang.getTitikAwal().getY(); i < barang.getTitikAwal().getY() + p; i++) {
-                for (int j = barang.getTitikAwal().getX(); j <= barang.getTitikAwal().getX() + l; j++) {
+                for (int j = barang.getTitikAwal().getX(); j < barang.getTitikAwal().getX() + l; j++) {
                     matrixRuangan[i][j] = 0;
                 }
             }
