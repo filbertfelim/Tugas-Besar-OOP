@@ -428,6 +428,9 @@ public class Main {
             // Iterate over emp array
             objList.forEach(object -> parseSim((JSONObject) object));
             objList.forEach(object -> parseWorld((JSONObject) object));
+
+            JSONObject world = (JSONObject) objList.get(0);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
