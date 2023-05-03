@@ -242,7 +242,6 @@ public class World {
             sim.addTimerBeliBarang(duration);
             sim.checkkirimBarang();
             if (sim.isDead()) {
-
                 if (sim.getNama().equals(getActiveSim().getNama())) {
                     World.removeActiveSim();
                     World.changeSim(scan);

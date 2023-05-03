@@ -158,15 +158,12 @@ public class Main {
                     break;
                 case "8": // Edit Room
                     System.out.println("Pilih salah satu opsi berikut:");
-                    System.out.println("1. Pembelian barang");
-                    System.out.println("2. Meletakkan barang dari inventory");
-                    System.out.println("3. Memindahkan barang yang sudah ada di ruangan");
+                    System.out.println("1. Meletakkan barang dari inventory");
+                    System.out.println("2. Memindahkan barang yang sudah ada di ruangan");
                     int pilihan = scan.nextInt();
                     if (pilihan == 1) {
-                        World.getActiveSim().belibarang(scan);
-                    } else if (pilihan == 2) {
                         World.getActiveSim().memasangbarang();
-                    } else if (pilihan == 3) {
+                    } else if (pilihan == 2) {
                         World.getActiveSim().memindahBarang();
                     }
                     delay(2000);
@@ -214,6 +211,13 @@ public class Main {
                     System.out.println(">> ");
                     enter = scan.nextLine();
                     break;
+                case "14": // Buy Item
+                World.getActiveSim().belibarang(scan);
+                delay(2000);
+                System.out.println("Tekan enter untuk lanjut");
+                System.out.println(">> ");
+                enter = scan.nextLine();
+                break;
             }
 
         }
@@ -374,25 +378,11 @@ public class Main {
             // atribut boolean isBerkunjung;
             simJSON.put("isberkunjung", sim.getIsBerkunjung());
 
-            // jumlah barangdibeli
-            simJSON.put("jumlahbarangdibeli", sim.getBarangDiBeli().size());
-            int barangdibeliKe = 1;
-            // atribut ArrayList<Item> barangdibeli;
-            JSONObject barangdibeliJSON = new JSONObject();
-            for (Item item : sim.getBarangDiBeli()) {
-                barangdibeliJSON.put("namaitem " + barangdibeliKe, item.getNamaItem());
-                barangdibeliKe++;
-            }
-            simJSON.put("barangdibeli", barangdibeliJSON);
+            // atribut Item barangdibeli;
+            simJSON.put("barangdibeli", sim.getBarangDiBeli().getNamaItem());
 
-            barangdibeliKe = 1;
-            // atribut ArrayList<Integer> timerbarangdibeli;
-            JSONObject timerbarangdibeliJSON = new JSONObject();
-            for (Integer time : sim.getTimerBarangDibeli()) {
-                timerbarangdibeliJSON.put("timer " + barangdibeliKe, time);
-                barangdibeliKe++;
-            }
-            simJSON.put("barangdibeli", barangdibeliJSON);
+            // atribut int timerbarangdibeli;
+            simJSON.put("timerbarangdibeli", sim.getTimerBarangDibeli());
 
             simListJSON.put("Sim " + simKe, simJSON);
             simKe++;
@@ -510,6 +500,7 @@ public class Main {
         System.out.println("11. List Object");
         System.out.println("12. Go To Object");
         System.out.println("13. Action");
+        System.out.println("14. Buy Item");
 
     }
 
