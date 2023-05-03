@@ -124,7 +124,6 @@ public class Main {
                 case "3": // View Sim Info
                     World.getActiveSim().getInfo();
                     delay(2000);
-
                     System.out.println("Tekan enter untuk lanjut");
                     System.out.println(">> ");
                     enter = scan.nextLine();
@@ -132,7 +131,6 @@ public class Main {
                 case "4": // View Current Location
                     World.getActiveSim().getCurrentLocation();
                     delay(2000);
-
                     System.out.println("Tekan enter untuk lanjut");
                     System.out.println(">> ");
                     enter = scan.nextLine();
@@ -140,7 +138,6 @@ public class Main {
                 case "5": // View Inventory
                     World.getActiveSim().getInventory().printInventory();
                     delay(2000);
-
                     System.out.println("Tekan enter untuk lanjut");
                     System.out.println(">> ");
                     enter = scan.nextLine();
@@ -148,7 +145,6 @@ public class Main {
                 case "6": // Upgrade House
                     World.getActiveSim().upgraderumah(scan);
                     delay(2000);
-
                     System.out.println("Tekan enter untuk lanjut");
                     System.out.println(">> ");
                     enter = scan.nextLine();
@@ -156,7 +152,6 @@ public class Main {
                 case "7": // Move Room
                     World.getActiveSim().pindahruangan(scan);
                     delay(2000);
-
                     System.out.println("Tekan enter untuk lanjut");
                     System.out.println(">> ");
                     enter = scan.nextLine();
