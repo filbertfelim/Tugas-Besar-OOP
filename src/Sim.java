@@ -279,8 +279,7 @@ public class Sim {
         System.out.printf("%-2s %-20s %-10s %10s\n", 20, "Susu", 2, 1);
     }
 
-    public void printMasakan()
-    {
+    public void printMasakan() {
         System.out.printf("%-2s %-10s %-40s %10s\n", "No", "Masakan", "Bahan", "Kekenyangan");
         System.out.printf("%-2s %-10s %-40s %10s\n", 1, "Nasi Ayam", "Nasi + Ayam", 16);
         System.out.printf("%-2s %-10s %-40s %10s\n", 2, "Nasi Kari", "Nasi + Kentang + Wortel + Sapi", 30);
@@ -364,7 +363,8 @@ public class Sim {
     public void checkkirimBarang() {
         System.out.println(timerbarangdibeli);
         if (timerbarangdibeli <= 0) {
-            System.out.println(barangdibeli.getNamaItem() + " sudah sampai untuk " + nama + ", " + barangdibeli.getNamaItem() + " dimasukkan ke inventory!");     
+            System.out.println(barangdibeli.getNamaItem() + " sudah sampai untuk " + nama + ", "
+                    + barangdibeli.getNamaItem() + " dimasukkan ke inventory!");
         }
         inventory.addItem(barangdibeli);
         barangdibeli = null;
@@ -444,8 +444,7 @@ public class Sim {
             thread.start();
             try {
                 thread.join();
-            }
-            catch (InterruptedException err) {
+            } catch (InterruptedException err) {
             }
         }
     }
@@ -460,6 +459,7 @@ public class Sim {
                 try {
                     Thread.sleep(10 * 1000);
                     System.out.println("Buang air selesai!");
+                    addTimerWaktuKunjung(10);
                     kekenyangan = kekenyangan - 20;
                     mood = mood + 10;
                     World.addWaktu(10);
@@ -480,8 +480,7 @@ public class Sim {
         thread.start();
         try {
             thread.join();
-        }
-        catch (InterruptedException err) {
+        } catch (InterruptedException err) {
         }
     }
 
@@ -520,6 +519,7 @@ public class Sim {
                 try {
                     Thread.sleep(finalduration * 1000);
                     System.out.println("Tidur selesai!");
+                    addTimerWaktuKunjung(finalduration);
                     kesehatan = kesehatan + 30 * (finalduration / 240);
                     mood = mood + 20 * (finalduration / 240);
                     World.addWaktu(finalduration);
@@ -538,8 +538,7 @@ public class Sim {
         thread.start();
         try {
             thread.join();
-        }
-        catch (InterruptedException err) {
+        } catch (InterruptedException err) {
         }
     }
 
@@ -578,6 +577,8 @@ public class Sim {
                 public void run() {
                     try {
                         Thread.sleep(finalduration * 1000);
+                        System.out.println("Kerja selesai!");
+                        addTimerWaktuKunjung(finalduration);
                         pekerjaan.addLamaBekerja(finalduration);
                         setKekenyangan(getKekenyangan() - (10 * finalduration / 30));
                         setMood(getMood() - (10 * finalduration / 30));
@@ -594,11 +595,11 @@ public class Sim {
                     }
                 }
             });
+            System.out.println("Sedang bekerja...");
             thread.start();
             try {
                 thread.join();
-            }
-            catch (InterruptedException err) {
+            } catch (InterruptedException err) {
             }
         } else {
             System.out.println("Belum bisa bekerja dengan pekerjaan baru!");
@@ -640,6 +641,7 @@ public class Sim {
                 try {
                     Thread.sleep(finalduration * 1000);
                     System.out.println("Mandi selesai!");
+                    addTimerWaktuKunjung(finalduration);
                     kesehatan = kesehatan + (5 * (finalduration / 10));
                     kekenyangan = kekenyangan - (5 * (finalduration / 10));
                     mood = mood + (5 * (finalduration / 10));
@@ -660,8 +662,7 @@ public class Sim {
         thread.start();
         try {
             thread.join();
-        }
-        catch (InterruptedException err) {
+        } catch (InterruptedException err) {
         }
     }
 
@@ -700,6 +701,7 @@ public class Sim {
                 try {
                     Thread.sleep(finalduration * 1000);
                     System.out.println("Main game selesai!");
+                    addTimerWaktuKunjung(finalduration);
                     kekenyangan = kekenyangan - (5 * (finalduration / 10));
                     mood = mood + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
@@ -718,8 +720,7 @@ public class Sim {
         thread.start();
         try {
             thread.join();
-        }
-        catch (InterruptedException err) {
+        } catch (InterruptedException err) {
         }
     }
 
@@ -758,6 +759,7 @@ public class Sim {
                 try {
                     Thread.sleep(finalduration * 1000);
                     System.out.println("Baca buku selesai!");
+                    addTimerWaktuKunjung(finalduration);
                     kekenyangan = kekenyangan - (5 * (finalduration / 10));
                     mood = mood + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
@@ -776,8 +778,7 @@ public class Sim {
         thread.start();
         try {
             thread.join();
-        }
-        catch (InterruptedException err) {
+        } catch (InterruptedException err) {
         }
     }
 
@@ -816,6 +817,7 @@ public class Sim {
                 try {
                     Thread.sleep(finalduration * 1000);
                     System.out.println("Bermain piano selesai!");
+                    addTimerWaktuKunjung(finalduration);
                     kekenyangan = kekenyangan - (5 * (finalduration / 10));
                     mood = mood + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
@@ -834,8 +836,7 @@ public class Sim {
         thread.start();
         try {
             thread.join();
-        }
-        catch (InterruptedException err) {
+        } catch (InterruptedException err) {
         }
     }
 
@@ -874,6 +875,7 @@ public class Sim {
                 try {
                     Thread.sleep(finalduration * 1000);
                     System.out.println("Mendengarkan musik selesai!");
+                    addTimerWaktuKunjung(finalduration);
                     kekenyangan = kekenyangan - (5 * (finalduration / 10));
                     mood = mood + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
@@ -892,8 +894,7 @@ public class Sim {
         thread.start();
         try {
             thread.join();
-        }
-        catch (InterruptedException err) {
+        } catch (InterruptedException err) {
         }
     }
 
@@ -932,6 +933,7 @@ public class Sim {
                 try {
                     Thread.sleep(finalduration * 1000);
                     System.out.println("Olahraga selesai!");
+                    addTimerWaktuKunjung(finalduration);
                     kesehatan = kesehatan + (5 * (finalduration / 20));
                     kekenyangan = kekenyangan - (5 * (finalduration / 20));
                     mood = mood + (10 * (finalduration / 20));
@@ -951,8 +953,7 @@ public class Sim {
         thread.start();
         try {
             thread.join();
-        }
-        catch (InterruptedException err) {
+        } catch (InterruptedException err) {
         }
     }
 
@@ -991,6 +992,7 @@ public class Sim {
                 try {
                     Thread.sleep(finalduration * 1000);
                     System.out.println("Joget selesai!");
+                    addTimerWaktuKunjung(finalduration);
                     kesehatan = kesehatan + (5 * (finalduration / 10));
                     kekenyangan = kekenyangan - (5 * (finalduration / 10));
                     mood = mood + (5 * (finalduration / 10));
@@ -1010,8 +1012,7 @@ public class Sim {
         thread.start();
         try {
             thread.join();
-        }
-        catch (InterruptedException err) {
+        } catch (InterruptedException err) {
         }
     }
 
@@ -1060,6 +1061,7 @@ public class Sim {
                 try {
                     Thread.sleep(finalduration * 1000);
                     System.out.println("Nyanyi selesai!");
+                    addTimerWaktuKunjung(finalduration);
                     mood = mood + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
                     World.checkAllSimTimer(finalduration, scan);
@@ -1077,8 +1079,7 @@ public class Sim {
         thread.start();
         try {
             thread.join();
-        }
-        catch (InterruptedException err) {
+        } catch (InterruptedException err) {
         }
     }
 
@@ -1117,6 +1118,7 @@ public class Sim {
                 try {
                     Thread.sleep(finalduration * 1000);
                     System.out.println("Stretching selesai!");
+                    addTimerWaktuKunjung(finalduration);
                     kesehatan = kesehatan + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
                     World.checkAllSimTimer(finalduration, scan);
@@ -1134,8 +1136,7 @@ public class Sim {
         thread.start();
         try {
             thread.join();
-        }
-        catch (InterruptedException err) {
+        } catch (InterruptedException err) {
         }
     }
 
@@ -1174,6 +1175,7 @@ public class Sim {
                 try {
                     Thread.sleep(finalduration * 1000);
                     System.out.println("Cuci WC selesai!");
+                    addTimerWaktuKunjung(finalduration);
                     kekenyangan = kekenyangan - (10 * (finalduration / 30));
                     mood = mood + (10 * (finalduration / 30));
                     World.addWaktu(finalduration);
@@ -1192,8 +1194,7 @@ public class Sim {
         thread.start();
         try {
             thread.join();
-        }
-        catch (InterruptedException err) {
+        } catch (InterruptedException err) {
         }
     }
 
@@ -1232,6 +1233,7 @@ public class Sim {
                 try {
                     Thread.sleep(finalduration * 1000);
                     System.out.println("Cuci piring selesai!");
+                    addTimerWaktuKunjung(finalduration);
                     mood = mood + (10 * (finalduration / 30));
                     World.addWaktu(finalduration);
                     World.checkAllSimTimer(finalduration, scan);
@@ -1249,8 +1251,7 @@ public class Sim {
         thread.start();
         try {
             thread.join();
-        }
-        catch (InterruptedException err) {
+        } catch (InterruptedException err) {
         }
     }
 
@@ -1263,6 +1264,7 @@ public class Sim {
                 try {
                     Thread.sleep(10 * 1000);
                     System.out.println("Muntah selesai!");
+                    addTimerWaktuKunjung(10);
                     kekenyangan = kekenyangan - 20;
                     World.addWaktu(10);
                     World.checkAllSimTimer(10, scan);
@@ -1279,8 +1281,7 @@ public class Sim {
         thread.start();
         try {
             thread.join();
-        }
-        catch (InterruptedException err) {
+        } catch (InterruptedException err) {
         }
     }
 
@@ -1345,6 +1346,7 @@ public class Sim {
                     try {
                         Thread.sleep(30 * 1000);
                         System.out.println("Makan selesai!");
+                        addTimerWaktuKunjung(30);
                         if (dimakan instanceof BahanMakanan) {
                             kekenyangan = kekenyangan + ((BahanMakanan) dimakan).getKekenyangan();
                         } else {
@@ -1363,8 +1365,7 @@ public class Sim {
             thread.start();
             try {
                 thread.join();
-            }
-            catch (InterruptedException err) {
+            } catch (InterruptedException err) {
             }
         }
     }
@@ -1390,13 +1391,10 @@ public class Sim {
         if (idx == 0) {
             System.out.println("Tidak jadi masak!");
         } else {
-            while (idx < 0 || idx > 5 || !canCook ) {
-                if (idx >= 0 && idx <= 5)
-                {
+            while (idx < 0 || idx > 5 || !canCook) {
+                if (idx >= 0 && idx <= 5) {
                     System.out.println("Bahan tidak tersedia! silahkan masak yang lain!");
-                }
-                else
-                {
+                } else {
                     System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
                 }
                 System.out.println("Masakan yang tersedia :\n");
@@ -1416,40 +1414,31 @@ public class Sim {
                 if (idx == 0) {
                     System.out.println("Tidak jadi masak!");
                     canCook = true;
-                }
-                else if (idx == 1)
-                {
+                } else if (idx == 1) {
                     int countbahan = 2;
                     int counter = 0;
-                    for (Item item : inventory.getInventory())
-                    {
-                        if (item.getNamaItem().equals("nasi") || item.getNamaItem().equals("ayam"))
-                        {
+                    for (Item item : inventory.getInventory()) {
+                        if (item.getNamaItem().equals("nasi") || item.getNamaItem().equals("ayam")) {
                             counter++;
                         }
                     }
-                    if (counter == countbahan)
-                    {
+                    if (counter == countbahan) {
                         canCook = true;
                         inventory.removeItem(new BahanMakanan("nasi"));
                         inventory.removeItem(new BahanMakanan("ayam"));
                         inventory.addItem(new Masakan("nasi ayam"));
                         int kekenyangan = 16;
                     }
-                }
-                else if (idx == 2)
-                {
+                } else if (idx == 2) {
                     int countbahan = 4;
                     int counter = 0;
-                    for (Item item : inventory.getInventory())
-                    {
-                        if (item.getNamaItem().equals("nasi") || item.getNamaItem().equals("kentang") || item.getNamaItem().equals("wortel") || item.getNamaItem().equals("sapi"))
-                        {
+                    for (Item item : inventory.getInventory()) {
+                        if (item.getNamaItem().equals("nasi") || item.getNamaItem().equals("kentang")
+                                || item.getNamaItem().equals("wortel") || item.getNamaItem().equals("sapi")) {
                             counter++;
                         }
                     }
-                    if (counter == countbahan)
-                    {
+                    if (counter == countbahan) {
                         canCook = true;
                         inventory.removeItem(new BahanMakanan("nasi"));
                         inventory.removeItem(new BahanMakanan("kentang"));
@@ -1458,60 +1447,45 @@ public class Sim {
                         inventory.addItem(new Masakan("nasi kari"));
                         int kekenyangan = 30;
                     }
-                }
-                else if (idx == 3)
-                {
+                } else if (idx == 3) {
                     int countbahan = 2;
                     int counter = 0;
-                    for (Item item : inventory.getInventory())
-                    {
-                        if (item.getNamaItem().equals("susu") || item.getNamaItem().equals("kacang"))
-                        {
+                    for (Item item : inventory.getInventory()) {
+                        if (item.getNamaItem().equals("susu") || item.getNamaItem().equals("kacang")) {
                             counter++;
                         }
                     }
-                    if (counter == countbahan)
-                    {
+                    if (counter == countbahan) {
                         canCook = true;
                         inventory.removeItem(new BahanMakanan("susu"));
                         inventory.removeItem(new BahanMakanan("kacang"));
                         inventory.addItem(new Masakan("susu kacang"));
                         int kekenyangan = 5;
                     }
-                }
-                else if (idx == 4)
-                {
+                } else if (idx == 4) {
                     int countbahan = 2;
                     int counter = 0;
-                    for (Item item : inventory.getInventory())
-                    {
-                        if (item.getNamaItem().equals("wortel") || item.getNamaItem().equals("bayam"))
-                        {
+                    for (Item item : inventory.getInventory()) {
+                        if (item.getNamaItem().equals("wortel") || item.getNamaItem().equals("bayam")) {
                             counter++;
                         }
                     }
-                    if (counter == countbahan)
-                    {
+                    if (counter == countbahan) {
                         canCook = true;
                         inventory.removeItem(new BahanMakanan("wortel"));
                         inventory.removeItem(new BahanMakanan("bayam"));
                         inventory.addItem(new Masakan("tumis sayur"));
                         int kekenyangan = 5;
                     }
-                }
-                else if (idx == 5)
-                {
+                } else if (idx == 5) {
                     int countbahan = 2;
                     int counter = 0;
-                    for (Item item : inventory.getInventory())
-                    {
-                        if (item.getNamaItem().equals("kentang") || item.getNamaItem().equals("sapi"))
-                        {
+                    for (Item item : inventory.getInventory()) {
+                        if (item.getNamaItem().equals("kentang") || item.getNamaItem().equals("sapi")) {
                             counter++;
                         }
                     }
-                    if (counter == countbahan)
-                    {
+                    if (counter == countbahan) {
                         canCook = true;
                         inventory.removeItem(new BahanMakanan("kentang"));
                         inventory.removeItem(new BahanMakanan("sapi"));
@@ -1520,12 +1494,13 @@ public class Sim {
                     }
                 }
             }
-            
+
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         Thread.sleep(Math.round(1.5 * kekenyangan * 1000));
+                        addTimerWaktuKunjung((int) Math.round(1.5 * kekenyangan));
                         System.out.println("masak selesai!");
                         mood = mood + 10;
                         World.addWaktu((int) Math.round(1.5 * kekenyangan));
@@ -1539,10 +1514,9 @@ public class Sim {
             thread.start();
             try {
                 thread.join();
+            } catch (InterruptedException err) {
             }
-            catch (InterruptedException err) {
-            }
-        }     
+        }
     }
 
     // berkunjung
@@ -1656,15 +1630,12 @@ public class Sim {
     // berpindah ruangan
     public void pindahruangan(Scanner scan) {
         boolean adaruangan = false;
-        for (int x = 0; x < 3;x++)
-        {
-            if (posisiRuangan.getArrayRuangTerhubung()[x] != 0)
-            {
+        for (int x = 0; x < 3; x++) {
+            if (posisiRuangan.getArrayRuangTerhubung()[x] != 0) {
                 adaruangan = true;
             }
         }
-        if (adaruangan)
-        {
+        if (adaruangan) {
             boolean isValid = false;
             int idx = 1;
             while (!isValid) {
@@ -1752,9 +1723,7 @@ public class Sim {
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             System.out.println("Tidak ada ruangan yang terhubung!\n");
         }
     }
@@ -1794,8 +1763,7 @@ public class Sim {
 
     // beli barang
     public void belibarang(Scanner scan) {
-        if (barangdibeli == null)
-        {
+        if (barangdibeli == null) {
             boolean isValid = false;
             int idx = 1;
             while (!isValid) {
@@ -1844,12 +1812,10 @@ public class Sim {
                 uang = uang - getHargaBarang(idx);
                 System.out.println("Barang berhasil dibeli! Silakan ditunggu untuk pengantarannya!");
             }
-        }
-        else
-        {
+        } else {
             System.out.println("Ada barang lain yang sedang diantar! silahkan ditunggu terlebih dahulu!");
         }
-        
+
     }
 
     // memindah barang
@@ -1936,7 +1902,11 @@ public class Sim {
                                             throw new InputMismatchException();
                                         }
 
-                                        boolean berhasil = posisiRuangan.memasangBarang(barang, x, y); // true kalau area kosong, false kalau ada barang lain
+                                        boolean berhasil = posisiRuangan.memasangBarang(barang, x, y); // true kalau
+                                                                                                       // area kosong,
+                                                                                                       // false kalau
+                                                                                                       // ada barang
+                                                                                                       // lain
                                         if (berhasil) {
                                             inventory.removeItem(barang);
                                             System.out.println(barang.getNamaItem() + " berhasil dipasang");
@@ -1985,18 +1955,16 @@ public class Sim {
         // print waktu sisa untuk beli barang
         if (barangdibeli != null) {
             System.out.println("Sisa waktu pembelian barang :");
-            System.out.printf("%-20s %-30s\n","Barang", "Sisa Waktu Pengiriman");
-                menit = timerbarangdibeli / 60;
-                detik = timerbarangdibeli % 60;
-                System.out.printf("%-20s %-30s\n",barangdibeli.getNamaItem(),
-                        menit + " menit " + detik + " detik");
-            }
+            System.out.printf("%-20s %-30s\n", "Barang", "Sisa Waktu Pengiriman");
+            menit = timerbarangdibeli / 60;
+            detik = timerbarangdibeli % 60;
+            System.out.printf("%-20s %-30s\n", barangdibeli.getNamaItem(),
+                    menit + " menit " + detik + " detik");
+        }
 
         // print waktu sisa untuk upgrade rumah
         // kode.....
-        }
-
-        
+    }
 
     public void gotoObject(Scanner scan) {
         // nanti dilanjutin untuk terima input berupa int x dan pergi ke objek ke-x di
