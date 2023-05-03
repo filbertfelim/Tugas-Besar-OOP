@@ -106,6 +106,19 @@ public class Ruangan {
 
         if (ada) {
             // menghapus letak awal barang
+            int idx = 0;
+            for (NonMakanan item : listofObjek)
+            {
+                if (item.getNamaItem().equals(barang.getNamaItem()))
+                {
+                    listofObjek.remove(idx);
+                    break;
+                }
+                else
+                {
+                    idx++;
+                }
+            }
             for (int i = barang.getTitikAwal().getY(); i < barang.getTitikAwal().getY() + p; i++) {
                 for (int j = barang.getTitikAwal().getX(); j < barang.getTitikAwal().getX() + l; j++) {
                     matrixRuangan[i][j] = 0;
