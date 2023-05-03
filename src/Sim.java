@@ -1,4 +1,7 @@
 import java.util.Scanner;
+
+import javax.lang.model.util.ElementScanner14;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Random;
@@ -1606,8 +1609,10 @@ public class Sim {
             System.out.println("Pilih barang yang ingin dipasang");
             Scanner scan = new Scanner(System.in);
             String namaBarang = scan.nextLine().toLowerCase();
+            int idx = 0;
 
             for (String nama : inventory.getDetails().keySet()) {
+                idx++;
                 if (namaBarang.equals(nama.toLowerCase())) {
 
                     NonMakanan barang = new NonMakanan(namaBarang);
@@ -1656,8 +1661,6 @@ public class Sim {
                                             inventory.removeItem(barang);
                                             System.out.println(barang.getNamaItem() + " berhasil dipasang");
                                             selesai = true;
-                                        } else {
-                                            System.out.println("Area tidak kosong, Pilih titik lain!");
                                         }
                                     } catch (InputMismatchException e) {
                                         System.out.println("Pilih koordinat yang valid! (0-5)");
@@ -1678,9 +1681,15 @@ public class Sim {
                             System.out.println("Input invalid (masukan pilihan angka yang tersedia)");
                         }
                     }
-
-                } else {
+                    break;
+                } 
+                else if (idx == inventory.getJumlah())
+                {
                     System.out.println("Anda tidak memiliki barang tersebut");
+                }
+                else
+                {
+                    continue;
                 }
             }
 
