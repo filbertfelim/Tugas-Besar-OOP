@@ -205,6 +205,104 @@ public class Main {
                     enter = scan.nextLine();
                     break;
                 case "13": // Action
+                    boolean isValid = false;
+                    int idx = 1;
+                    while (!isValid) {
+                        try {
+                            System.out.println("Aksi yang dapat dilakukan: ");
+                            System.out.println("1. Kerja");
+                            System.out.println("2. Olahraga");
+                            System.out.println("3. Berkunjung");
+                            System.out.println("0  Batal");
+                            System.out.print("Pilihan : ");
+                            idx = scan.nextInt();
+                            isValid = true;
+                        } catch (Exception e) {
+                            System.out.println("Input invalid, silahkan input angka!");
+                            scan.nextLine();
+                        }
+                    }
+                    while (idx < 0 || idx > 3) {
+                        System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
+                        isValid = false;
+                        while (!isValid) {
+                            try {
+                                System.out.println("Aksi yang dapat dilakukan: ");
+                                System.out.println("1. Kerja");
+                                System.out.println("2. Olahraga");
+                                System.out.println("3. Berkunjung");
+                                System.out.println("0  Batal");
+                                System.out.print("Pilihan : ");
+                                idx = scan.nextInt();
+                                isValid = true;
+                            } catch (Exception e) {
+                                System.out.println("Input invalid, silahkan input angka!");
+                                scan.nextLine();
+                            }
+                        }
+                    }
+                    if (idx == 0) {
+                        System.out.println("Berhasil dibatalkan!");
+                    } else if (idx == 1) {
+                        World.getActiveSim().doKerja(scan);
+                    } else if (idx == 2) {
+                        World.getActiveSim().olahraga(scan);
+                    } else if (idx == 3) {
+                        World.getActiveSim().berkunjung(scan);
+                        while (World.getActiveSim().getTimerWaktuKunjung() <= World.getActiveSim()
+                                .getJatahWaktuBerkunjung()) {
+                            isValid = false;
+                            idx = 1;
+                            while (!isValid) {
+                                try {
+                                    System.out.println("Anda sedang berkunjung di rumah "
+                                            + World.getActiveSim().getPosisiRumah().getNama());
+                                    System.out.println("Aksi yang dapat dilakukan: ");
+                                    System.out.println("1. Kerja");
+                                    System.out.println("2. Olahraga");
+                                    System.out.println("3. Go to object");
+                                    System.out.println("0  Batal");
+                                    System.out.print("Pilihan : ");
+                                    idx = scan.nextInt();
+                                    isValid = true;
+                                } catch (Exception e) {
+                                    System.out.println("Input invalid, silahkan input angka!");
+                                    scan.nextLine();
+                                }
+                            }
+                            while (idx < 0 || idx > 3) {
+                                System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
+                                isValid = false;
+                                while (!isValid) {
+                                    try {
+                                        System.out.println("Anda sedang berkunjung di rumah "
+                                                + World.getActiveSim().getPosisiRumah().getNama());
+                                        System.out.println("Aksi yang dapat dilakukan: ");
+                                        System.out.println("1. Kerja");
+                                        System.out.println("2. Olahraga");
+                                        System.out.println("3. Go to object");
+                                        System.out.println("0  Batal");
+                                        System.out.print("Pilihan : ");
+                                        idx = scan.nextInt();
+                                        isValid = true;
+                                    } catch (Exception e) {
+                                        System.out.println("Input invalid, silahkan input angka!");
+                                        scan.nextLine();
+                                    }
+                                }
+                            }
+                            if (idx == 0) {
+                                System.out.println("Berhasil dibatalkan!");
+                            } else if (idx == 1) {
+                                World.getActiveSim().doKerja(scan);
+                            } else if (idx == 2) {
+                                World.getActiveSim().olahraga(scan);
+                            } else if (idx == 3) {
+                                World.getActiveSim().gotoObject(scan);
+                            }
+                        }
+                        World.getActiveSim().balikdariBerkunjung(scan);
+                    }
                     delay(2000);
 
                     System.out.println("Tekan enter untuk lanjut");
@@ -212,12 +310,12 @@ public class Main {
                     enter = scan.nextLine();
                     break;
                 case "14": // Buy Item
-                World.getActiveSim().belibarang(scan);
-                delay(2000);
-                System.out.println("Tekan enter untuk lanjut");
-                System.out.println(">> ");
-                enter = scan.nextLine();
-                break;
+                    World.getActiveSim().belibarang(scan);
+                    delay(2000);
+                    System.out.println("Tekan enter untuk lanjut");
+                    System.out.println(">> ");
+                    enter = scan.nextLine();
+                    break;
             }
 
         }
