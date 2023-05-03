@@ -53,6 +53,19 @@ public class Sim {
         timerbarangdibeli = new ArrayList<Integer>();
     }
 
+    // untuk fitur load
+    public Sim(String nama, Pekerjaan pekerjaan, int uang, Inventory<Item> inventory, int kekenyangan, int mood,
+            int kesehatan, String status) {
+        this.nama = nama;
+        this.pekerjaan = pekerjaan;
+        this.uang = uang;
+        this.inventory = inventory;
+        this.kekenyangan = kekenyangan;
+        this.mood = mood;
+        this.kesehatan = kesehatan;
+        this.status = status;
+    }
+
     // Method
     public String getNama() {
         return nama;
@@ -1591,7 +1604,7 @@ public class Sim {
             int y_Baru = scan.nextInt();
 
             NonMakanan barang = new NonMakanan(namaBarang);
-            barang.setTitikAwal(new Point(x_Current,y_Current));
+            barang.setTitikAwal(new Point(x_Current, y_Current));
             boolean berhasil = posisiRuangan.memindahBarang(barang, x_Current, y_Current, x_Baru, y_Baru);
             if (berhasil) {
                 System.out.println(barang.getNamaItem() + " berhasil dipindah");
@@ -1683,13 +1696,9 @@ public class Sim {
                         }
                     }
                     break;
-                } 
-                else if (idx == inventory.getJumlah())
-                {
+                } else if (idx == inventory.getJumlah()) {
                     System.out.println("Anda tidak memiliki barang tersebut");
-                }
-                else
-                {
+                } else {
                     continue;
                 }
             }

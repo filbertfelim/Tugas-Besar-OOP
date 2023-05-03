@@ -285,11 +285,15 @@ public class Main {
                 }
                 ruanganRumahSim.put("matrixruangan", matrixRuangan);
 
+                // jumlah objek
+                ruanganRumahSim.put("jumlahobjek", ruangan.getListofObjek().size());
+                int objekKe = 1;
                 // atribut listofobjek (Ruangan)
                 JSONObject objekRuanganJSON = new JSONObject();
                 for (NonMakanan objek : ruangan.getListofObjek()) {
                     // atribut namaItem (NonMakanan)
-                    objekRuanganJSON.put("namaitem", objek.getNamaItem());
+                    objekRuanganJSON.put("namaitem " + objekKe, objek.getNamaItem());
+                    objekKe++;
                 }
                 ruanganRumahSim.put("listofobjek", objekRuanganJSON);
 
@@ -375,17 +379,23 @@ public class Main {
             // atribut boolean isBerkunjung;
             simJSON.put("isberkunjung", sim.getIsBerkunjung());
 
+            // jumlah barangdibeli
+            simJSON.put("jumlahbarangdibeli", sim.getBarangDiBeli().size());
+            int barangdibeliKe = 1;
             // atribut ArrayList<Item> barangdibeli;
             JSONObject barangdibeliJSON = new JSONObject();
             for (Item item : sim.getBarangDiBeli()) {
-                barangdibeliJSON.put("namaitem", item.getNamaItem());
+                barangdibeliJSON.put("namaitem " + barangdibeliKe, item.getNamaItem());
+                barangdibeliKe++;
             }
             simJSON.put("barangdibeli", barangdibeliJSON);
 
+            barangdibeliKe = 1;
             // atribut ArrayList<Integer> timerbarangdibeli;
             JSONObject timerbarangdibeliJSON = new JSONObject();
             for (Integer time : sim.getTimerBarangDibeli()) {
-                timerbarangdibeliJSON.put("timer", time);
+                timerbarangdibeliJSON.put("timer " + barangdibeliKe, time);
+                barangdibeliKe++;
             }
             simJSON.put("barangdibeli", barangdibeliJSON);
 
@@ -418,6 +428,9 @@ public class Main {
             // Iterate over emp array
             objList.forEach(object -> parseSim((JSONObject) object));
             objList.forEach(object -> parseWorld((JSONObject) object));
+
+            JSONObject world = (JSONObject) objList.get(0);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

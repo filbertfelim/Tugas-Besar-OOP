@@ -29,6 +29,17 @@ public class World {
         activeSim.getInventory().addItem(new NonMakanan("jam"));
     }
 
+    // untuk fitur load
+    public World(ArrayList<Rumah> listofRumah, int[][] matrixWorld, ArrayList<Sim> listofSim, int waktu, int harike,
+            Sim activeSim) {
+        this.listofRumah = listofRumah;
+        this.matrixWorld = matrixWorld;
+        this.listofSim = listofSim;
+        this.waktu = waktu;
+        this.harike = harike;
+        this.activeSim = activeSim;
+    }
+
     public static int getPanjang() {
         return panjang;
     }
