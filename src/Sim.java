@@ -1591,6 +1591,7 @@ public class Sim {
             int y_Baru = scan.nextInt();
 
             NonMakanan barang = new NonMakanan(namaBarang);
+            barang.setTitikAwal(new Point(x_Current,y_Current));
             boolean berhasil = posisiRuangan.memindahBarang(barang, x_Current, y_Current, x_Baru, y_Baru);
             if (berhasil) {
                 System.out.println(barang.getNamaItem() + " berhasil dipindah");
