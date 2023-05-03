@@ -9,10 +9,12 @@ public class Ruangan {
     private int[][] matrixRuangan;
     private ArrayList<NonMakanan> listofObjek;
     private int[] ruangTerhubung = new int[4]; // [arah (0 atas, 1 bawah, 2 kanan, 3 kiri)]
+    private Point titikRuang;
 
-    public Ruangan(String nama, int ruanganke) {
+    public Ruangan(String nama, int ruanganke, Point titikRuang) {
         this.nama = nama;
         this.ruanganKe = ruanganke;
+        this.titikRuang = titikRuang;
         matrixRuangan = new int[panjang][lebar];
         listofObjek = new ArrayList<NonMakanan>();
         ruangTerhubung[0] = 0;
@@ -20,7 +22,7 @@ public class Ruangan {
         ruangTerhubung[2] = 0;
         ruangTerhubung[3] = 0;
     }
-
+    
     public void setNamaRuangan(String nama) {
         this.nama = nama;
     }
@@ -36,6 +38,14 @@ public class Ruangan {
     public int getRuanganKe() {
         return ruanganKe;
     }
+    
+    public Point getTitikRuang() {
+        return titikRuang;
+    }
+
+    public void setTitikRuang(Point titikRuang) {
+        this.titikRuang = titikRuang;
+    }
 
     public int[][] getMatrixRuangan() {
         return matrixRuangan;
@@ -43,6 +53,9 @@ public class Ruangan {
 
     public void printListOfObjek() {
         System.out.println("Daftar objek yang ada di ruangan: ");
+        if (listofObjek.size() == 0) {
+            System.out.println("Ruangan Kosong");
+        }
         for (int i = 0; i < listofObjek.size(); i++) {
             System.out.println(String.valueOf(i + 1) + ". " + listofObjek.get(i).getNamaItem() + " dengan kode "
                     + listofObjek.get(i).getKodeJenisBarang());
@@ -73,6 +86,11 @@ public class Ruangan {
         int p = barang.getPanjang();
         int l = barang.getLebar();
 
+        if ((x + p + 1 > panjang) || (y + l + 1 > lebar)) {
+            System.out.println(barang.getNamaItem() + " Tidak bisa diletakkan disitu");
+            return false;
+        }
+        
         boolean kosong = true;
         for (int i = y; i < y + p; i++) {
             for (int j = x; j < x + l; j++) {
