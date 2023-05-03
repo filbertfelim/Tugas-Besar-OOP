@@ -15,6 +15,10 @@ public class Ruangan {
         this.ruanganKe = ruanganke;
         matrixRuangan = new int[panjang][lebar];
         listofObjek = new ArrayList<NonMakanan>();
+        ruangTerhubung[0] = 0;
+        ruangTerhubung[1] = 0;
+        ruangTerhubung[2] = 0;
+        ruangTerhubung[3] = 0;
     }
 
     public void setNamaRuangan(String nama) {
@@ -139,7 +143,7 @@ public class Ruangan {
         return ruangTerhubung[sisi];
     }
 
-    public void setRuangTerhubung(int sisi, int ruanganKe) {
+    public void setRuangTerhubung(int sisi,int ruanganKe) {
         ruangTerhubung[sisi] = ruanganKe;
     }
 
