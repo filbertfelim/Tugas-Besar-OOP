@@ -159,6 +159,14 @@ public class Sim {
         return isBerkunjung;
     }
 
+    public ArrayList<Item> getBarangDiBeli() {
+        return barangdibeli;
+    }
+
+    public ArrayList<Integer> getTimerBarangDibeli() {
+        return timerbarangdibeli;
+    }
+
     public void getCurrentLocation() {
         System.out.println("Sim ini berada di rumah: " + getPosisiRumah().getNama() + " yang berposisi di "
                 + getPosisiRumah().getLokasi().toString());
