@@ -25,8 +25,8 @@ public class Sim {
     private int jatahWaktuBerkunjung;
     private int timerWaktuKunjung;
     private boolean isBerkunjung;
-    private ArrayList<Item> barangdibeli;
-    private ArrayList<Integer> timerbarangdibeli;
+    private Item barangdibeli;
+    private int timerbarangdibeli;
 
     // Konstruktor
     public Sim(String nama, Point alamatRumah) {
@@ -47,8 +47,8 @@ public class Sim {
         perluBAB = false;
         jatahWaktuBerkunjung = 0;
         timerWaktuKunjung = 0;
-        barangdibeli = new ArrayList<Item>();
-        timerbarangdibeli = new ArrayList<Integer>();
+        barangdibeli = null;
+        timerbarangdibeli = -9999;
     }
 
     // untuk fitur load
@@ -173,11 +173,11 @@ public class Sim {
         return isBerkunjung;
     }
 
-    public ArrayList<Item> getBarangDiBeli() {
+    public Item getBarangDiBeli() {
         return barangdibeli;
     }
 
-    public ArrayList<Integer> getTimerBarangDibeli() {
+    public int getTimerBarangDibeli() {
         return timerbarangdibeli;
     }
 
@@ -315,7 +315,7 @@ public class Sim {
         } else if (idx == 12) {
             return new NonMakanan("piano");
         } else if (idx == 13) {
-            return new BahanMakanan("susu");
+            return new BahanMakanan("nasi");
         } else if (idx == 14) {
             return new BahanMakanan("kentang");
         } else if (idx == 15) {
@@ -358,21 +358,17 @@ public class Sim {
     }
 
     public void addTimerBeliBarang(int duration) {
-        for (int time : timerbarangdibeli) {
-            time = time - duration;
-        }
+        timerbarangdibeli -= duration;
     }
 
     public void checkkirimBarang() {
-        for (int i = 0; i < timerbarangdibeli.size(); i++) {
-            if (timerbarangdibeli.get(i) <= 0) {
-                System.out.println(barangdibeli.get(i).getNamaItem() + " sudah sampai untuk " + nama + ", "
-                        + barangdibeli.get(i).getNamaItem() + " dimasukkan ke inventory!");
-                timerbarangdibeli.remove(i);
-                barangdibeli.remove(i);
-                inventory.addItem(barangdibeli.get(i));
-            }
+        System.out.println(timerbarangdibeli);
+        if (timerbarangdibeli <= 0) {
+            System.out.println(barangdibeli.getNamaItem() + " sudah sampai untuk " + nama + ", " + barangdibeli.getNamaItem() + " dimasukkan ke inventory!");     
         }
+        inventory.addItem(barangdibeli);
+        barangdibeli = null;
+        timerbarangdibeli = -9999;
     }
 
     public void addTimerBelumTidur(int duration) {
@@ -424,6 +420,8 @@ public class Sim {
             isBerkunjung = false;
             int waktubalik = rumah.getLokasi().distance(posisiRumah.getLokasi());
             posisiRumah = rumah;
+            posisiRuangan = posisiRumah.getListofRuangan().get(0);
+
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -645,6 +643,7 @@ public class Sim {
                     kesehatan = kesehatan + (5 * (finalduration / 10));
                     kekenyangan = kekenyangan - (5 * (finalduration / 10));
                     mood = mood + (5 * (finalduration / 10));
+                    System.out.println("lama mandi : " + finalduration);
                     World.addWaktu(finalduration);
                     World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
@@ -1650,6 +1649,7 @@ public class Sim {
             jatahWaktuBerkunjung = duration;
             isBerkunjung = true;
             posisiRumah = World.getListofRumah().get(idx - 1);
+            posisiRuangan = posisiRumah.getListofRuangan().get(0);
         }
     }
 
@@ -1794,54 +1794,62 @@ public class Sim {
 
     // beli barang
     public void belibarang(Scanner scan) {
-        boolean isValid = false;
-        int idx = 1;
-        while (!isValid) {
-            try {
-                printBuyableList();
-                System.out.println("0  Batal");
-                System.out.print("Pilihan : ");
-                idx = scan.nextInt();
-                isValid = true;
-            } catch (Exception e) {
-                System.out.println("Input invalid, silahkan input angka!");
-                scan.nextLine();
-            }
-        }
-        if (idx == 0) {
-            System.out.println("Tidak jadi membeli barang!");
-        } else {
-            while (idx < 0 || idx > 20 || uang < getHargaBarang(idx)) {
-                if (uang < getHargaBarang(idx)) {
-                    System.out.println("Uang tidak cukup! Silakan pilih yang lain!");
-                } else {
-                    System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
+        if (barangdibeli == null)
+        {
+            boolean isValid = false;
+            int idx = 1;
+            while (!isValid) {
+                try {
+                    printBuyableList();
+                    System.out.println("0  Batal");
+                    System.out.print("Pilihan : ");
+                    idx = scan.nextInt();
+                    isValid = true;
+                } catch (Exception e) {
+                    System.out.println("Input invalid, silahkan input angka!");
+                    scan.nextLine();
                 }
-                printBuyableList();
-                System.out.println("0  Batal");
-                System.out.print("Pilihan : ");
-                isValid = false;
-                while (!isValid) {
-                    try {
-                        idx = scan.nextInt();
-                        isValid = true;
-                    } catch (Exception e) {
-                        System.out.println("Input invalid, silahkan input angka!");
-                        scan.nextLine();
+            }
+            if (idx == 0) {
+                System.out.println("Tidak jadi membeli barang!");
+            } else {
+                while (idx < 0 || idx > 20 || uang < getHargaBarang(idx)) {
+                    if (uang < getHargaBarang(idx)) {
+                        System.out.println("Uang tidak cukup! Silakan pilih yang lain!");
+                    } else {
+                        System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
+                    }
+                    printBuyableList();
+                    System.out.println("0  Batal");
+                    System.out.print("Pilihan : ");
+                    isValid = false;
+                    while (!isValid) {
+                        try {
+                            idx = scan.nextInt();
+                            isValid = true;
+                        } catch (Exception e) {
+                            System.out.println("Input invalid, silahkan input angka!");
+                            scan.nextLine();
+                        }
+                    }
+                    if (idx == 0) {
+                        System.out.println("Tidak jadi membeli barang!");
                     }
                 }
-                if (idx == 0) {
-                    System.out.println("Tidak jadi membeli barang!");
-                }
+                barangdibeli = getBarang(idx);
+                Random random = new Random();
+                double randomNumber = 0.1 + ((1.5 - 0.1) * random.nextDouble());
+                timerbarangdibeli = (int) (randomNumber * 30);
+                System.out.println("Waktu kirim : " + timerbarangdibeli + " detik");
+                uang = uang - getHargaBarang(idx);
+                System.out.println("Barang berhasil dibeli! Silakan ditunggu untuk pengantarannya!");
             }
-            barangdibeli.add(getBarang(idx));
-            Random random = new Random();
-            double randomNumber = 0.1 + (1.5 - 0.1) * random.nextDouble();
-            int shippingtime = (int) randomNumber * 30;
-            timerbarangdibeli.add(shippingtime);
-            uang = uang - getHargaBarang(idx);
-            System.out.println("Barang berhasil dibeli! Silakan ditunggu untuk pengantarannya!");
         }
+        else
+        {
+            System.out.println("Ada barang lain yang sedang diantar! silahkan ditunggu terlebih dahulu!");
+        }
+        
     }
 
     // memindah barang
@@ -1975,20 +1983,20 @@ public class Sim {
         System.out.println(String.valueOf(menit) + " menit " + String.valueOf(detik) + " detik");
 
         // print waktu sisa untuk beli barang
-        if (barangdibeli.size() > 0) {
+        if (barangdibeli != null) {
             System.out.println("Sisa waktu pembelian barang :");
-            System.out.printf("%-4s %-20s %-30s\n", "No", "Barang", "Sisa Waktu Pengiriman");
-            for (int i = 0; i < barangdibeli.size(); i++) {
-                menit = timerbarangdibeli.get(i) / 60;
-                detik = timerbarangdibeli.get(i) % 60;
-                System.out.printf("%-4s %-20s %-30s\n", i + 1, barangdibeli.get(i).getNamaItem(),
+            System.out.printf("%-20s %-30s\n","Barang", "Sisa Waktu Pengiriman");
+                menit = timerbarangdibeli / 60;
+                detik = timerbarangdibeli % 60;
+                System.out.printf("%-20s %-30s\n",barangdibeli.getNamaItem(),
                         menit + " menit " + detik + " detik");
             }
-        }
 
         // print waktu sisa untuk upgrade rumah
         // kode.....
-    }
+        }
+
+        
 
     public void gotoObject(Scanner scan) {
         // nanti dilanjutin untuk terima input berupa int x dan pergi ke objek ke-x di
