@@ -17,6 +17,14 @@ public class Rumah {
 
     }
 
+    // untuk fitur load
+    public Rumah(String nama, Point lokasi, ArrayList<Ruangan> listofRuangan, int ukuran) {
+        this.nama = nama;
+        this.lokasi = lokasi;
+        this.listofRuangan = listofRuangan;
+        this.matriksRumah = new int[ukuran][ukuran];
+    }
+
     public String getNama() {
         return nama;
     }

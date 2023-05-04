@@ -23,6 +23,16 @@ public class Ruangan {
         ruangTerhubung[3] = 0;
     }
 
+    public Ruangan(String nama, int ruanganKe, int[][] matrixRuangan, ArrayList<NonMakanan> listofObjek,
+            int[] ruangTerhubung, Point titikRuang) {
+        this.nama = nama;
+        this.ruanganKe = ruanganKe;
+        this.matrixRuangan = matrixRuangan;
+        this.listofObjek = listofObjek;
+        this.ruangTerhubung = ruangTerhubung;
+        this.titikRuang = titikRuang;
+    }
+
     public void setNamaRuangan(String nama) {
         this.nama = nama;
     }

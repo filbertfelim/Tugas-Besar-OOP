@@ -15,7 +15,7 @@ public class Sim {
     private int mood;
     private int kesehatan;
     private String status;
-    private Point posisi; // di dalam rumah
+    private Point posisi;
     private Rumah rumah;
     private Rumah posisiRumah;
     private Ruangan posisiRuangan;
@@ -53,7 +53,10 @@ public class Sim {
 
     // untuk fitur load
     public Sim(String nama, Pekerjaan pekerjaan, int uang, Inventory<Item> inventory, int kekenyangan, int mood,
-            int kesehatan, String status) {
+            int kesehatan,
+            String status, Point posisi, Rumah rumah, Rumah posisiRumah, Ruangan posisiRuangan, int timerBelumTidur,
+            int timerBelumBAB, boolean perluBAB, int jatahWaktuBerkunjung, int timerWaktuKunjung, boolean isBerkunjung,
+            Item barangdibeli, int timerbarangdibeli) {
         this.nama = nama;
         this.pekerjaan = pekerjaan;
         this.uang = uang;
@@ -62,6 +65,18 @@ public class Sim {
         this.mood = mood;
         this.kesehatan = kesehatan;
         this.status = status;
+        this.posisi = posisi;
+        this.rumah = rumah;
+        this.posisiRumah = posisiRumah;
+        this.posisiRuangan = posisiRuangan;
+        this.timerBelumTidur = timerBelumTidur;
+        this.timerBelumBAB = timerBelumBAB;
+        this.perluBAB = perluBAB;
+        this.jatahWaktuBerkunjung = jatahWaktuBerkunjung;
+        this.timerWaktuKunjung = timerWaktuKunjung;
+        this.isBerkunjung = isBerkunjung;
+        this.barangdibeli = barangdibeli;
+        this.timerbarangdibeli = timerbarangdibeli;
     }
 
     // Method
