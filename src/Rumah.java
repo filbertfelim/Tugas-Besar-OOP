@@ -33,6 +33,14 @@ public class Rumah {
         this.lokasi = lokasi;
     }
 
+    public int getUkuran() {
+        return ukuran;
+    }
+
+    public int[][] getMatrixRumah() {
+        return matriksRumah;
+    }
+
     public void addRuangan(String namaRuang, Ruangan ruangTerhubung, int sisi) // 0 atas, 1 bawah, 2 kanan, 3 kiri
     {
         if (ruangTerhubung.getRuangTerhubung(sisi) == 0) {

@@ -394,9 +394,25 @@ public class Main {
                 }
                 ruanganRumahSim.put("listofobjek", objekRuanganJSON);
 
+                // atribut titikRuang
+                ruanganRumahSim.put("titikruangX", ruangan.getTitikRuang().getX());
+                ruanganRumahSim.put("titikruangY", ruangan.getTitikRuang().getY());
+
                 ruanganJSON.put("Ruangan " + ruangan.getRuanganKe(), ruanganRumahSim);
             }
             rumahSim.put("listofruangan", ruanganJSON);
+
+            // atribut matrixRumah (Rumah)
+            JSONObject matrixRumah = new JSONObject();
+            for (int x = 0; x < rumah.getUkuran(); x++) {
+                JSONObject isiMatriks = new JSONObject();
+                for (int y = 0; y < rumah.getUkuran(); y++) {
+                    isiMatriks.put(y, rumah.getMatrixRumah()[x][y]);
+                }
+
+                matrixRumah.put(x, isiMatriks);
+            }
+            rumahSim.put("matrixrumah", matrixRumah);
 
             rumahJSON.put("Rumah " + rumahKe, rumahSim);
             rumahKe++;
