@@ -1,4 +1,7 @@
 import java.util.Scanner;
+
+import javax.lang.model.util.ElementScanner14;
+
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.lang.Math;
@@ -44,7 +47,7 @@ public class Sim {
         timerBelumTidur = 0;
         timerBelumBAB = 0;
         perluBAB = false;
-        jatahWaktuBerkunjung = 0;
+        jatahWaktuBerkunjung = 1;
         timerWaktuKunjung = 0;
         barangdibeli = null;
         timerbarangdibeli = -9999;
@@ -425,9 +428,9 @@ public class Sim {
     }
 
     public void balikdariBerkunjung(Scanner scan) {
-        if (timerWaktuKunjung > jatahWaktuBerkunjung) {
+        if (timerWaktuKunjung >= jatahWaktuBerkunjung) {
             System.out.println("Waktu berkunjung " + getNama() + " sudah habis! Saatnya pulang.");
-            jatahWaktuBerkunjung = 0;
+            jatahWaktuBerkunjung = 1;
             mood = mood + (10 * (timerWaktuKunjung / 30));
             kekenyangan = kekenyangan - (10 * (timerWaktuKunjung / 30));
             timerWaktuKunjung = 0;
@@ -1694,93 +1697,161 @@ public class Sim {
     // berkunjung
     public void berkunjung(Scanner scan) {
         boolean isValid = false;
+        boolean canVisit = false;
         int idx = 1;
-        while (!isValid) {
-            try {
-                System.out.println("Daftar rumah yang ada di World : ");
-                for (int i = 0; i < World.getListofRumah().size(); i++) {
-                    System.out.println(String.valueOf(i + 1) + ". " + World.getListofRumah().get(i).getNama());
-                }
-                System.out.println("0. Batal");
-                System.out.print("Pilihan : ");
-                idx = scan.nextInt();
-                isValid = true;
-            } catch (Exception e) {
-                System.out.println("Input invalid, silahkan input angka!");
-                scan.nextLine();
-            }
-        }
-        if (idx == 0) {
-            System.out.println("Tidak jadi berkunjung!");
-        } else {
-            while (idx < 0 || idx > World.getListofRumah().size()
-                    || World.getListofRumah().get(idx - 1).getNama().equals(rumah.getNama())) {
-                if (World.getListofRumah().get(idx - 1).getNama().equals(rumah.getNama())) {
-                    System.out.println("Tidak bisa berkunjung ke rumah sendiri!");
-                } else {
-                    System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
-                }
-                System.out.println("Daftar rumah yang ada di World : ");
-                for (int i = 0; i < World.getListofRumah().size(); i++) {
-                    System.out.println(String.valueOf(i + 1) + ". " + World.getListofRumah().get(i).getNama());
-                }
-                System.out.println("0. Batal");
-                isValid = false;
-                while (!isValid) {
-                    try {
-                        System.out.print("Pilihan : ");
-                        idx = scan.nextInt();
-                        isValid = true;
-                    } catch (Exception e) {
-                        System.out.println("Input invalid, silahkan input angka!");
-                        scan.nextLine();
-                    }
-                }
-                if (idx == 0) {
-                    System.out.println("Tidak jadi berkunjung!");
-                }
-            }
-            int waktuberkunjung = rumah.getLokasi().distance(World.getListofRumah().get(idx - 1).getLokasi());
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(waktuberkunjung * 1000);
-                        System.out.println("Berkunjung selesai!");
-                        World.addWaktu(waktuberkunjung);
-                        World.checkAllSimTimer(waktuberkunjung, scan);
-                        checkKondisiSim();
-                        if (isDead()) {
-                            World.removeActiveSim();
-                            World.changeSim(scan);
-                        }
-                    } catch (InterruptedException e) {
-                        return;
-                    }
-                }
-            });
-            System.out.println("Sedang berkunjung...");
-            thread.start();
-            try {
-                thread.join();
-            } catch (InterruptedException err) {
-                System.out.println(err.getMessage());
-            }
-            isValid = false;
-            int duration = 1;
+        while (!canVisit)
+        {
             while (!isValid) {
                 try {
-                    System.out.print("Durasi berkunjung ( detik kelipatan 30 ) : ");
-                    duration = scan.nextInt();
+                    System.out.println("Daftar rumah yang ada di World : ");
+                    for (int i = 0; i < World.getListofRumah().size(); i++) {
+                        System.out.println(String.valueOf(i + 1) + ". " + World.getListofRumah().get(i).getNama());
+                    }
+                    System.out.println("0. Batal");
+                    System.out.print("Pilihan : ");
+                    idx = scan.nextInt();
                     isValid = true;
                 } catch (Exception e) {
                     System.out.println("Input invalid, silahkan input angka!");
                     scan.nextLine();
                 }
             }
-            while (duration % 30 != 0) {
-                System.out.println("Input invalid ( harus kelipatan 30 ), silahkan diulangi!");
+            if (idx == 0) {
+                System.out.println("Tidak jadi berkunjung!");
+                canVisit = true;
+            } 
+            else if (idx > 0 && idx <= World.getListofRumah().size() && World.getListofRumah().get(idx - 1).getNama().equals(rumah.getNama()))
+            {
+                System.out.println("Tidak bisa berkunjung ke rumah sendiri!");
+                canVisit = false;
                 isValid = false;
+            }
+            else if (idx < 0 || idx > World.getListofRumah().size()) {
+                while (idx < 0 || idx > World.getListofRumah().size()) {
+                    System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
+                    System.out.println("Daftar rumah yang ada di World : ");
+                    for (int i = 0; i < World.getListofRumah().size(); i++) {
+                        System.out.println(String.valueOf(i + 1) + ". " + World.getListofRumah().get(i).getNama());
+                    }
+                    System.out.println("0. Batal");
+                    isValid = false;
+                    while (!isValid) {
+                        try {
+                            System.out.print("Pilihan : ");
+                            idx = scan.nextInt();
+                            isValid = true;
+                        } catch (Exception e) {
+                            System.out.println("Input invalid, silahkan input angka!");
+                            scan.nextLine();
+                        }
+                    }
+                    if (idx == 0) {
+                        System.out.println("Tidak jadi berkunjung!");
+                        canVisit = true;
+                    }
+                    else if (idx > 0 && idx <= World.getListofRumah().size() &&  World.getListofRumah().get(idx - 1).getNama().equals(rumah.getNama()))
+                    {
+                        System.out.println("Tidak bisa berkunjung ke rumah sendiri!");
+                        canVisit = false;
+                        isValid = false;
+                    }
+                    else if (idx < 0 || idx > World.getListofRumah().size())
+                    {
+                        continue;
+                    }
+                    else 
+                    {
+                        canVisit = true;
+                        int waktuberkunjung = rumah.getLokasi().distance(World.getListofRumah().get(idx - 1).getLokasi());
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(waktuberkunjung * 1000);
+                                    System.out.println("Berkunjung selesai!");
+                                    World.addWaktu(waktuberkunjung);
+                                    World.checkAllSimTimer(waktuberkunjung, scan);
+                                    checkKondisiSim();
+                                    if (isDead()) {
+                                        World.removeActiveSim();
+                                        World.changeSim(scan);
+                                    }
+                                } catch (InterruptedException e) {
+                                    return;
+                                }
+                            }
+                        });
+                        System.out.println("Sedang berkunjung...");
+                        thread.start();
+                        try {
+                            thread.join();
+                        } catch (InterruptedException err) {
+                            System.out.println(err.getMessage());
+                        }
+                        isValid = false;
+                        int duration = 1;
+                        while (!isValid) {
+                            try {
+                                System.out.print("Durasi berkunjung ( detik kelipatan 30 ) : ");
+                                duration = scan.nextInt();
+                                isValid = true;
+                            } catch (Exception e) {
+                                System.out.println("Input invalid, silahkan input angka!");
+                                scan.nextLine();
+                            }
+                        }
+                        while (duration % 30 != 0) {
+                            System.out.println("Input invalid ( harus kelipatan 30 ), silahkan diulangi!");
+                            isValid = false;
+                            while (!isValid) {
+                                try {
+                                    System.out.print("Durasi berkunjung ( detik kelipatan 30 ) : ");
+                                    duration = scan.nextInt();
+                                    isValid = true;
+                                } catch (Exception e) {
+                                    System.out.println("Input invalid, silahkan input angka!");
+                                    scan.nextLine();
+                                }
+                            }
+                        }
+                        jatahWaktuBerkunjung = duration;
+                        isBerkunjung = true;
+                        posisiRumah = World.getListofRumah().get(idx - 1);
+                        posisiRuangan = posisiRumah.getListofRuangan().get(0);
+                    }
+                }
+            }
+            else
+            {
+                canVisit = true;
+                int waktuberkunjung = rumah.getLokasi().distance(World.getListofRumah().get(idx - 1).getLokasi());
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(waktuberkunjung * 1000);
+                            System.out.println("Berkunjung selesai!");
+                            World.addWaktu(waktuberkunjung);
+                            World.checkAllSimTimer(waktuberkunjung, scan);
+                            checkKondisiSim();
+                            if (isDead()) {
+                                World.removeActiveSim();
+                                World.changeSim(scan);
+                            }
+                        } catch (InterruptedException e) {
+                            return;
+                        }
+                    }
+                });
+                System.out.println("Sedang berkunjung...");
+                thread.start();
+                try {
+                    thread.join();
+                } catch (InterruptedException err) {
+                    System.out.println(err.getMessage());
+                }
+                isValid = false;
+                int duration = 1;
                 while (!isValid) {
                     try {
                         System.out.print("Durasi berkunjung ( detik kelipatan 30 ) : ");
@@ -1791,11 +1862,25 @@ public class Sim {
                         scan.nextLine();
                     }
                 }
+                while (duration % 30 != 0) {
+                    System.out.println("Input invalid ( harus kelipatan 30 ), silahkan diulangi!");
+                    isValid = false;
+                    while (!isValid) {
+                        try {
+                            System.out.print("Durasi berkunjung ( detik kelipatan 30 ) : ");
+                            duration = scan.nextInt();
+                            isValid = true;
+                        } catch (Exception e) {
+                            System.out.println("Input invalid, silahkan input angka!");
+                            scan.nextLine();
+                        }
+                    }
+                }
+                jatahWaktuBerkunjung = duration;
+                isBerkunjung = true;
+                posisiRumah = World.getListofRumah().get(idx - 1);
+                posisiRuangan = posisiRumah.getListofRuangan().get(0);
             }
-            jatahWaktuBerkunjung = duration;
-            isBerkunjung = true;
-            posisiRumah = World.getListofRumah().get(idx - 1);
-            posisiRuangan = posisiRumah.getListofRuangan().get(0);
         }
     }
 
