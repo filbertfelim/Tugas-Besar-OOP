@@ -17,6 +17,14 @@ public class Rumah {
 
     }
 
+    // untuk fitur load
+    public Rumah(String nama, Point lokasi, ArrayList<Ruangan> listofRuangan, int ukuran) {
+        this.nama = nama;
+        this.lokasi = lokasi;
+        this.listofRuangan = listofRuangan;
+        this.matriksRumah = new int[ukuran][ukuran];
+    }
+
     public String getNama() {
         return nama;
     }
@@ -31,6 +39,14 @@ public class Rumah {
 
     public void setLokasi(Point lokasi) {
         this.lokasi = lokasi;
+    }
+
+    public int getUkuran() {
+        return ukuran;
+    }
+
+    public int[][] getMatrixRumah() {
+        return matriksRumah;
     }
 
     public void addRuangan(String namaRuang, Ruangan ruangTerhubung, int sisi) // 0 atas, 1 bawah, 2 kanan, 3 kiri

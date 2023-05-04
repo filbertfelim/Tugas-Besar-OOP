@@ -22,7 +22,17 @@ public class Ruangan {
         ruangTerhubung[2] = 0;
         ruangTerhubung[3] = 0;
     }
-    
+
+    public Ruangan(String nama, int ruanganKe, int[][] matrixRuangan, ArrayList<NonMakanan> listofObjek,
+            int[] ruangTerhubung, Point titikRuang) {
+        this.nama = nama;
+        this.ruanganKe = ruanganKe;
+        this.matrixRuangan = matrixRuangan;
+        this.listofObjek = listofObjek;
+        this.ruangTerhubung = ruangTerhubung;
+        this.titikRuang = titikRuang;
+    }
+
     public void setNamaRuangan(String nama) {
         this.nama = nama;
     }
@@ -38,7 +48,7 @@ public class Ruangan {
     public int getRuanganKe() {
         return ruanganKe;
     }
-    
+
     public Point getTitikRuang() {
         return titikRuang;
     }
@@ -90,7 +100,7 @@ public class Ruangan {
             System.out.println(barang.getNamaItem() + " Tidak bisa diletakkan disitu");
             return false;
         }
-        
+
         boolean kosong = true;
         for (int i = y; i < y + p; i++) {
             for (int j = x; j < x + l; j++) {
@@ -129,15 +139,11 @@ public class Ruangan {
         if (ada) {
             // menghapus letak awal barang
             int idx = 0;
-            for (NonMakanan item : listofObjek)
-            {
-                if (item.getNamaItem().equals(barang.getNamaItem()))
-                {
+            for (NonMakanan item : listofObjek) {
+                if (item.getNamaItem().equals(barang.getNamaItem())) {
                     listofObjek.remove(idx);
                     break;
-                }
-                else
-                {
+                } else {
                     idx++;
                 }
             }
@@ -161,7 +167,7 @@ public class Ruangan {
         return ruangTerhubung[sisi];
     }
 
-    public void setRuangTerhubung(int sisi,int ruanganKe) {
+    public void setRuangTerhubung(int sisi, int ruanganKe) {
         ruangTerhubung[sisi] = ruanganKe;
     }
 
