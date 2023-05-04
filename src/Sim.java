@@ -1387,276 +1387,281 @@ public class Sim {
     public void masak(Scanner scan) {
         boolean isValid = false;
         boolean canCook = false;
+        boolean cancelCook = false;
         int idx = 1;
-        while (!isValid) {
-            try {
-                System.out.println("Masakan yang tersedia :\n");
-                printMasakan();
-                System.out.println("0  Batal");
-                System.out.print("Pilihan : ");
-                idx = scan.nextInt();
-                isValid = true;
-            } catch (Exception e) {
-                System.out.println("Input invalid, silahkan input angka!");
-                scan.nextLine();
-            }
-        }
-        if (idx == 0) {
-            System.out.println("Tidak jadi masak!");
-        } 
-        else if (idx == 1) {
-            int countbahan = 2;
-            int counter = 0;
-            for (Item item : inventory.getInventory()) {
-                if (item.getNamaItem().equals("nasi") || item.getNamaItem().equals("ayam")) {
-                    counter++;
-                }
-            }
-            if (counter == countbahan) {
-                canCook = true;
-                inventory.removeItem(new BahanMakanan("nasi"));
-                inventory.removeItem(new BahanMakanan("ayam"));
-                inventory.addItem(new Masakan("nasi ayam"));
-                int kekenyangan = 16;
-            }
-            else
-            {
-                System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
-                isValid = false;
-            }
-        } else if (idx == 2) {
-            int countbahan = 4;
-            int counter = 0;
-            for (Item item : inventory.getInventory()) {
-                if (item.getNamaItem().equals("nasi") || item.getNamaItem().equals("kentang")
-                        || item.getNamaItem().equals("wortel") || item.getNamaItem().equals("sapi")) {
-                    counter++;
-                }
-            }
-            if (counter == countbahan) {
-                canCook = true;
-                inventory.removeItem(new BahanMakanan("nasi"));
-                inventory.removeItem(new BahanMakanan("kentang"));
-                inventory.removeItem(new BahanMakanan("wortel"));
-                inventory.removeItem(new BahanMakanan("sapi"));
-                inventory.addItem(new Masakan("nasi kari"));
-                int kekenyangan = 30;
-            }
-            else
-            {
-                System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
-                isValid = false;
-            }
-        } else if (idx == 3) {
-            int countbahan = 2;
-            int counter = 0;
-            for (Item item : inventory.getInventory()) {
-                if (item.getNamaItem().equals("susu") || item.getNamaItem().equals("kacang")) {
-                    counter++;
-                }
-            }
-            if (counter == countbahan) {
-                canCook = true;
-                inventory.removeItem(new BahanMakanan("susu"));
-                inventory.removeItem(new BahanMakanan("kacang"));
-                inventory.addItem(new Masakan("susu kacang"));
-                int kekenyangan = 5;
-            }
-            else
-            {
-                System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
-                isValid = false;
-            }
-        } else if (idx == 4) {
-            int countbahan = 2;
-            int counter = 0;
-            for (Item item : inventory.getInventory()) {
-                if (item.getNamaItem().equals("wortel") || item.getNamaItem().equals("bayam")) {
-                    counter++;
-                }
-            }
-            if (counter == countbahan) {
-                canCook = true;
-                inventory.removeItem(new BahanMakanan("wortel"));
-                inventory.removeItem(new BahanMakanan("bayam"));
-                inventory.addItem(new Masakan("tumis sayur"));
-                int kekenyangan = 5;
-            }
-            else
-            {
-                System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
-                isValid = false;
-            }
-        } else if (idx == 5) {
-            int countbahan = 2;
-            int counter = 0;
-            for (Item item : inventory.getInventory()) {
-                if (item.getNamaItem().equals("kentang") || item.getNamaItem().equals("sapi")) {
-                    counter++;
-                }
-            }
-            if (counter == countbahan) {
-                canCook = true;
-                inventory.removeItem(new BahanMakanan("kentang"));
-                inventory.removeItem(new BahanMakanan("sapi"));
-                inventory.addItem(new Masakan("bistik"));
-                int kekenyangan = 22;
-            }
-            else
-            {
-                System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
-                isValid = false;
-            }
-        }
-        else {
-            while (idx < 0 || idx > 5 || !canCook) {
-                if (idx < 0 || idx > 5) {
-                    System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
-                }
-                System.out.println("Masakan yang tersedia :\n");
-                printMasakan();
-                System.out.println("0  Batal");
-                System.out.print("Pilihan : ");
-                isValid = false;
-                while (!isValid) {
-                    try {
-                        idx = scan.nextInt();
-                        isValid = true;
-                    } catch (Exception e) {
-                        System.out.println("Input invalid, silahkan input angka!");
-                        scan.nextLine();
-                    }
-                }
-                if (idx == 0) {
-                    System.out.println("Tidak jadi masak!");
-                    canCook = true;
-                } else if (idx == 1) {
-                    int countbahan = 2;
-                    int counter = 0;
-                    for (Item item : inventory.getInventory()) {
-                        if (item.getNamaItem().equals("nasi") || item.getNamaItem().equals("ayam")) {
-                            counter++;
-                        }
-                    }
-                    if (counter == countbahan) {
-                        canCook = true;
-                        inventory.removeItem(new BahanMakanan("nasi"));
-                        inventory.removeItem(new BahanMakanan("ayam"));
-                        inventory.addItem(new Masakan("nasi ayam"));
-                        int kekenyangan = 16;
-                    }
-                    else
-                    {
-                        System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
-                        isValid = false;
-                    }
-                } else if (idx == 2) {
-                    int countbahan = 4;
-                    int counter = 0;
-                    for (Item item : inventory.getInventory()) {
-                        if (item.getNamaItem().equals("nasi") || item.getNamaItem().equals("kentang")
-                                || item.getNamaItem().equals("wortel") || item.getNamaItem().equals("sapi")) {
-                            counter++;
-                        }
-                    }
-                    if (counter == countbahan) {
-                        canCook = true;
-                        inventory.removeItem(new BahanMakanan("nasi"));
-                        inventory.removeItem(new BahanMakanan("kentang"));
-                        inventory.removeItem(new BahanMakanan("wortel"));
-                        inventory.removeItem(new BahanMakanan("sapi"));
-                        inventory.addItem(new Masakan("nasi kari"));
-                        int kekenyangan = 30;
-                    }
-                    else
-                    {
-                        System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
-                        isValid = false;
-                    }
-                } else if (idx == 3) {
-                    int countbahan = 2;
-                    int counter = 0;
-                    for (Item item : inventory.getInventory()) {
-                        if (item.getNamaItem().equals("susu") || item.getNamaItem().equals("kacang")) {
-                            counter++;
-                        }
-                    }
-                    if (counter == countbahan) {
-                        canCook = true;
-                        inventory.removeItem(new BahanMakanan("susu"));
-                        inventory.removeItem(new BahanMakanan("kacang"));
-                        inventory.addItem(new Masakan("susu kacang"));
-                        int kekenyangan = 5;
-                    }
-                    else
-                    {
-                        System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
-                        isValid = false;
-                    }
-                } else if (idx == 4) {
-                    int countbahan = 2;
-                    int counter = 0;
-                    for (Item item : inventory.getInventory()) {
-                        if (item.getNamaItem().equals("wortel") || item.getNamaItem().equals("bayam")) {
-                            counter++;
-                        }
-                    }
-                    if (counter == countbahan) {
-                        canCook = true;
-                        inventory.removeItem(new BahanMakanan("wortel"));
-                        inventory.removeItem(new BahanMakanan("bayam"));
-                        inventory.addItem(new Masakan("tumis sayur"));
-                        int kekenyangan = 5;
-                    }
-                    else
-                    {
-                        System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
-                        isValid = false;
-                    }
-                } else if (idx == 5) {
-                    int countbahan = 2;
-                    int counter = 0;
-                    for (Item item : inventory.getInventory()) {
-                        if (item.getNamaItem().equals("kentang") || item.getNamaItem().equals("sapi")) {
-                            counter++;
-                        }
-                    }
-                    if (counter == countbahan) {
-                        canCook = true;
-                        inventory.removeItem(new BahanMakanan("kentang"));
-                        inventory.removeItem(new BahanMakanan("sapi"));
-                        inventory.addItem(new Masakan("bistik"));
-                        int kekenyangan = 22;
-                    }
-                    else
-                    {
-                        System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
-                        isValid = false;
-                    }
-                }
-            }
-            if (canCook)
-            {
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(Math.round(1.5 * kekenyangan * 1000));
-                            addTimerWaktuKunjung((int) Math.round(1.5 * kekenyangan));
-                            System.out.println("masak selesai!");
-                            mood = mood + 10;
-                            World.addWaktu((int) Math.round(1.5 * kekenyangan));
-                            World.checkAllSimTimer((int) Math.round(1.5 * kekenyangan), scan);
-                        } catch (InterruptedException e) {
-                            return;
-                        }
-                    }
-                });
-                System.out.println("Sedang masak...");
-                thread.start();
+        while (!canCook && !cancelCook)
+        {
+            while (!isValid) {
                 try {
-                    thread.join();
-                } catch (InterruptedException err) {
+                    System.out.println("Masakan yang tersedia :\n");
+                    printMasakan();
+                    System.out.println("0  Batal");
+                    System.out.print("Pilihan : ");
+                    idx = scan.nextInt();
+                    isValid = true;
+                } catch (Exception e) {
+                    System.out.println("Input invalid, silahkan input angka!");
+                    scan.nextLine();
+                }
+            }
+            if (idx == 0) {
+                System.out.println("Tidak jadi masak!");
+                cancelCook = true;
+            } 
+            else if (idx == 1) {
+                int countbahan = 2;
+                int counter = 0;
+                for (Item item : inventory.getInventory()) {
+                    if (item.getNamaItem().equals("nasi") || item.getNamaItem().equals("ayam")) {
+                        counter++;
+                    }
+                }
+                if (counter == countbahan) {
+                    canCook = true;
+                    inventory.removeItem(new BahanMakanan("nasi"));
+                    inventory.removeItem(new BahanMakanan("ayam"));
+                    inventory.addItem(new Masakan("nasi ayam"));
+                    int kekenyangan = 16;
+                }
+                else
+                {
+                    System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
+                    isValid = false;
+                }
+            } else if (idx == 2) {
+                int countbahan = 4;
+                int counter = 0;
+                for (Item item : inventory.getInventory()) {
+                    if (item.getNamaItem().equals("nasi") || item.getNamaItem().equals("kentang")
+                            || item.getNamaItem().equals("wortel") || item.getNamaItem().equals("sapi")) {
+                        counter++;
+                    }
+                }
+                if (counter == countbahan) {
+                    canCook = true;
+                    inventory.removeItem(new BahanMakanan("nasi"));
+                    inventory.removeItem(new BahanMakanan("kentang"));
+                    inventory.removeItem(new BahanMakanan("wortel"));
+                    inventory.removeItem(new BahanMakanan("sapi"));
+                    inventory.addItem(new Masakan("nasi kari"));
+                    int kekenyangan = 30;
+                }
+                else
+                {
+                    System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
+                    isValid = false;
+                }
+            } else if (idx == 3) {
+                int countbahan = 2;
+                int counter = 0;
+                for (Item item : inventory.getInventory()) {
+                    if (item.getNamaItem().equals("susu") || item.getNamaItem().equals("kacang")) {
+                        counter++;
+                    }
+                }
+                if (counter == countbahan) {
+                    canCook = true;
+                    inventory.removeItem(new BahanMakanan("susu"));
+                    inventory.removeItem(new BahanMakanan("kacang"));
+                    inventory.addItem(new Masakan("susu kacang"));
+                    int kekenyangan = 5;
+                }
+                else
+                {
+                    System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
+                    isValid = false;
+                }
+            } else if (idx == 4) {
+                int countbahan = 2;
+                int counter = 0;
+                for (Item item : inventory.getInventory()) {
+                    if (item.getNamaItem().equals("wortel") || item.getNamaItem().equals("bayam")) {
+                        counter++;
+                    }
+                }
+                if (counter == countbahan) {
+                    canCook = true;
+                    inventory.removeItem(new BahanMakanan("wortel"));
+                    inventory.removeItem(new BahanMakanan("bayam"));
+                    inventory.addItem(new Masakan("tumis sayur"));
+                    int kekenyangan = 5;
+                }
+                else
+                {
+                    System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
+                    isValid = false;
+                }
+            } else if (idx == 5) {
+                int countbahan = 2;
+                int counter = 0;
+                for (Item item : inventory.getInventory()) {
+                    if (item.getNamaItem().equals("kentang") || item.getNamaItem().equals("sapi")) {
+                        counter++;
+                    }
+                }
+                if (counter == countbahan) {
+                    canCook = true;
+                    inventory.removeItem(new BahanMakanan("kentang"));
+                    inventory.removeItem(new BahanMakanan("sapi"));
+                    inventory.addItem(new Masakan("bistik"));
+                    int kekenyangan = 22;
+                }
+                else
+                {
+                    System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
+                    isValid = false;
+                }
+            }
+            else {
+                while (idx < 0 || idx > 5 || (!canCook && !cancelCook)) {
+                    if (idx < 0 || idx > 5) {
+                        System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
+                    }
+                    System.out.println("Masakan yang tersedia :\n");
+                    printMasakan();
+                    System.out.println("0  Batal");
+                    System.out.print("Pilihan : ");
+                    isValid = false;
+                    while (!isValid) {
+                        try {
+                            idx = scan.nextInt();
+                            isValid = true;
+                        } catch (Exception e) {
+                            System.out.println("Input invalid, silahkan input angka!");
+                            scan.nextLine();
+                        }
+                    }
+                    if (idx == 0) {
+                        System.out.println("Tidak jadi masak!");
+                        cancelCook = true;
+                    } else if (idx == 1) {
+                        int countbahan = 2;
+                        int counter = 0;
+                        for (Item item : inventory.getInventory()) {
+                            if (item.getNamaItem().equals("nasi") || item.getNamaItem().equals("ayam")) {
+                                counter++;
+                            }
+                        }
+                        if (counter == countbahan) {
+                            canCook = true;
+                            inventory.removeItem(new BahanMakanan("nasi"));
+                            inventory.removeItem(new BahanMakanan("ayam"));
+                            inventory.addItem(new Masakan("nasi ayam"));
+                            int kekenyangan = 16;
+                        }
+                        else
+                        {
+                            System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
+                            isValid = false;
+                        }
+                    } else if (idx == 2) {
+                        int countbahan = 4;
+                        int counter = 0;
+                        for (Item item : inventory.getInventory()) {
+                            if (item.getNamaItem().equals("nasi") || item.getNamaItem().equals("kentang")
+                                    || item.getNamaItem().equals("wortel") || item.getNamaItem().equals("sapi")) {
+                                counter++;
+                            }
+                        }
+                        if (counter == countbahan) {
+                            canCook = true;
+                            inventory.removeItem(new BahanMakanan("nasi"));
+                            inventory.removeItem(new BahanMakanan("kentang"));
+                            inventory.removeItem(new BahanMakanan("wortel"));
+                            inventory.removeItem(new BahanMakanan("sapi"));
+                            inventory.addItem(new Masakan("nasi kari"));
+                            int kekenyangan = 30;
+                        }
+                        else
+                        {
+                            System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
+                            isValid = false;
+                        }
+                    } else if (idx == 3) {
+                        int countbahan = 2;
+                        int counter = 0;
+                        for (Item item : inventory.getInventory()) {
+                            if (item.getNamaItem().equals("susu") || item.getNamaItem().equals("kacang")) {
+                                counter++;
+                            }
+                        }
+                        if (counter == countbahan) {
+                            canCook = true;
+                            inventory.removeItem(new BahanMakanan("susu"));
+                            inventory.removeItem(new BahanMakanan("kacang"));
+                            inventory.addItem(new Masakan("susu kacang"));
+                            int kekenyangan = 5;
+                        }
+                        else
+                        {
+                            System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
+                            isValid = false;
+                        }
+                    } else if (idx == 4) {
+                        int countbahan = 2;
+                        int counter = 0;
+                        for (Item item : inventory.getInventory()) {
+                            if (item.getNamaItem().equals("wortel") || item.getNamaItem().equals("bayam")) {
+                                counter++;
+                            }
+                        }
+                        if (counter == countbahan) {
+                            canCook = true;
+                            inventory.removeItem(new BahanMakanan("wortel"));
+                            inventory.removeItem(new BahanMakanan("bayam"));
+                            inventory.addItem(new Masakan("tumis sayur"));
+                            int kekenyangan = 5;
+                        }
+                        else
+                        {
+                            System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
+                            isValid = false;
+                        }
+                    } else if (idx == 5) {
+                        int countbahan = 2;
+                        int counter = 0;
+                        for (Item item : inventory.getInventory()) {
+                            if (item.getNamaItem().equals("kentang") || item.getNamaItem().equals("sapi")) {
+                                counter++;
+                            }
+                        }
+                        if (counter == countbahan) {
+                            canCook = true;
+                            inventory.removeItem(new BahanMakanan("kentang"));
+                            inventory.removeItem(new BahanMakanan("sapi"));
+                            inventory.addItem(new Masakan("bistik"));
+                            int kekenyangan = 22;
+                        }
+                        else
+                        {
+                            System.out.println("Bahan tidak lengkap! silahkan masak yang lain!");
+                            isValid = false;
+                        }
+                    }
+                }
+                if (canCook)
+                {
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(Math.round(1.5 * kekenyangan * 1000));
+                                addTimerWaktuKunjung((int) Math.round(1.5 * kekenyangan));
+                                System.out.println("masak selesai!");
+                                mood = mood + 10;
+                                World.addWaktu((int) Math.round(1.5 * kekenyangan));
+                                World.checkAllSimTimer((int) Math.round(1.5 * kekenyangan), scan);
+                            } catch (InterruptedException e) {
+                                return;
+                            }
+                        }
+                    });
+                    System.out.println("Sedang masak...");
+                    thread.start();
+                    try {
+                        thread.join();
+                    } catch (InterruptedException err) {
+                    }
                 }
             }
         }
