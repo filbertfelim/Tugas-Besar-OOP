@@ -249,13 +249,13 @@ public class Main {
                         World.getActiveSim().olahraga(scan);
                     } else if (idx == 3) {
                         World.getActiveSim().berkunjung(scan);
-                        while (World.getActiveSim().getTimerWaktuKunjung() <= World.getActiveSim()
-                                .getJatahWaktuBerkunjung()) {
+                        while (World.getActiveSim().getTimerWaktuKunjung() < World.getActiveSim()
+                                .getJatahWaktuBerkunjung() && !World.getActiveSim().getPosisiRumah().getNama().equals(World.getActiveSim().getRumah().getNama())) {
                             isValid = false;
                             idx = 1;
                             while (!isValid) {
                                 try {
-                                    System.out.println("Anda sedang berkunjung di rumah "
+                                    System.out.println("Anda sedang berkunjung di "
                                             + World.getActiveSim().getPosisiRumah().getNama());
                                     System.out.println("Aksi yang dapat dilakukan: ");
                                     System.out.println("1. Kerja");
@@ -301,7 +301,6 @@ public class Main {
                                 World.getActiveSim().gotoObject(scan);
                             }
                         }
-                        World.getActiveSim().balikdariBerkunjung(scan);
                     }
                     delay(2000);
 
