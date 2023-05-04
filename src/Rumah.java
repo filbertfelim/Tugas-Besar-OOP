@@ -14,6 +14,10 @@ public class Rumah {
         Point titikRuanganPertama = new Point(ukuran / 2, 0);
         listofRuangan = new ArrayList<Ruangan>(0);
         listofRuangan.add(new Ruangan("Ruangan pertama", 1, titikRuanganPertama));
+        // listofRuangan.get(0).memasangBarang(new NonMakanan("meja dan kursi"), 0, 0);
+        // listofRuangan.get(0).memasangBarang(new NonMakanan("kasur single"), 5, 0);
+        // listofRuangan.get(0).memasangBarang(new NonMakanan("kompor gas"), 0, 3);
+        // listofRuangan.get(0).memasangBarang(new NonMakanan("toilet"), 5, 5);
 
     }
 

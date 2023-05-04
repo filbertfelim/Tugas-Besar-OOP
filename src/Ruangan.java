@@ -96,14 +96,14 @@ public class Ruangan {
         int p = barang.getPanjang();
         int l = barang.getLebar();
 
-        if ((x + p + 1 > panjang) || (y + l + 1 > lebar)) {
+        if ((x + p > panjang) || (y + l > lebar)) {
             System.out.println(barang.getNamaItem() + " Tidak bisa diletakkan disitu");
             return false;
         }
 
         boolean kosong = true;
-        for (int i = y; i < y + p; i++) {
-            for (int j = x; j < x + l; j++) {
+        for (int i = y; i < y + l; i++) {
+            for (int j = x; j < x + p; j++) {
                 if (matrixRuangan[i][j] != 0) { // cek koordinat tersedia atau tidak
                     kosong = false;
                 }
@@ -111,8 +111,8 @@ public class Ruangan {
         }
 
         if (kosong) {
-            for (int i = y; i < y + p; i++) {
-                for (int j = x; j < x + l; j++) {
+            for (int i = y; i < y + l; i++) {
+                for (int j = x; j < x + p; j++) {
                     matrixRuangan[i][j] = barang.getKodeJenisBarang();
                 }
             }
