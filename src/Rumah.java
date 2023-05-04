@@ -5,12 +5,15 @@ public class Rumah {
     private String nama;
     private Point lokasi; // lokasi di world
     private ArrayList<Ruangan> listofRuangan;
+    private final int ukuran = 5;
+    private int[][] matriksRumah = new int[ukuran][ukuran];
 
     public Rumah(String namaSim, Point lokasi) {
         this.nama = "Rumah " + namaSim;
         this.lokasi = lokasi;
+        Point titikRuanganPertama = new Point(ukuran / 2, 0);
         listofRuangan = new ArrayList<Ruangan>(0);
-        listofRuangan.add(new Ruangan("Ruangan pertama", 1));
+        listofRuangan.add(new Ruangan("Ruangan pertama", 1, titikRuanganPertama));
 
     }
 
@@ -34,9 +37,25 @@ public class Rumah {
     {
         if (ruangTerhubung.getRuangTerhubung(sisi) == 0) {
             int ruangke = listofRuangan.size() + 1;
-            Ruangan ruangBaru = new Ruangan(namaRuang, ruangke);
+            Point titikRuang = null;
+            switch (sisi) {
+                case 0:
+                    titikRuang = new Point(ruangTerhubung.getTitikRuang().getX(),
+                            ruangTerhubung.getTitikRuang().getY() + 1);
+                case 1:
+                    titikRuang = new Point(ruangTerhubung.getTitikRuang().getX(),
+                            ruangTerhubung.getTitikRuang().getY() - 1);
+                case 2:
+                    titikRuang = new Point(ruangTerhubung.getTitikRuang().getX() + 1,
+                            ruangTerhubung.getTitikRuang().getY());
+                case 3:
+                    titikRuang = new Point(ruangTerhubung.getTitikRuang().getX() - 1,
+                            ruangTerhubung.getTitikRuang().getY());
+            }
+            Ruangan ruangBaru = new Ruangan(namaRuang, ruangke, titikRuang);
             listofRuangan.add(ruangBaru);
             ruangTerhubung.setRuangTerhubung(sisi, ruangke);
+            matriksRumah[titikRuang.getX()][titikRuang.getY()] = ruangke;
 
         } else {
             switch (sisi) {
