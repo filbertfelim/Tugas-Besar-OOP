@@ -493,7 +493,11 @@ public class Main {
             simJSON.put("isberkunjung", sim.getIsBerkunjung());
 
             // atribut Item barangdibeli;
-            simJSON.put("barangdibeli", sim.getBarangDiBeli().getNamaItem());
+            if (sim.getBarangDiBeli() != null) {
+                simJSON.put("barangdibeli", sim.getBarangDiBeli().getNamaItem());
+            } else {
+                simJSON.put("barangdibeli", sim.getBarangDiBeli());
+            }
 
             // atribut int timerbarangdibeli;
             simJSON.put("timerbarangdibeli", sim.getTimerBarangDibeli());
