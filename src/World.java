@@ -10,6 +10,7 @@ public class World {
     private static int waktu;
     private static int harike;
     private static Sim activeSim;
+    private static int hariaddsim;
 
     public World(String namaSim) {
         listofRumah = new ArrayList<Rumah>();
@@ -21,7 +22,7 @@ public class World {
         listofSim.add(new Sim(namaSim, new Point(0, 0)));
         matrixWorld[0][0] = 0;
         activeSim = listofSim.get(0);
-
+        hariaddsim = 0;
         activeSim.getInventory().addItem(new NonMakanan("kasur single"));
         activeSim.getInventory().addItem(new NonMakanan("toilet"));
         activeSim.getInventory().addItem(new NonMakanan("kompor gas"));
@@ -121,35 +122,45 @@ public class World {
     }
 
     public static void addSim(Scanner scan) {
-        System.out.print("Nama sim baru : ");
-        String nama = scan.nextLine();
-        boolean isDuplicate = false;
-        for (int i = 0; i < listofSim.size() && !isDuplicate; i++) {
-            if (listofSim.get(i).getNama().equals(nama)) {
-                isDuplicate = true;
-            }
+        if (hariaddsim == harike)
+        {
+            System.out.println("Sudah tidak bisa menambah sim baru pada hari ini!");
         }
-        while (isDuplicate) {
-            System.out.println("Nama sudah dipakai!");
+        else
+        {
             System.out.print("Nama sim baru : ");
-            nama = scan.nextLine();
-            isDuplicate = false;
+            String nama = scan.nextLine();
+            boolean isDuplicate = false;
             for (int i = 0; i < listofSim.size() && !isDuplicate; i++) {
                 if (listofSim.get(i).getNama().equals(nama)) {
                     isDuplicate = true;
                 }
             }
-        }
-        if (listofRumah.size() == 64 * 64) {
-            System.out.println("World sudah penuh!");
-        } else {
-            listofRumah.add(new Rumah(nama, new Point((listofRumah.size() % 64), (listofRumah.size() / 64))));
-            if (listofRumah.size() % 64 == 0) {
-                listofSim.add(new Sim(nama, new Point((listofRumah.size() % 64) - 1, (listofRumah.size() / 64) - 1)));
-            } else {
-                listofSim.add(new Sim(nama, new Point((listofRumah.size() % 64) - 1, listofRumah.size() / 64)));
+            while (isDuplicate) {
+                System.out.println("Nama sudah dipakai!");
+                System.out.print("Nama sim baru : ");
+                nama = scan.nextLine();
+                isDuplicate = false;
+                for (int i = 0; i < listofSim.size() && !isDuplicate; i++) {
+                    if (listofSim.get(i).getNama().equals(nama)) {
+                        isDuplicate = true;
+                    }
+                }
             }
+            if (listofRumah.size() == 64 * 64) {
+                System.out.println("World sudah penuh!");
+            } else {
+                listofRumah.add(new Rumah(nama, new Point((listofRumah.size() % 64), (listofRumah.size() / 64))));
+                if (listofRumah.size() % 64 == 0) {
+                    listofSim.add(new Sim(nama, new Point((listofRumah.size() % 64) - 1, (listofRumah.size() / 64) - 1)));
+                } else {
+                    listofSim.add(new Sim(nama, new Point((listofRumah.size() % 64) - 1, listofRumah.size() / 64)));
+                }
+                System.out.println("Sim " + nama + "berhasil ditambah!");
+            }
+            hariaddsim = harike;
         }
+        
     }
 
     public static void changeSim(Scanner scan) {
