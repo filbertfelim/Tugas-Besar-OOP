@@ -16,11 +16,11 @@ public class Rumah {
         listofRuangan = new ArrayList<Ruangan>(0);
         listofRuangan.add(new Ruangan("Ruangan pertama", 1, titikRuanganPertama));
         matriksRumah.setNilai(0, 0, 1);
-        // listofRuangan.get(0).memasangBarang(new NonMakanan("meja dan kursi"), 0, 0);
-        // listofRuangan.get(0).memasangBarang(new NonMakanan("kasur single"), 5, 0);
-        // listofRuangan.get(0).memasangBarang(new NonMakanan("kompor gas"), 0, 3);
-        // listofRuangan.get(0).memasangBarang(new NonMakanan("toilet"), 5, 5);
-
+        listofRuangan.get(0).memasangBarang(new NonMakanan("meja dan kursi"), 0, 2);
+        listofRuangan.get(0).memasangBarang(new NonMakanan("kasur single"), 0, 0);
+        listofRuangan.get(0).memasangBarang(new NonMakanan("kompor gas"), 4, 2);
+        listofRuangan.get(0).memasangBarang(new NonMakanan("toilet"), 5, 5);
+        listofRuangan.get(0).memasangBarang(new NonMakanan("jam"), 0, 5);
     }
 
     // untuk fitur load

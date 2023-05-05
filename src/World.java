@@ -23,11 +23,11 @@ public class World {
         matrixWorld[0][0] = 0;
         activeSim = listofSim.get(0);
         hariaddsim = 0;
-        activeSim.getInventory().addItem(new NonMakanan("kasur single"));
-        activeSim.getInventory().addItem(new NonMakanan("toilet"));
-        activeSim.getInventory().addItem(new NonMakanan("kompor gas"));
-        activeSim.getInventory().addItem(new NonMakanan("meja dan kursi"));
-        activeSim.getInventory().addItem(new NonMakanan("jam"));
+        // activeSim.getInventory().addItem(new NonMakanan("kasur single"));
+        // activeSim.getInventory().addItem(new NonMakanan("toilet"));
+        // activeSim.getInventory().addItem(new NonMakanan("kompor gas"));
+        // activeSim.getInventory().addItem(new NonMakanan("meja dan kursi"));
+        // activeSim.getInventory().addItem(new NonMakanan("jam"));
     }
 
     // untuk fitur load
