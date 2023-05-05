@@ -1,5 +1,4 @@
 import java.util.*;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,8 +12,6 @@ import java.lang.Math;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.sound.sampled.*;
 
 import java.io.FileWriter;
 
@@ -68,33 +65,8 @@ public class Main {
 
         if (newGame) {
             // Game baru dimulai
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        File file = new File("music/opening.wav");
-                        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-
-                        Clip clip = AudioSystem.getClip();
-                        clip.open(audioStream);
-
-                        clip.start();
-                        Thread.sleep(14450);
-                        clip.stop();
-                    } catch (UnsupportedAudioFileException e) {
-                    } catch (LineUnavailableException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            });
-            thread.start();
+            MusicPlayer music = new MusicPlayer();
+            music.plays("opening", 14450);
 
             System.out.print("Nama sim : ");
             String namasim = scan.nextLine();
@@ -133,6 +105,8 @@ public class Main {
                     break;
                 case "2": // Exit
                     boolean savingLoop = false;
+                    MusicPlayer musik = new MusicPlayer();
+                    musik.plays("Short", 35000);
                     while (!savingLoop) {
                         System.out.println("Do you want to save this game file? (y/n)");
                         System.out.print(">> ");
@@ -688,7 +662,6 @@ public class Main {
         System.out.println("12. Go To Object");
         System.out.println("13. Action");
         System.out.println("14. Buy Item");
-
     }
 
     private static void exit() {
