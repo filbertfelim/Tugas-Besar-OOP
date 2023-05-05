@@ -15,7 +15,6 @@ public class Rumah {
         Point titikRuanganPertama = new Point(0, 0);
         listofRuangan = new ArrayList<Ruangan>(0);
         listofRuangan.add(new Ruangan("Ruangan pertama", 1, titikRuanganPertama));
-        matriksRumah.setNilai(0, 0, 1);
         // listofRuangan.get(0).memasangBarang(new NonMakanan("meja dan kursi"), 0, 0);
         // listofRuangan.get(0).memasangBarang(new NonMakanan("kasur single"), 5, 0);
         // listofRuangan.get(0).memasangBarang(new NonMakanan("kompor gas"), 0, 3);
@@ -47,10 +46,6 @@ public class Rumah {
         this.lokasi = lokasi;
     }
 
-    public int getUkuran() {
-        return ukuran;
-    }
-
     public Matriks getMatrixRumah() {
         return matriksRumah;
     }
@@ -80,7 +75,6 @@ public class Rumah {
             }
             Ruangan ruangBaru = new Ruangan(namaRuang, ruangke, titikRuang);
             listofRuangan.add(ruangBaru);
-            ruangTerhubung.setRuangTerhubung(sisi, ruangke);
 
             int x = titikRuang.getX();
             int y = titikRuang.getY();
