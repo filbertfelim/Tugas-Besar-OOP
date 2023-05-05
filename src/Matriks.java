@@ -129,8 +129,9 @@ public class Matriks {
                 System.out.println(matriks.cekAda(x, y) ? 
                 "ada":"gada");
             }
-		}	*/ // buat ngetes
-    }
+		}	
+    } */ // buat ngetes
+
     
 }
 

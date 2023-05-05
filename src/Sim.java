@@ -1959,7 +1959,7 @@ public class Sim {
     // berpindah ruangan
     public void pindahruangan(Scanner scan) {
         boolean adaruangan = false;
-        for (int x = 0; x < 3; x++) {
+        for (int x = 0; x < 4; x++) {
             if (posisiRuangan.getArrayRuangTerhubung()[x] != 0) {
                 adaruangan = true;
             }
