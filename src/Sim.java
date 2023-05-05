@@ -1,9 +1,10 @@
 import java.util.Scanner;
 
-import javax.lang.model.util.ElementScanner14;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Random;
+import java.io.*;
 import java.lang.Math;
 
 public class Sim {
@@ -224,6 +225,20 @@ public class Sim {
             muntah(scan);
         }
     }
+    
+    public ArrayList<String> txtLoader(String namaFile){
+        ArrayList<String> list = new ArrayList<String>();
+        try{
+            Scanner s = new Scanner(new File("savefile/"+namaFile+".txt"));
+            while (s.hasNextLine()){
+                list.add(s.nextLine());
+            }
+            s.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     public boolean isDead() {
         if (kesehatan <= 0 || kekenyangan <= 0 || mood <= 0) {
@@ -234,11 +249,11 @@ public class Sim {
     }
 
     public void getInfo() {
-        System.out.printf("+=========+\tPROFILE\t+=========\n");
+        System.out.printf("+=========+\tPROFILE\t\t+=========\n");
         System.out.printf("Nama\t\t:" + getNama() + "\n");
         System.out.printf("Pekerjaan\t:" + getPekerjaan().getNama() + "\n");
         System.out.printf("Uang\t\t:" + getUang() + "\n\n");
-        System.out.printf("+=========+\t STATS \t+=========\n");
+        System.out.printf("+=========+\t STATS \t\t+=========\n");
         System.out.printf("Kekenyangan\t:" + getKekenyangan() + "\n");
         System.out.printf("Mood\t\t:" + getMood() + "\n");
         System.out.printf("Kesehatan\t:" + getKesehatan() + "\n\n");
@@ -285,15 +300,16 @@ public class Sim {
         System.out.printf("%-2s %-20s %-10s %10s\n", 10, "Lemari Buku", 100, "1 x 1");
         System.out.printf("%-2s %-20s %-10s %10s\n", 11, "Radio", 100, "1 x 1");
         System.out.printf("%-2s %-20s %-10s %10s\n", 12, "Piano", 200, "2 x 1");
+        System.out.printf("%-2s %-20s %-10s %10s\n", 12, "Televisi", 150, "2 x 1");
         System.out.printf("\n%-2s %-20s %-10s %10s\n", "No", "Bahan Makanan", "Harga", "Kekenyangan");
-        System.out.printf("%-2s %-20s %-10s %10s\n", 13, "Nasi", 5, 5);
-        System.out.printf("%-2s %-20s %-10s %10s\n", 14, "Kentang", 3, 4);
-        System.out.printf("%-2s %-20s %-10s %10s\n", 15, "Ayam", 10, 8);
-        System.out.printf("%-2s %-20s %-10s %10s\n", 16, "Sapi", 12, 15);
-        System.out.printf("%-2s %-20s %-10s %10s\n", 17, "Wortel", 3, 2);
-        System.out.printf("%-2s %-20s %-10s %10s\n", 18, "Bayam", 3, 2);
-        System.out.printf("%-2s %-20s %-10s %10s\n", 19, "Kacang", 2, 2);
-        System.out.printf("%-2s %-20s %-10s %10s\n", 20, "Susu", 2, 1);
+        System.out.printf("%-2s %-20s %-10s %10s\n", 14, "Nasi", 5, 5);
+        System.out.printf("%-2s %-20s %-10s %10s\n", 15, "Kentang", 3, 4);
+        System.out.printf("%-2s %-20s %-10s %10s\n", 16, "Ayam", 10, 8);
+        System.out.printf("%-2s %-20s %-10s %10s\n", 17, "Sapi", 12, 15);
+        System.out.printf("%-2s %-20s %-10s %10s\n", 18, "Wortel", 3, 2);
+        System.out.printf("%-2s %-20s %-10s %10s\n", 19, "Bayam", 3, 2);
+        System.out.printf("%-2s %-20s %-10s %10s\n", 20, "Kacang", 2, 2);
+        System.out.printf("%-2s %-20s %-10s %10s\n", 21, "Susu", 2, 1);
     }
 
     public void printMasakan() {
@@ -331,18 +347,20 @@ public class Sim {
         } else if (idx == 12) {
             return new NonMakanan("piano");
         } else if (idx == 13) {
-            return new BahanMakanan("nasi");
+            return new NonMakanan("televisi");
         } else if (idx == 14) {
-            return new BahanMakanan("kentang");
+            return new BahanMakanan("nasi");
         } else if (idx == 15) {
-            return new BahanMakanan("ayam");
+            return new BahanMakanan("kentang");
         } else if (idx == 16) {
-            return new BahanMakanan("sapi");
+            return new BahanMakanan("ayam");
         } else if (idx == 17) {
-            return new BahanMakanan("wortel");
+            return new BahanMakanan("sapi");
         } else if (idx == 18) {
-            return new BahanMakanan("bayam");
+            return new BahanMakanan("wortel");
         } else if (idx == 19) {
+            return new BahanMakanan("bayam");
+        } else if (idx == 20) {
             return new BahanMakanan("kacang");
         } else {
             return new BahanMakanan("susu");
@@ -354,7 +372,7 @@ public class Sim {
             return 50;
         } else if (idx == 2 || idx == 5 || idx == 10 || idx == 11) {
             return 100;
-        } else if (idx == 3) {
+        } else if (idx == 3 || idx == 13) {
             return 150;
         } else if (idx == 6 || idx == 9 || idx == 12) {
             return 200;
@@ -856,7 +874,7 @@ public class Sim {
         }
     }
 
-    // main piano
+    // mendengarkan musik
     public void dengarmusik(Scanner scan) {
         boolean isValid = false;
         int duration = 1;
@@ -907,6 +925,95 @@ public class Sim {
             }
         });
         System.out.println("Sedang mendengarkan musik...");
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException err) {
+        }
+    }
+
+        // menonton TV
+    public void nontonTV(Scanner scan) {
+        boolean isValid = false;
+        boolean isFilmValid = false;
+        int duration = 1;
+        int choiceFilm = -1;
+        ArrayList<String> listOfFilm = txtLoader("ListFilm");
+        while(!isFilmValid){
+            try {
+                for(int i = 0; i < listOfFilm.size(); i++){
+                    String film = listOfFilm.get(i);
+                    System.out.println(film);
+                }
+                System.out.print("Pilih film yang ingin ditonton: ");
+                choiceFilm = scan.nextInt();
+                isValid = true;
+            } catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka yang di dalam range!");
+                scan.nextLine();
+            }
+        }
+        while (choiceFilm < 0 || choiceFilm > 15) {
+            System.out.println("Input invalid ( harus dalam range ), silahkan diulangi!");
+            isValid = false;
+            while (!isValid) {
+                try {
+                    System.out.print("Pilih film yang ingin ditonton: ");
+                    choiceFilm = scan.nextInt();
+                    isValid = true;
+                } catch (Exception e) {
+                    System.out.println("Input invalid, silahkan input angka yang di dalam range!");
+                    scan.nextLine();
+                }
+            }
+        }
+        while (!isValid) {
+            try {
+                System.out.print("Durasi ( detik kelipatan 10 ) : ");
+                duration = scan.nextInt();
+                isValid = true;
+            } catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka!");
+                scan.nextLine();
+            }
+        }
+        while (duration % 10 != 0) {
+            System.out.println("Input invalid ( harus kelipatan 10 ), silahkan diulangi!");
+            isValid = false;
+            while (!isValid) {
+                try {
+                    System.out.print("Durasi ( detik kelipatan 10 ) : ");
+                    duration = scan.nextInt();
+                    isValid = true;
+                } catch (Exception e) {
+                    System.out.println("Input invalid, silahkan input angka!");
+                    scan.nextLine();
+                }
+            }
+        }
+        int finalduration = duration;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(finalduration * 1000);
+                    System.out.println("Mendengarkan musik selesai!");
+                    addTimerWaktuKunjung(finalduration);
+                    kekenyangan = kekenyangan - (5 * (finalduration / 10));
+                    mood = mood + (5 * (finalduration / 10));
+                    World.addWaktu(finalduration);
+                    World.checkAllSimTimer(finalduration, scan);
+                    checkKondisiSim();
+                    if (isDead()) {
+                        World.removeActiveSim();
+                        World.changeSim(scan);
+                    }
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
+        });
+        System.out.println("Sedang menonton Film "+listOfFilm.get(choiceFilm-1));
         thread.start();
         try {
             thread.join();
@@ -2645,7 +2752,7 @@ public class Sim {
                 } else if (choiceaksi == 1) {
                     mainpiano(scan);
                 }
-            }
+            } 
         }
     }
 }

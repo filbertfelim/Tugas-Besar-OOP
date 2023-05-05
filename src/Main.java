@@ -54,7 +54,7 @@ public class Main {
                     }
                 }
             } else if (commandStartingMenu.equals("help")) {
-                printHelp();
+                printHelp(scan);
                 delay(2000);
             } else if (commandStartingMenu.equals("exit")) {
                 exit();
@@ -90,7 +90,7 @@ public class Main {
             String commandMenu = scan.nextLine().toLowerCase();
             switch (commandMenu) {
                 case "1": // Help
-                    printHelp();
+                    printHelp(scan);
                     delay(2000);
 
                     System.out.println("Tekan enter untuk lanjut");
@@ -598,8 +598,47 @@ public class Main {
         }
     }
 
-    private static void printHelp() {
+    private static void printHelp(Scanner scan) {
         // print isi help
+        int choice = 0;
+        boolean isValid = false;
+        SingleHTP howToPlay = SingleHTP.getInstance();
+        SingleCommand commandGuide = SingleCommand.getInstance();
+
+        System.out.println("Pilih salah satu!");
+        System.out.println("1. How To Play");
+        System.out.println("2. Command Guide");
+
+        while (!isValid) {
+            try {
+                System.out.print("Pilihan: ");
+                choice = scan.nextInt();
+                isValid = true;
+            } catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka!");
+                scan.nextLine();
+            }
+        }
+        while (choice < 0 || choice > 2) {
+            System.out.println("Input invalid ( pilih diantara 2 pilihan ), silahkan diulangi!");
+            isValid = false;
+            while (!isValid) {
+                try {
+                    System.out.print("Pilihan");
+                    choice = scan.nextInt();
+                    isValid = true;
+                } catch (Exception e) {
+                    System.out.println("Input invalid, silahkan input angka dalam range!");
+                    scan.nextLine();
+                }
+            }
+        }
+        if(choice == 1){
+            howToPlay.showMessage();
+        } else{
+            commandGuide.showMessage();
+        }
+
     }
 
     private static void printGameMenu() {
