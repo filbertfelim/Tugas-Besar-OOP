@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Rumah {
 
@@ -7,7 +8,8 @@ public class Rumah {
     private ArrayList<Ruangan> listofRuangan;
     private final int ukuran = 5;
     private int[][] matriksRumah = new int[ukuran][ukuran];
-
+    
+    
     public Rumah(String namaSim, Point lokasi) {
         this.nama = "Rumah " + namaSim;
         this.lokasi = lokasi;
@@ -60,23 +62,43 @@ public class Rumah {
             Point titikRuang = null;
             switch (sisi) {
                 case 0:
-                    titikRuang = new Point(ruangTerhubung.getTitikRuang().getX(),
-                            ruangTerhubung.getTitikRuang().getY() + 1);
+                    titikRuang.setX(ruangTerhubung.getTitikRuang().getX());
+                    titikRuang.setY(ruangTerhubung.getTitikRuang().getY() + 1);
+                    break;
                 case 1:
-                    titikRuang = new Point(ruangTerhubung.getTitikRuang().getX(),
-                            ruangTerhubung.getTitikRuang().getY() - 1);
+                    titikRuang.setX(ruangTerhubung.getTitikRuang().getX());
+                    titikRuang.setY(ruangTerhubung.getTitikRuang().getY() - 1);
+                    break;
                 case 2:
-                    titikRuang = new Point(ruangTerhubung.getTitikRuang().getX() + 1,
-                            ruangTerhubung.getTitikRuang().getY());
+                    titikRuang.setX(ruangTerhubung.getTitikRuang().getX() + 1);
+                    titikRuang.setY(ruangTerhubung.getTitikRuang().getY());     
+                    break;
                 case 3:
-                    titikRuang = new Point(ruangTerhubung.getTitikRuang().getX() - 1,
-                            ruangTerhubung.getTitikRuang().getY());
+                    titikRuang.setX(ruangTerhubung.getTitikRuang().getX() - 1);
+                    titikRuang.setY(ruangTerhubung.getTitikRuang().getY());
+                    break;
             }
             Ruangan ruangBaru = new Ruangan(namaRuang, ruangke, titikRuang);
             listofRuangan.add(ruangBaru);
             ruangTerhubung.setRuangTerhubung(sisi, ruangke);
             matriksRumah[titikRuang.getX()][titikRuang.getY()] = ruangke;
-
+            if (Sumbu.cekAda(x, y+1)) {
+                ruangBaru.setRuangTerhubung(0, sumbuX.getNilai(x, y+1));
+                listofRuangan.get(matriksRumah.getNilai(x, y+1)-1).setRuangTerhubung(1, ruangke);
+            }
+            if (matriksRumah.cekAda(x, y-1)) {
+                ruangBaru.setRuangTerhubung(1, matriksRumah.getNilai(x, y-1)); // ruangBaru
+                listofRuangan.get(matriksRumah.getNilai(x, y-1)-1).setRuangTerhubung(0, ruangke); // ruangTerhubung
+                
+            }
+            if (matriksRumah.cekAda(x+1, y)) {
+                ruangBaru.setRuangTerhubung(2, matriksRumah.getNilai(x+1, y));
+                listofRuangan.get(matriksRumah.getNilai(x+1, y)-1).setRuangTerhubung(3, ruangke);
+            }
+            if (matriksRumah.cekAda(x-1, y)) {
+                ruangBaru.setRuangTerhubung(3, matriksRumah.getNilai(x-1, y));
+                listofRuangan.get(matriksRumah.getNilai(x-1, y)-1).setRuangTerhubung(2, ruangke);
+            }
         } else {
             switch (sisi) {
                 case 0:
