@@ -1,5 +1,4 @@
 import java.util.*;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,8 +12,6 @@ import java.lang.Math;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.sound.sampled.*;
 
 import java.io.FileWriter;
 
@@ -68,33 +65,8 @@ public class Main {
 
         if (newGame) {
             // Game baru dimulai
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        File file = new File("music/opening.wav");
-                        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-
-                        Clip clip = AudioSystem.getClip();
-                        clip.open(audioStream);
-
-                        clip.start();
-                        Thread.sleep(14450);
-                        clip.stop();
-                    } catch (UnsupportedAudioFileException e) {
-                    } catch (LineUnavailableException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            });
-            thread.start();
+            MusicPlayer music = new MusicPlayer();
+            music.plays("opening", 14450);
 
             System.out.print("Nama sim : ");
             String namasim = scan.nextLine();
@@ -114,7 +86,11 @@ public class Main {
 
         boolean isGameFinish = false;
         while (!isGameFinish) {
-
+            if (World.getListofSim().size() == 0)
+            {
+                isGameFinish = true;
+                break;
+            }
             printGameMenu();
             System.out.print(">> ");
             String commandMenu = scan.nextLine().toLowerCase();
@@ -129,6 +105,8 @@ public class Main {
                     break;
                 case "2": // Exit
                     boolean savingLoop = false;
+                    MusicPlayer musik = new MusicPlayer();
+                    musik.plays("Short", 35000);
                     while (!savingLoop) {
                         System.out.println("Do you want to save this game file? (y/n)");
                         System.out.print(">> ");
@@ -297,6 +275,7 @@ public class Main {
                                     System.out.println("1. Kerja");
                                     System.out.println("2. Olahraga");
                                     System.out.println("3. Go to object");
+                                    System.out.println("4. View Sim info");
                                     System.out.println("0  Batal");
                                     System.out.print("Pilihan : ");
                                     idx = scan.nextInt();
@@ -306,7 +285,7 @@ public class Main {
                                     scan.nextLine();
                                 }
                             }
-                            while (idx < 0 || idx > 3) {
+                            while (idx < 0 || idx > 4) {
                                 System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
                                 isValid = false;
                                 while (!isValid) {
@@ -317,6 +296,7 @@ public class Main {
                                         System.out.println("1. Kerja");
                                         System.out.println("2. Olahraga");
                                         System.out.println("3. Go to object");
+                                        System.out.println("4. View Sim info");
                                         System.out.println("0  Batal");
                                         System.out.print("Pilihan : ");
                                         idx = scan.nextInt();
@@ -335,6 +315,8 @@ public class Main {
                                 World.getActiveSim().olahraga(scan);
                             } else if (idx == 3) {
                                 World.getActiveSim().gotoObject(scan);
+                            } else if (idx == 4) {
+                                World.getActiveSim().getInfo();
                             }
                         }
                     }
@@ -354,7 +336,6 @@ public class Main {
             }
 
         }
-
     }
 
     private static void save(List<World> save, String namaFile) {
@@ -681,7 +662,6 @@ public class Main {
         System.out.println("12. Go To Object");
         System.out.println("13. Action");
         System.out.println("14. Buy Item");
-
     }
 
     private static void exit() {

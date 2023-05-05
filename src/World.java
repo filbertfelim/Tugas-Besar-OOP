@@ -156,7 +156,7 @@ public class World {
                 } else {
                     listofSim.add(new Sim(nama, new Point((listofRumah.size() % 64) - 1, listofRumah.size() / 64)));
                 }
-                System.out.println("Sim " + nama + "berhasil ditambah!");
+                System.out.println("Sim " + nama + " berhasil ditambah!");
             }
             hariaddsim = harike;
         }
@@ -252,11 +252,21 @@ public class World {
             sim.balikdariBerkunjung(scan);
             sim.addTimerBeliBarang(duration);
             sim.checkkirimBarang();
+            sim.addTimerUpgradeHouse(duration);
+            sim.checkUpgradeHouse();
             sim.checkKondisiSim();
             if (sim.isDead()) {
                 if (sim.getNama().equals(getActiveSim().getNama())) {
                     World.removeActiveSim();
-                    World.changeSim(scan);
+                    if (World.getListofSim().size() == 0)
+                    {
+                        System.out.println("Semua sim sudah mati! Permainan selesai!");
+                        break;
+                    }
+                    else
+                    {
+                        World.changeSim(scan);
+                    }
                 } else {
                     World.removeSim(sim);
                 }

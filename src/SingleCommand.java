@@ -30,7 +30,7 @@ public class SingleCommand {
         System.out.println(" -  Jika kamu memilih memindahkan barang yang sudah ada di ruangan, maka kamu akan diminta untuk memasukkan");
         System.out.println("    koordinat lokasi penempatan barang yang baru");
         System.out.println("9.  Add Sim akan meminta kamu untuk memasukkan nama SIm yang baru untuk dapat dimainkan");
-        System.out.println("10.  Change Sim akan meminta kamu untuk memasukkan nama Sim yang sudah dibuat sebelumnya untuk dapat diganti");
+        System.out.println("10. Change Sim akan meminta kamu untuk memasukkan nama Sim yang sudah dibuat sebelumnya untuk dapat diganti");
         System.out.println("11. List Of Object akan menampilkan barang apa saja yang ada di dalam ruangan");
         System.out.println("12. Go To Object akan meminta kamu memilih untuk menuju ke barang apa yang berada di ruangan untuk dapat dilakukan aksi,");
         System.out.println("    jangan lupa barang harus ada di ruangan terlebih dahulu agar dapat didekati!");
