@@ -128,9 +128,6 @@ public class Ruangan {
 
     public boolean memindahBarang(NonMakanan barang, int x_Current, int y_Current, int x_Baru, int y_Baru) {
         // x dan y adalah posisi barang yang ada di ruangan
-
-        int p = barang.getPanjang();
-        int l = barang.getLebar();
         boolean ada = true;
 
         if (matrixRuangan[x_Current][y_Current] != barang.getKodeJenisBarang()) {
@@ -140,14 +137,8 @@ public class Ruangan {
         if (ada) {
             // menghapus letak awal barang
             int idx = 0;
-            for (NonMakanan item : listofObjek) {
-                if (item.getNamaItem().equals(barang.getNamaItem())) {
-                    listofObjek.remove(idx);
-                    break;
-                } else {
-                    idx++;
-                }
-            }
+            listofObjek.remove(barang);
+            
             for (int i = barang.getTitikAwal().getY(); i <= barang.getTitikAkhir().getY(); i++) {
                 for (int j = barang.getTitikAwal().getX(); j <= barang.getTitikAkhir().getX(); j++) {
                     matrixRuangan[i][j] = 0;
