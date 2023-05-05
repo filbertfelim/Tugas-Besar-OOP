@@ -6,16 +6,17 @@ public class Rumah {
     private String nama;
     private Point lokasi; // lokasi di world
     private ArrayList<Ruangan> listofRuangan;
-    private final int ukuran = 5;
-    private Matriks matriksRumah = new Matriks();
-
+    private Matriks matriksRumah;
+    
+    
     public Rumah(String namaSim, Point lokasi) {
         this.nama = "Rumah " + namaSim;
         this.lokasi = lokasi;
         Point titikRuanganPertama = new Point(0, 0);
         listofRuangan = new ArrayList<Ruangan>(0);
         listofRuangan.add(new Ruangan("Ruangan pertama", 1, titikRuanganPertama));
-        matriksRumah.setNilai(0, 0, 1);
+        matriksRumah = new Matriks();
+        matriksRumah.setNilai(0,0,1);
         listofRuangan.get(0).memasangBarang(new NonMakanan("meja dan kursi"), 0, 2);
         listofRuangan.get(0).memasangBarang(new NonMakanan("kasur single"), 0, 0);
         listofRuangan.get(0).memasangBarang(new NonMakanan("kompor gas"), 4, 2);
@@ -47,14 +48,10 @@ public class Rumah {
         this.lokasi = lokasi;
     }
 
-    public int getUkuran() {
-        return ukuran;
-    }
-
     public Matriks getMatrixRumah() {
         return matriksRumah;
     }
-
+    
     public void addRuangan(String namaRuang, Ruangan ruangTerhubung, int sisi) // 0 atas, 1 bawah, 2 kanan, 3 kiri
     {
         if (ruangTerhubung.getRuangTerhubung(sisi) == 0) {
@@ -71,7 +68,7 @@ public class Rumah {
                     break;
                 case 2:
                     titikRuang.setX(ruangTerhubung.getTitikRuang().getX() + 1);
-                    titikRuang.setY(ruangTerhubung.getTitikRuang().getY());
+                    titikRuang.setY(ruangTerhubung.getTitikRuang().getY());     
                     break;
                 case 3:
                     titikRuang.setX(ruangTerhubung.getTitikRuang().getX() - 1);
@@ -80,31 +77,25 @@ public class Rumah {
             }
             Ruangan ruangBaru = new Ruangan(namaRuang, ruangke, titikRuang);
             listofRuangan.add(ruangBaru);
-            ruangTerhubung.setRuangTerhubung(sisi, ruangke);
-
+            
             int x = titikRuang.getX();
             int y = titikRuang.getY();
             matriksRumah.setNilai(x, y, ruangke);
-            if (matriksRumah.cekAda(x, y + 1)) {
-                System.out.println("Di atas ada");
-                ruangBaru.setRuangTerhubung(0, matriksRumah.getNilai(x, y + 1));
-                listofRuangan.get(matriksRumah.getNilai(x, y + 1) - 1).setRuangTerhubung(1, ruangke);
+            if (matriksRumah.cekAda(x, y+1)) {
+                ruangBaru.setRuangTerhubung(0, matriksRumah.getNilai(x, y+1));
+                listofRuangan.get(matriksRumah.getNilai(x, y+1)-1).setRuangTerhubung(1, ruangke);
             }
-            if (matriksRumah.cekAda(x, y - 1)) {
-                System.out.println("Di bawah ada");
-                ruangBaru.setRuangTerhubung(1, matriksRumah.getNilai(x, y - 1)); // ruangBaru
-                listofRuangan.get(matriksRumah.getNilai(x, y - 1) - 1).setRuangTerhubung(0, ruangke); // ruangTerhubung
-
+            if (matriksRumah.cekAda(x, y-1)) {
+                ruangBaru.setRuangTerhubung(1, matriksRumah.getNilai(x, y-1)); // ruangBaru
+                listofRuangan.get(matriksRumah.getNilai(x, y-1)-1).setRuangTerhubung(0, ruangke); // ruangTerhubung
             }
-            if (matriksRumah.cekAda(x + 1, y)) {
-                System.out.println("Di kanan ada");
-                ruangBaru.setRuangTerhubung(2, matriksRumah.getNilai(x + 1, y));
-                listofRuangan.get(matriksRumah.getNilai(x + 1, y) - 1).setRuangTerhubung(3, ruangke);
+            if (matriksRumah.cekAda(x+1, y)) {
+                ruangBaru.setRuangTerhubung(2, matriksRumah.getNilai(x+1, y));
+                listofRuangan.get(matriksRumah.getNilai(x+1, y)-1).setRuangTerhubung(3, ruangke);
             }
-            if (matriksRumah.cekAda(x - 1, y)) {
-                System.out.println("Di kiri ada");
-                ruangBaru.setRuangTerhubung(3, matriksRumah.getNilai(x - 1, y));
-                listofRuangan.get(matriksRumah.getNilai(x - 1, y) - 1).setRuangTerhubung(2, ruangke);
+            if (matriksRumah.cekAda(x-1, y)) {
+                ruangBaru.setRuangTerhubung(3, matriksRumah.getNilai(x-1, y));
+                listofRuangan.get(matriksRumah.getNilai(x-1, y)-1).setRuangTerhubung(2, ruangke);
             }
             System.out.println("Posisi ruangan baru: " + x + "," + y);
         } else {
