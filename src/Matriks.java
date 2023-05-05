@@ -131,7 +131,5 @@ public class Matriks {
             }
 		}	*/ // buat ngetes
     }
-    
-}
 
 

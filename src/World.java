@@ -252,6 +252,8 @@ public class World {
             sim.balikdariBerkunjung(scan);
             sim.addTimerBeliBarang(duration);
             sim.checkkirimBarang();
+            sim.addTimerUpgradeHouse(duration);
+            sim.checkUpgradeHouse();
             sim.checkKondisiSim();
             if (sim.isDead()) {
                 if (sim.getNama().equals(getActiveSim().getNama())) {
