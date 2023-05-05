@@ -463,12 +463,8 @@ public class Sim {
                         Thread.sleep(waktubalik * 1000);
                         System.out.println("Sudah sampai di rumah!");
                         World.addWaktu(waktubalik);
-                        World.checkAllSimTimer(waktubalik, scan);
                         checkKondisiSim();
-                        if (isDead()) {
-                            World.removeActiveSim();
-                            World.changeSim(scan);
-                        }
+                        World.checkAllSimTimer(waktubalik, scan);
                     } catch (InterruptedException e) {
                         return;
                     }
@@ -499,12 +495,8 @@ public class Sim {
                     World.addWaktu(10);
                     perluBAB = false;
                     timerBelumBAB = 0;
-                    World.checkAllSimTimer(10, scan);
                     checkKondisiSim();
-                    if (isDead()) {
-                        World.removeActiveSim();
-                        World.changeSim(scan);
-                    }
+                    World.checkAllSimTimer(10, scan);         
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -557,12 +549,8 @@ public class Sim {
                     kesehatan = kesehatan + 30 * (finalduration / 240);
                     mood = mood + 20 * (finalduration / 240);
                     World.addWaktu(finalduration);
-                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead()) {
-                        World.removeActiveSim();
-                        World.changeSim(scan);
-                    }
+                    World.checkAllSimTimer(finalduration, scan);
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -618,12 +606,8 @@ public class Sim {
                         setMood(getMood() - (10 * finalduration / 30));
                         setUang(getUang() + (pekerjaan.getGaji() * finalduration / 240));
                         World.addWaktu(finalduration);
-                        World.checkAllSimTimer(finalduration, scan);
                         checkKondisiSim();
-                        if (isDead()) {
-                            World.removeActiveSim();
-                            World.changeSim(scan);
-                        }
+                        World.checkAllSimTimer(finalduration, scan);
                     } catch (InterruptedException e) {
                         return;
                     }
@@ -680,12 +664,8 @@ public class Sim {
                     kekenyangan = kekenyangan - (5 * (finalduration / 10));
                     mood = mood + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
-                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead()) {
-                        World.removeActiveSim();
-                        World.changeSim(scan);
-                    }
+                    World.checkAllSimTimer(finalduration, scan);
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -738,12 +718,8 @@ public class Sim {
                     kekenyangan = kekenyangan - (5 * (finalduration / 10));
                     mood = mood + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
-                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead()) {
-                        World.removeActiveSim();
-                        World.changeSim(scan);
-                    }
+                    World.checkAllSimTimer(finalduration, scan);
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -796,12 +772,8 @@ public class Sim {
                     kekenyangan = kekenyangan - (5 * (finalduration / 10));
                     mood = mood + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
-                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead()) {
-                        World.removeActiveSim();
-                        World.changeSim(scan);
-                    }
+                    World.checkAllSimTimer(finalduration, scan);
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -854,12 +826,8 @@ public class Sim {
                     kekenyangan = kekenyangan - (5 * (finalduration / 10));
                     mood = mood + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
-                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead()) {
-                        World.removeActiveSim();
-                        World.changeSim(scan);
-                    }
+                    World.checkAllSimTimer(finalduration, scan);
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -912,12 +880,8 @@ public class Sim {
                     kekenyangan = kekenyangan - (5 * (finalduration / 10));
                     mood = mood + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
-                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead()) {
-                        World.removeActiveSim();
-                        World.changeSim(scan);
-                    }
+                    World.checkAllSimTimer(finalduration, scan);
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -1001,12 +965,8 @@ public class Sim {
                     kekenyangan = kekenyangan - (5 * (finalduration / 10));
                     mood = mood + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
-                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead()) {
-                        World.removeActiveSim();
-                        World.changeSim(scan);
-                    }
+                    World.checkAllSimTimer(finalduration, scan);
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -1060,12 +1020,8 @@ public class Sim {
                     kekenyangan = kekenyangan - (5 * (finalduration / 20));
                     mood = mood + (10 * (finalduration / 20));
                     World.addWaktu(finalduration);
-                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead()) {
-                        World.removeActiveSim();
-                        World.changeSim(scan);
-                    }
+                    World.checkAllSimTimer(finalduration, scan);
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -1119,12 +1075,8 @@ public class Sim {
                     kekenyangan = kekenyangan - (5 * (finalduration / 10));
                     mood = mood + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
-                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead()) {
-                        World.removeActiveSim();
-                        World.changeSim(scan);
-                    }
+                    World.checkAllSimTimer(finalduration, scan);
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -1186,12 +1138,8 @@ public class Sim {
                     addTimerWaktuKunjung(finalduration);
                     mood = mood + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
-                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead()) {
-                        World.removeActiveSim();
-                        World.changeSim(scan);
-                    }
+                    World.checkAllSimTimer(finalduration, scan);
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -1243,12 +1191,8 @@ public class Sim {
                     addTimerWaktuKunjung(finalduration);
                     kesehatan = kesehatan + (5 * (finalduration / 10));
                     World.addWaktu(finalduration);
-                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead()) {
-                        World.removeActiveSim();
-                        World.changeSim(scan);
-                    }
+                    World.checkAllSimTimer(finalduration, scan);
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -1301,12 +1245,8 @@ public class Sim {
                     kekenyangan = kekenyangan - (10 * (finalduration / 30));
                     mood = mood + (10 * (finalduration / 30));
                     World.addWaktu(finalduration);
-                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead()) {
-                        World.removeActiveSim();
-                        World.changeSim(scan);
-                    }
+                    World.checkAllSimTimer(finalduration, scan);
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -1358,12 +1298,8 @@ public class Sim {
                     addTimerWaktuKunjung(finalduration);
                     mood = mood + (10 * (finalduration / 30));
                     World.addWaktu(finalduration);
-                    World.checkAllSimTimer(finalduration, scan);
                     checkKondisiSim();
-                    if (isDead()) {
-                        World.removeActiveSim();
-                        World.changeSim(scan);
-                    }
+                    World.checkAllSimTimer(finalduration, scan);
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -1389,11 +1325,8 @@ public class Sim {
                     addTimerWaktuKunjung(10);
                     kekenyangan = kekenyangan - 20;
                     World.addWaktu(10);
+                    checkKondisiSim();
                     World.checkAllSimTimer(10, scan);
-                    if (isDead()) {
-                        World.removeActiveSim();
-                        World.changeSim(scan);
-                    }
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -1476,6 +1409,7 @@ public class Sim {
                         }
                         World.addWaktu(30);
                         checkisFull(scan);
+                        checkKondisiSim();
                         World.checkAllSimTimer(30, scan);
                         perluBAB = true;
                     } catch (InterruptedException e) {
@@ -1735,6 +1669,7 @@ public class Sim {
                                 System.out.println("masak selesai!");
                                 mood = mood + 10;
                                 World.addWaktu((int) Math.round(1.5 * kekenyangan));
+                                checkKondisiSim();
                                 World.checkAllSimTimer((int) Math.round(1.5 * kekenyangan), scan);
                             } catch (InterruptedException e) {
                                 return;
@@ -1760,6 +1695,7 @@ public class Sim {
                         System.out.println("masak selesai!");
                         mood = mood + 10;
                         World.addWaktu((int) Math.round(1.5 * kekenyangan));
+                        checkKondisiSim();
                         World.checkAllSimTimer((int) Math.round(1.5 * kekenyangan), scan);
                     } catch (InterruptedException e) {
                         return;
@@ -1844,12 +1780,8 @@ public class Sim {
                                     Thread.sleep(waktuberkunjung * 1000);
                                     System.out.println("Berkunjung selesai!");
                                     World.addWaktu(waktuberkunjung);
-                                    World.checkAllSimTimer(waktuberkunjung, scan);
                                     checkKondisiSim();
-                                    if (isDead()) {
-                                        World.removeActiveSim();
-                                        World.changeSim(scan);
-                                    }
+                                    World.checkAllSimTimer(waktuberkunjung, scan);
                                 } catch (InterruptedException e) {
                                     return;
                                 }
@@ -1904,12 +1836,8 @@ public class Sim {
                             Thread.sleep(waktuberkunjung * 1000);
                             System.out.println("Berkunjung selesai!");
                             World.addWaktu(waktuberkunjung);
-                            World.checkAllSimTimer(waktuberkunjung, scan);
                             checkKondisiSim();
-                            if (isDead()) {
-                                World.removeActiveSim();
-                                World.changeSim(scan);
-                            }
+                            World.checkAllSimTimer(waktuberkunjung, scan);
                         } catch (InterruptedException e) {
                             return;
                         }
@@ -2086,6 +2014,7 @@ public class Sim {
                     }
                 }
             }
+            
 
         } else {
             System.out.println("Maaf, upgrade rumah hanya bisa dilakukan di rumah pribadi Sim ini");
