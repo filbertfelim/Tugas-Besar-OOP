@@ -7,7 +7,7 @@ public class Rumah {
     private Point lokasi; // lokasi di world
     private ArrayList<Ruangan> listofRuangan;
     private final int ukuran = 5;
-    private int[][] matriksRumah = new int[ukuran][ukuran];
+    private Matriks matriksRumah = new Matriks;
     
     
     public Rumah(String namaSim, Point lokasi) {
