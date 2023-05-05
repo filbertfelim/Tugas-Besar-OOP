@@ -7,9 +7,8 @@ public class Rumah {
     private Point lokasi; // lokasi di world
     private ArrayList<Ruangan> listofRuangan;
     private final int ukuran = 5;
-    private Matriks matriksRumah = new Matriks;
-    
-    
+    private Matriks matriksRumah = new Matriks();
+
     public Rumah(String namaSim, Point lokasi) {
         this.nama = "Rumah " + namaSim;
         this.lokasi = lokasi;
@@ -28,7 +27,7 @@ public class Rumah {
         this.nama = nama;
         this.lokasi = lokasi;
         this.listofRuangan = listofRuangan;
-        this.matriksRumah = new int[ukuran][ukuran];
+        this.matriksRumah = new Matriks();
     }
 
     public String getNama() {
@@ -51,7 +50,7 @@ public class Rumah {
         return ukuran;
     }
 
-    public int[][] getMatrixRumah() {
+    public Matriks getMatrixRumah() {
         return matriksRumah;
     }
 
@@ -71,7 +70,7 @@ public class Rumah {
                     break;
                 case 2:
                     titikRuang.setX(ruangTerhubung.getTitikRuang().getX() + 1);
-                    titikRuang.setY(ruangTerhubung.getTitikRuang().getY());     
+                    titikRuang.setY(ruangTerhubung.getTitikRuang().getY());
                     break;
                 case 3:
                     titikRuang.setX(ruangTerhubung.getTitikRuang().getX() - 1);
@@ -82,22 +81,22 @@ public class Rumah {
             listofRuangan.add(ruangBaru);
             ruangTerhubung.setRuangTerhubung(sisi, ruangke);
             matriksRumah[titikRuang.getX()][titikRuang.getY()] = ruangke;
-            if (Sumbu.cekAda(x, y+1)) {
-                ruangBaru.setRuangTerhubung(0, sumbuX.getNilai(x, y+1));
-                listofRuangan.get(matriksRumah.getNilai(x, y+1)-1).setRuangTerhubung(1, ruangke);
+            if (Sumbu.cekAda(x, y + 1)) {
+                ruangBaru.setRuangTerhubung(0, sumbuX.getNilai(x, y + 1));
+                listofRuangan.get(matriksRumah.getNilai(x, y + 1) - 1).setRuangTerhubung(1, ruangke);
             }
-            if (matriksRumah.cekAda(x, y-1)) {
-                ruangBaru.setRuangTerhubung(1, matriksRumah.getNilai(x, y-1)); // ruangBaru
-                listofRuangan.get(matriksRumah.getNilai(x, y-1)-1).setRuangTerhubung(0, ruangke); // ruangTerhubung
-                
+            if (matriksRumah.cekAda(x, y - 1)) {
+                ruangBaru.setRuangTerhubung(1, matriksRumah.getNilai(x, y - 1)); // ruangBaru
+                listofRuangan.get(matriksRumah.getNilai(x, y - 1) - 1).setRuangTerhubung(0, ruangke); // ruangTerhubung
+
             }
-            if (matriksRumah.cekAda(x+1, y)) {
-                ruangBaru.setRuangTerhubung(2, matriksRumah.getNilai(x+1, y));
-                listofRuangan.get(matriksRumah.getNilai(x+1, y)-1).setRuangTerhubung(3, ruangke);
+            if (matriksRumah.cekAda(x + 1, y)) {
+                ruangBaru.setRuangTerhubung(2, matriksRumah.getNilai(x + 1, y));
+                listofRuangan.get(matriksRumah.getNilai(x + 1, y) - 1).setRuangTerhubung(3, ruangke);
             }
-            if (matriksRumah.cekAda(x-1, y)) {
-                ruangBaru.setRuangTerhubung(3, matriksRumah.getNilai(x-1, y));
-                listofRuangan.get(matriksRumah.getNilai(x-1, y)-1).setRuangTerhubung(2, ruangke);
+            if (matriksRumah.cekAda(x - 1, y)) {
+                ruangBaru.setRuangTerhubung(3, matriksRumah.getNilai(x - 1, y));
+                listofRuangan.get(matriksRumah.getNilai(x - 1, y) - 1).setRuangTerhubung(2, ruangke);
             }
         } else {
             switch (sisi) {
