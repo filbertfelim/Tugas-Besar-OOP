@@ -114,7 +114,11 @@ public class Main {
 
         boolean isGameFinish = false;
         while (!isGameFinish) {
-
+            if (World.getListofSim().size() == 0)
+            {
+                isGameFinish = true;
+                break;
+            }
             printGameMenu();
             System.out.print(">> ");
             String commandMenu = scan.nextLine().toLowerCase();
@@ -297,6 +301,7 @@ public class Main {
                                     System.out.println("1. Kerja");
                                     System.out.println("2. Olahraga");
                                     System.out.println("3. Go to object");
+                                    System.out.println("4. View Sim info");
                                     System.out.println("0  Batal");
                                     System.out.print("Pilihan : ");
                                     idx = scan.nextInt();
@@ -306,7 +311,7 @@ public class Main {
                                     scan.nextLine();
                                 }
                             }
-                            while (idx < 0 || idx > 3) {
+                            while (idx < 0 || idx > 4) {
                                 System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
                                 isValid = false;
                                 while (!isValid) {
@@ -317,6 +322,7 @@ public class Main {
                                         System.out.println("1. Kerja");
                                         System.out.println("2. Olahraga");
                                         System.out.println("3. Go to object");
+                                        System.out.println("4. View Sim info");
                                         System.out.println("0  Batal");
                                         System.out.print("Pilihan : ");
                                         idx = scan.nextInt();
@@ -335,6 +341,8 @@ public class Main {
                                 World.getActiveSim().olahraga(scan);
                             } else if (idx == 3) {
                                 World.getActiveSim().gotoObject(scan);
+                            } else if (idx == 4) {
+                                World.getActiveSim().getInfo();
                             }
                         }
                     }
@@ -354,7 +362,6 @@ public class Main {
             }
 
         }
-
     }
 
     private static void save(List<World> save, String namaFile) {
