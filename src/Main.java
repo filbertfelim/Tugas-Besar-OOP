@@ -40,7 +40,7 @@ public class Main {
                         isGameLoading = true;
                         newGame = false;
                         String loadFile = scan.nextLine().toLowerCase();
-                        load(loadFile);
+                        worldsCreatedList.add(load(loadFile));
                         System.out.println("Enjoy playing!");
                         delay(2000);
                     } else if (startingGame.equals("n")) {
@@ -86,8 +86,7 @@ public class Main {
 
         boolean isGameFinish = false;
         while (!isGameFinish) {
-            if (World.getListofSim().size() == 0)
-            {
+            if (World.getListofSim().size() == 0) {
                 isGameFinish = true;
                 break;
             }
@@ -446,6 +445,8 @@ public class Main {
             // atribut int uang;
             simJSON.put("uang", sim.getUang());
 
+            // jumlahitem
+            simJSON.put("jumlahitem", sim.getInventory().getInventory().size());
             // atribut Inventory<Item> inventory;
             JSONObject inventoryJSON = new JSONObject();
             for (String namaItem : sim.getInventory().getDetails().keySet()) {
@@ -524,7 +525,7 @@ public class Main {
         }
     }
 
-    private static void load(String namaFile) {
+    private static World load(String namaFile) {
         JSONParser jsonP = new JSONParser();
 
         try (FileReader reader = new FileReader("savefile/" + namaFile + ".json")) {
@@ -532,11 +533,231 @@ public class Main {
             Object obj = jsonP.parse(reader);
             JSONArray objList = (JSONArray) obj;
             System.out.println(objList);
-            // Iterate over emp array
-            objList.forEach(object -> parseSim((JSONObject) object));
-            objList.forEach(object -> parseWorld((JSONObject) object));
 
-            JSONObject world = (JSONObject) objList.get(0);
+            JSONObject worldJSON = (JSONObject) objList.get(0);
+            // atribut waktu (World)
+            int waktu = Math.toIntExact((Long) worldJSON.get("waktu"));
+            // atribut harike (World)
+            int harike = Math.toIntExact((Long) worldJSON.get("harike"));
+
+            // jumlah rumah
+            int jumlahrumah = Math.toIntExact((Long) worldJSON.get("jumlahrumah"));
+            // atribut listofRumah (World)
+            ArrayList<Rumah> listofRumah = new ArrayList<Rumah>(jumlahrumah);
+            JSONObject listofrumahJSON = (JSONObject) worldJSON.get("listofrumah");
+            for (int rumahKe = 1; rumahKe <= jumlahrumah; rumahKe++) {
+                // objek Rumah
+                JSONObject rumahSimJSON = (JSONObject) listofrumahJSON.get("Rumah " + rumahKe);
+
+                // atribut nama (Rumah)
+                // rumahSim.put("nama", rumah.getNama());
+                String namaRumah = (String) rumahSimJSON.get("nama");
+                // atribut lokasi (Rumah)
+                // rumahSim.put("lokasiX", rumah.getLokasi().getX());
+                int lokasiX = Math.toIntExact((Long) rumahSimJSON.get("lokasiX"));
+                // rumahSim.put("lokasiY", rumah.getLokasi().getY());
+                int lokasiY = Math.toIntExact((Long) rumahSimJSON.get("lokasiY"));
+                Point lokasi = new Point(lokasiX, lokasiY);
+
+                // jumlah ruangan
+                // rumahSim.put("jumlahruangan", rumah.getListofRuangan().size());
+                int jumlahruangan = Math.toIntExact((Long) rumahSimJSON.get("jumlahruangan"));
+                // atribut listofruangan (Rumah)
+                ArrayList<Ruangan> listofRuangan = new ArrayList<Ruangan>();
+                JSONObject listofRuanganJSON = (JSONObject) rumahSimJSON.get("listofruangan");
+                for (int ruangKe = 1; ruangKe <= jumlahruangan; ruangKe++) {
+                    // objek Ruangan
+                    JSONObject ruanganRumahSimJSON = (JSONObject) listofRuanganJSON.get("Rumah " + ruangKe);
+
+                    // atribut nama (Ruangan)
+                    // ruanganRumahSim.put("nama", ruangan.getNamaRuangan());
+                    String namaRuangan = (String) ruanganRumahSimJSON.get("nama");
+                    // atribut ruanganke (Ruangan)
+                    // ruanganRumahSim.put("ruanganke", ruangan.getRuanganKe());
+                    int ruanganKe = Math.toIntExact((Long) ruanganRumahSimJSON.get("ruanganke"));
+
+                    // atribut array ruanganTerhubung (Ruangan)
+                    int[] ruangTerhubung = new int[4];
+                    JSONObject ruanganTerhubungJSON = (JSONObject) ruanganRumahSimJSON.get("ruanganterhubung");
+                    for (int i = 0; i < 4; i++) {
+                        // ruanganTerhubung.put(i, ruangan.getRuangTerhubung(i));
+                        ruangTerhubung[i] = Math.toIntExact((Long) ruanganTerhubungJSON.get("" + i));
+                    }
+                    // ruanganRumahSim.put("ruanganterhubung", ruanganTerhubung);
+
+                    // atribut array matrixRuangan (Ruangan)
+                    int[][] matrixRuangan = new int[6][6];
+                    JSONObject matrixRuanganJSON = (JSONObject) ruanganRumahSimJSON.get("matrixruangan");
+                    for (int x = 0; x < 6; x++) {
+                        JSONObject isiMatriksJSON = (JSONObject) matrixRuanganJSON.get("" + x);
+                        for (int y = 0; y < 6; y++) {
+                            // isiMatriks.put(y, ruangan.getMatrixRuangan()[x][y]);
+                            matrixRuangan[x][y] = Math.toIntExact((Long) isiMatriksJSON.get("" + y));
+                        }
+
+                        // matrixRuangan.put(x, isiMatriks);
+                    }
+                    // ruanganRumahSim.put("matrixruangan", matrixRuangan);
+
+                    // jumlah objek
+                    // ruanganRumahSim.put("jumlahobjek", ruangan.getListofObjek().size());
+                    int jumlahobjek = Math.toIntExact((Long) ruanganRumahSimJSON.get("jumlahobjek"));
+                    // atribut listofobjek (Ruangan)
+                    ArrayList<NonMakanan> listofObjek = new ArrayList<NonMakanan>();
+                    JSONObject objekRuanganJSON = (JSONObject) ruanganRumahSimJSON.get("listofobjek");
+                    for (int objekKe = 1; objekKe <= jumlahobjek; objekKe++) {
+                        // atribut namaItem (NonMakanan)
+                        // objekRuanganJSON.put("namaitem " + objekKe, objek.getNamaItem());
+                        listofObjek.add(new NonMakanan((String) objekRuanganJSON.get("namaitem " + objekKe)));
+                    }
+                    // ruanganRumahSim.put("listofobjek", objekRuanganJSON);
+
+                    // atribut titikRuang
+                    // ruanganRumahSim.put("titikruangX", ruangan.getTitikRuang().getX());
+                    int titikruangX = Math.toIntExact((Long) ruanganRumahSimJSON.get("titikruangX"));
+                    // ruanganRumahSim.put("titikruangY", ruangan.getTitikRuang().getY());
+                    int titikruangY = Math.toIntExact((Long) ruanganRumahSimJSON.get("titikruangY"));
+                    Point titikRuang = new Point(titikruangX, titikruangY);
+
+                    // ruanganJSON.put("Ruangan " + ruangan.getRuanganKe(), ruanganRumahSim);
+                    listofRuangan.add(new Ruangan(namaRuangan, ruanganKe, matrixRuangan, listofObjek, ruangTerhubung,
+                            titikRuang));
+                }
+                // rumahSim.put("listofruangan", ruanganJSON);
+
+                listofRumah.add(new Rumah(namaRumah, lokasi, listofRuangan));
+            }
+
+            // jumlah sim
+            // worldJSON.put("jumlahsim", world.getListofSim().size());
+            int jumlahsim = Math.toIntExact((Long) worldJSON.get("jumlahsim"));
+            // atribut listofsim (World)
+            ArrayList<Sim> listofSim = new ArrayList<Sim>();
+            JSONObject simListJSON = (JSONObject) worldJSON.get("listofsim");
+            for (int simKe = 1; simKe <= jumlahsim; simKe++) {
+                // objek Sim
+                JSONObject simJSON = (JSONObject) simListJSON.get("Sim " + simKe);
+
+                // atribut String nama;
+                // simJSON.put("nama", sim.getNama());
+                String namaSim = (String) simJSON.get("nama");
+
+                // atribut Pekerjaan pekerjaan;
+                JSONObject pekerjaanJSON = (JSONObject) simJSON.get("pekerjaan");
+                // pekerjaanJSON.put("nama", sim.getPekerjaan().getNama());
+                String namaPekerjaan = (String) pekerjaanJSON.get("nama");
+                // pekerjaanJSON.put("gaji", sim.getPekerjaan().getGaji());
+                int gaji = Math.toIntExact((Long) pekerjaanJSON.get("gaji"));
+                // pekerjaanJSON.put("lamabekerja", sim.getPekerjaan().getLamaBekerja());
+                int lamabekerja = Math.toIntExact((Long) pekerjaanJSON.get("lamabekerja"));
+                // pekerjaanJSON.put("changeworkathari",
+                // sim.getPekerjaan().getChangeWorkAtHari());
+                int changeworkathari = Math.toIntExact((Long) pekerjaanJSON.get("changeworkathari"));
+                // simJSON.put("pekerjaan", pekerjaanJSON);
+                Pekerjaan pekerjaan = new Pekerjaan(namaPekerjaan, gaji, lamabekerja, changeworkathari);
+
+                // atribut int uang;
+                // simJSON.put("uang", sim.getUang());
+                int uang = Math.toIntExact((Long) simJSON.get("uang"));
+
+                // jumlahitem
+                // simJSON.put("jumlahitem", sim.getInventory().getInventory().size());
+                int jumlahitem = Math.toIntExact((Long) simJSON.get("jumlahitem"));
+                // atribut Inventory<Item> inventory;
+                Inventory<Item> inventory = new Inventory<Item>();
+                JSONObject inventoryJSON = (JSONObject) simJSON.get("inventory");
+                // for (String namaItem : sim.getInventory().getDetails().keySet()) {
+                // inventoryJSON.put(namaItem, sim.getInventory().getDetails().get(namaItem));
+                // }
+                for (String namaItem : (Set<String>) inventoryJSON.keySet()) {
+                    int jumlahPerItem = Math.toIntExact((Long) inventoryJSON.get(namaItem));
+                    for (int i = 0; i < jumlahPerItem; i++) {
+                        inventory.addItem(new Item(namaItem));
+                    }
+                }
+                // simJSON.put("inventory", inventoryJSON);
+
+                // atribut int kekenyangan;
+                // simJSON.put("kekenyangan", sim.getKekenyangan());
+                int kekenyangan = Math.toIntExact((Long) simJSON.get("kekenyangan"));
+
+                // atribut int mood;
+                // simJSON.put("mood", sim.getMood());
+                int mood = Math.toIntExact((Long) simJSON.get("mood"));
+
+                // atribut int kesehatan;
+                // simJSON.put("kesehatan", sim.getKesehatan());
+                int kesehatan = Math.toIntExact((Long) simJSON.get("kesehatan"));
+
+                // atribut String status;
+                // simJSON.put("status", sim.getStatus());
+                String status = (String) simJSON.get("status");
+
+                // atribut Point posisi; // di dalam rumah
+                // simJSON.put("posisiX", sim.getPosisi().getX());
+                int posisiX = Math.toIntExact((Long) simJSON.get("posisiX"));
+                // simJSON.put("posisiY", sim.getPosisi().getY());
+                int posisiY = Math.toIntExact((Long) simJSON.get("posisiY"));
+                Point posisi = new Point(posisiX, posisiY);
+
+                // atribut Rumah rumah;
+                // simJSON.put("rumah", sim.getRumah().getNama());
+                String namaRumahSim = (String) simJSON.get("rumah");
+                for (Rumah rumahSim : listofRumah) {
+                    if (rumahSim.getNama().equals(namaRumahSim)) {
+                        Rumah rumah = rumahSim;
+                    }
+                }
+
+                // atribut Rumah posisiRumah;
+                // simJSON.put("posisirumah", sim.getPosisiRumah().getNama());
+                String namaPosisiRumahSim = (String) simJSON.get("posisirumah");
+                for (Rumah rumahSim : listofRumah) {
+                    if (rumahSim.getNama().equals(namaPosisiRumahSim)) {
+                        Rumah posisiRumah = rumahSim;
+                    }
+                }
+
+                // atribut Ruangan posisiRuangan;
+                simJSON.put("posisiruangan", sim.getPosisiRuangan().getNamaRuangan());
+
+                // atribut int timerBelumTidur;
+                simJSON.put("timerbelumtidur", sim.getTimerBelumTidur());
+
+                // atribut int timerBelumBAB;
+                simJSON.put("timerbelumbab", sim.getTimerBelumBab());
+
+                // atribut boolean perluBAB;
+                simJSON.put("perlubab", sim.getPerluBab());
+
+                // atribut int jatahWaktuBerkunjung;
+                simJSON.put("jatahwaktuberkunjung", sim.getJatahWaktuBerkunjung());
+
+                // atribut int timerWaktuKunjung;
+                simJSON.put("timerwaktukunjung", sim.getTimerWaktuKunjung());
+
+                // atribut boolean isBerkunjung;
+                simJSON.put("isberkunjung", sim.getIsBerkunjung());
+
+                // atribut Item barangdibeli;
+                if (sim.getBarangDiBeli() != null) {
+                    simJSON.put("barangdibeli", sim.getBarangDiBeli().getNamaItem());
+                } else {
+                    simJSON.put("barangdibeli", sim.getBarangDiBeli());
+                }
+
+                // atribut int timerbarangdibeli;
+                simJSON.put("timerbarangdibeli", sim.getTimerBarangDibeli());
+
+                // simListJSON.put("Sim " + simKe, simJSON);
+            }
+            // worldJSON.put("listofsim", simListJSON);
+
+            // atribut ActiveSim (World)
+            worldJSON.put("activesim", world.getActiveSim().getNama());
+
+            World world = new World();
+            return world;
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
