@@ -1,5 +1,5 @@
 import java.util.*;
-
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,6 +13,8 @@ import java.lang.Math;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.sound.sampled.*;
 
 import java.io.FileWriter;
 
@@ -66,6 +68,34 @@ public class Main {
 
         if (newGame) {
             // Game baru dimulai
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        File file = new File("music/opening.wav");
+                        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+            
+                        Clip clip = AudioSystem.getClip();
+                        clip.open(audioStream);
+            
+                        clip.start();
+                        Thread.sleep(14450);
+                        clip.stop();
+                    } catch(UnsupportedAudioFileException e){
+                    } catch (LineUnavailableException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+
             System.out.print("Nama sim : ");
             String namasim = scan.nextLine();
             World world = new World(namasim);

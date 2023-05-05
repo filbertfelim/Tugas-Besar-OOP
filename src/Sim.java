@@ -300,7 +300,7 @@ public class Sim {
         System.out.printf("%-2s %-20s %-10s %10s\n", 10, "Lemari Buku", 100, "1 x 1");
         System.out.printf("%-2s %-20s %-10s %10s\n", 11, "Radio", 100, "1 x 1");
         System.out.printf("%-2s %-20s %-10s %10s\n", 12, "Piano", 200, "2 x 1");
-        System.out.printf("%-2s %-20s %-10s %10s\n", 12, "Televisi", 150, "2 x 1");
+        System.out.printf("%-2s %-20s %-10s %10s\n", 13, "Televisi", 150, "2 x 1");
         System.out.printf("\n%-2s %-20s %-10s %10s\n", "No", "Bahan Makanan", "Harga", "Kekenyangan");
         System.out.printf("%-2s %-20s %-10s %10s\n", 14, "Nasi", 5, 5);
         System.out.printf("%-2s %-20s %-10s %10s\n", 15, "Kentang", 3, 4);
