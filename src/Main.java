@@ -160,6 +160,10 @@ public class Main {
                     break;
                 case "4": // View Current Location
                     World.getActiveSim().getCurrentLocation();
+                    World.getActiveSim().getPosisiRuangan().printRuangTerhubung();
+                    System.out
+                            .println("Posisi ruangan: " + World.getActiveSim().getPosisiRuangan().getTitikRuang().getX()
+                                    + "," + World.getActiveSim().getPosisiRuangan().getTitikRuang().getY());
                     delay(2000);
                     System.out.println("Tekan enter untuk lanjut");
                     System.out.println(">> ");

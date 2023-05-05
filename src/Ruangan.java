@@ -163,4 +163,12 @@ public class Ruangan {
         ruangTerhubung[sisi] = ruanganKe;
     }
 
+    public void printRuangTerhubung() {
+        System.out.println("Ruang Atas: " + ruangTerhubung[0]);
+        System.out.println("Ruang Bawah: " + ruangTerhubung[1]);
+        System.out.println("Ruang Kanan: " + ruangTerhubung[2]);
+        System.out.println("Ruang Kiri: " + ruangTerhubung[3]);
+
+    }
+
 }
