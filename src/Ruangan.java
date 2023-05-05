@@ -118,7 +118,7 @@ public class Ruangan {
             }
             listofObjek.add(barang);
             barang.setTitikAwal(new Point(x, y));
-            barang.setTititAkhir(new Point((x+p-1), (y+l-1));
+            barang.setTitikAkhir(new Point((x+p-1), (y+l-1));
         } else {
             System.out.println("Maaf titik tersebut penuh untuk disimpan objek " + barang.getNamaItem());
         }

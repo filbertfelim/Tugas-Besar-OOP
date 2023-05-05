@@ -2039,7 +2039,7 @@ public class Sim {
             if (idx == 0) {
                 System.out.println("Tidak jadi berpindah ruangan!");
             } else {
-                while (idx < 0 || idx > 3) {
+                while (idx < 0 || idx > 4) {
                     System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
                     System.out.println("Ruangan yang ada : ");
                     int i = 0;
