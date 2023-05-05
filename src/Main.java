@@ -1,5 +1,5 @@
 import java.util.*;
-
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,6 +13,8 @@ import java.lang.Math;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.sound.sampled.*;
 
 import java.io.FileWriter;
 
@@ -54,7 +56,7 @@ public class Main {
                     }
                 }
             } else if (commandStartingMenu.equals("help")) {
-                printHelp();
+                printHelp(scan);
                 delay(2000);
             } else if (commandStartingMenu.equals("exit")) {
                 exit();
@@ -66,6 +68,34 @@ public class Main {
 
         if (newGame) {
             // Game baru dimulai
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        File file = new File("music/opening.wav");
+                        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+
+                        Clip clip = AudioSystem.getClip();
+                        clip.open(audioStream);
+
+                        clip.start();
+                        Thread.sleep(14450);
+                        clip.stop();
+                    } catch (UnsupportedAudioFileException e) {
+                    } catch (LineUnavailableException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+
             System.out.print("Nama sim : ");
             String namasim = scan.nextLine();
             World world = new World(namasim);
@@ -90,7 +120,7 @@ public class Main {
             String commandMenu = scan.nextLine().toLowerCase();
             switch (commandMenu) {
                 case "1": // Help
-                    printHelp();
+                    printHelp(scan);
                     delay(2000);
 
                     System.out.println("Tekan enter untuk lanjut");
@@ -130,6 +160,10 @@ public class Main {
                     break;
                 case "4": // View Current Location
                     World.getActiveSim().getCurrentLocation();
+                    World.getActiveSim().getPosisiRuangan().printRuangTerhubung();
+                    System.out
+                            .println("Posisi ruangan: " + World.getActiveSim().getPosisiRuangan().getTitikRuang().getX()
+                                    + "," + World.getActiveSim().getPosisiRuangan().getTitikRuang().getY());
                     delay(2000);
                     System.out.println("Tekan enter untuk lanjut");
                     System.out.println(">> ");
@@ -250,7 +284,9 @@ public class Main {
                     } else if (idx == 3) {
                         World.getActiveSim().berkunjung(scan);
                         while (World.getActiveSim().getTimerWaktuKunjung() < World.getActiveSim()
-                                .getJatahWaktuBerkunjung() && !World.getActiveSim().getPosisiRumah().getNama().equals(World.getActiveSim().getRumah().getNama())) {
+                                .getJatahWaktuBerkunjung()
+                                && !World.getActiveSim().getPosisiRumah().getNama()
+                                        .equals(World.getActiveSim().getRumah().getNama())) {
                             isValid = false;
                             idx = 1;
                             while (!isValid) {
@@ -400,18 +436,6 @@ public class Main {
                 ruanganJSON.put("Ruangan " + ruangan.getRuanganKe(), ruanganRumahSim);
             }
             rumahSim.put("listofruangan", ruanganJSON);
-
-            // atribut matrixRumah (Rumah)
-            JSONObject matrixRumah = new JSONObject();
-            for (int x = 0; x < rumah.getUkuran(); x++) {
-                JSONObject isiMatriks = new JSONObject();
-                for (int y = 0; y < rumah.getUkuran(); y++) {
-                    isiMatriks.put(y, rumah.getMatrixRumah()[x][y]);
-                }
-
-                matrixRumah.put(x, isiMatriks);
-            }
-            rumahSim.put("matrixrumah", matrixRumah);
 
             rumahJSON.put("Rumah " + rumahKe, rumahSim);
             rumahKe++;
@@ -598,8 +622,47 @@ public class Main {
         }
     }
 
-    private static void printHelp() {
+    private static void printHelp(Scanner scan) {
         // print isi help
+        int choice = 0;
+        boolean isValid = false;
+        SingleHTP howToPlay = SingleHTP.getInstance();
+        SingleCommand commandGuide = SingleCommand.getInstance();
+
+        System.out.println("Pilih salah satu!");
+        System.out.println("1. How To Play");
+        System.out.println("2. Command Guide");
+
+        while (!isValid) {
+            try {
+                System.out.print("Pilihan: ");
+                choice = scan.nextInt();
+                isValid = true;
+            } catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka!");
+                scan.nextLine();
+            }
+        }
+        while (choice < 0 || choice > 2) {
+            System.out.println("Input invalid ( pilih diantara 2 pilihan ), silahkan diulangi!");
+            isValid = false;
+            while (!isValid) {
+                try {
+                    System.out.print("Pilihan");
+                    choice = scan.nextInt();
+                    isValid = true;
+                } catch (Exception e) {
+                    System.out.println("Input invalid, silahkan input angka dalam range!");
+                    scan.nextLine();
+                }
+            }
+        }
+        if (choice == 1) {
+            howToPlay.showMessage();
+        } else {
+            commandGuide.showMessage();
+        }
+
     }
 
     private static void printGameMenu() {
