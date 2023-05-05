@@ -6,6 +6,7 @@ public class NonMakanan extends Item implements Buyable {
     private Point titikAwal;
     private Point titikAkhir;
     private int kodeJenisBarang;
+    private boolean isHorizontal = true;
 
     public NonMakanan(String namaItem, int harga, int panjang, int lebar, Point titikAwal, Point titikAkhir) {
         super(namaItem);
@@ -80,21 +81,21 @@ public class NonMakanan extends Item implements Buyable {
             lebar = 1;
             harga = 200;
             kodeJenisBarang = 12;
-        } else if((namaItem.toLowerCase()).equals("televisi")){
+        } else if ((namaItem.toLowerCase()).equals("televisi")) {
             panjang = 2;
             lebar = 1;
             harga = 150;
             kodeJenisBarang = 13;
-        // } else if ((namaItem.toLowerCase()).equals("komputer")) {
-        //     panjang = 2;
-        //     lebar = 1;
-        //     harga = 200;
-        //     kodeJenisBarang = 14;
-        // } else if ((namaItem.toLowerCase()).equals("sofa")) {
-        //     panjang = 2;
-        //     lebar = 1;
-        //     harga = 80;
-        //     kodeJenisBarang = 15;
+            // } else if ((namaItem.toLowerCase()).equals("komputer")) {
+            // panjang = 2;
+            // lebar = 1;
+            // harga = 200;
+            // kodeJenisBarang = 14;
+            // } else if ((namaItem.toLowerCase()).equals("sofa")) {
+            // panjang = 2;
+            // lebar = 1;
+            // harga = 80;
+            // kodeJenisBarang = 15;
         } else {
             System.out.println("Input tidak ada di daftar item nonmakanan!");
         }
@@ -146,5 +147,43 @@ public class NonMakanan extends Item implements Buyable {
 
     public void setKodeJenisBarang(int kodeJenisBarang) {
         this.kodeJenisBarang = kodeJenisBarang;
+    }
+
+    public boolean getIsHorizontal() {
+        return isHorizontal;
+    }
+
+    public void setIsHorizontal(boolean isHorizontal) {
+        this.isHorizontal = isHorizontal;
+    }
+
+    public void setHorizontal() {
+        if (!isHorizontal) {
+            panjang = panjang + lebar;
+            lebar = panjang - lebar;
+            panjang = panjang - lebar;
+            isHorizontal = true;
+
+            if (titikAwal != null) {
+                int x = titikAwal.getX() + panjang - 1;
+                int y = titikAwal.getY() + lebar - 1;
+                titikAkhir = new Point(x, y);
+            }
+        }
+    }
+
+    public void setVertikal() {
+        if (isHorizontal) {
+            panjang = panjang + lebar;
+            lebar = panjang - lebar;
+            panjang = panjang - lebar;
+            isHorizontal = false;
+
+            if (titikAwal != null) {
+                int x = titikAwal.getX() + panjang - 1;
+                int y = titikAwal.getY() + lebar - 1;
+                titikAkhir = new Point(x, y);
+            }
+        }
     }
 }

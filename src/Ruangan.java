@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class Ruangan {
     private String nama;
@@ -130,18 +129,52 @@ public class Ruangan {
         // x dan y adalah posisi barang yang ada di ruangan
         boolean ada = true;
 
-        if (matrixRuangan[x_Current][y_Current] != barang.getKodeJenisBarang()) {
+        if (matrixRuangan[y_Current][x_Current] != barang.getKodeJenisBarang()) {
             ada = false;
+            System.out.println("Tidak ada barang tersebut di titik ini");
         }
 
         if (ada) {
-            // menghapus letak awal barang
             int idx = 0;
-            listofObjek.remove(barang);
-
-            for (int i = barang.getTitikAwal().getY(); i <= barang.getTitikAkhir().getY(); i++) {
-                for (int j = barang.getTitikAwal().getX(); j <= barang.getTitikAkhir().getX(); j++) {
-                    matrixRuangan[i][j] = 0;
+            int indexObjek = 0;
+            for (NonMakanan objek : listofObjek) {
+                if (objek.getNamaItem().equals(barang.getNamaItem())) {
+                    for (int i = objek.getTitikAwal().getY(); i <= objek.getTitikAkhir().getY(); i++) {
+                        if (i == barang.getTitikAwal().getY()) {
+                            for (int j = objek.getTitikAwal().getX(); j <= objek.getTitikAkhir().getX(); j++) {
+                                if (j == barang.getTitikAwal().getX()) {
+                                    barang.setTitikAwal(objek.getTitikAwal());
+                                    barang.setTitikAkhir(objek.getTitikAkhir());
+                                    if (objek.getIsHorizontal()) {
+                                        barang.setIsHorizontal(true);
+                                    } else {
+                                        barang.setIsHorizontal(false);
+                                    }
+                                    for (int y = barang.getTitikAwal().getY(); y <= barang.getTitikAkhir()
+                                            .getY(); y++) {
+                                        for (int x = barang.getTitikAwal().getX(); x <= barang.getTitikAkhir()
+                                                .getX(); x++) {
+                                            matrixRuangan[y][x] = 0;
+                                        }
+                                    }
+                                    indexObjek = idx;
+                                }
+                            }
+                        }
+                    }
+                }
+                idx++;
+            }
+            // menghapus letak awal barang
+            listofObjek.remove(indexObjek);
+            System.out.println("Ubah orientasi objek? (y/n)");
+            Scanner scan = new Scanner(System.in);
+            String orientasi = scan.nextLine().toLowerCase();
+            if (orientasi.equals("y")) {
+                if (barang.getIsHorizontal()) {
+                    barang.setVertikal();
+                } else {
+                    barang.setHorizontal();
                 }
             }
 
