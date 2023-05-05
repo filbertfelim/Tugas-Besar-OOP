@@ -118,6 +118,7 @@ public class Ruangan {
             }
             listofObjek.add(barang);
             barang.setTitikAwal(new Point(x, y));
+            barang.setTititAkhir(new Point((x+p-1), (y+l-1));
         } else {
             System.out.println("Maaf titik tersebut penuh untuk disimpan objek " + barang.getNamaItem());
         }
@@ -147,8 +148,8 @@ public class Ruangan {
                     idx++;
                 }
             }
-            for (int i = barang.getTitikAwal().getY(); i < barang.getTitikAwal().getY() + p; i++) {
-                for (int j = barang.getTitikAwal().getX(); j < barang.getTitikAwal().getX() + l; j++) {
+            for (int i = barang.getTitikAwal().getY(); i <= barang.getTitikAkhir().getY(); i++) {
+                for (int j = barang.getTitikAwal().getX(); j <= barang.getTitikAkhir().getX(); j++) {
                     matrixRuangan[i][j] = 0;
                 }
             }
