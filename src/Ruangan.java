@@ -119,6 +119,7 @@ public class Ruangan {
             barang.setTitikAwal(new Point(x, y));
             barang.setTitikAkhir(new Point((x + p - 1), (y + l - 1)));
         } else {
+            kosong = false;
             System.out.println("Maaf titik tersebut penuh untuk disimpan objek " + barang.getNamaItem());
         }
 
@@ -135,20 +136,23 @@ public class Ruangan {
         }
 
         if (ada) {
+            Point titikAwalBarang = new Point();
             int idx = 0;
             int indexObjek = 0;
             for (NonMakanan objek : listofObjek) {
                 if (objek.getNamaItem().equals(barang.getNamaItem())) {
                     for (int i = objek.getTitikAwal().getY(); i <= objek.getTitikAkhir().getY(); i++) {
                         if (i == barang.getTitikAwal().getY()) {
+                            titikAwalBarang.setY(objek.getTitikAwal().getY());
                             for (int j = objek.getTitikAwal().getX(); j <= objek.getTitikAkhir().getX(); j++) {
                                 if (j == barang.getTitikAwal().getX()) {
+                                    titikAwalBarang.setX(objek.getTitikAwal().getX());
                                     barang.setTitikAwal(objek.getTitikAwal());
                                     barang.setTitikAkhir(objek.getTitikAkhir());
                                     if (objek.getIsHorizontal()) {
-                                        barang.setIsHorizontal(true);
+                                        barang.setHorizontal();
                                     } else {
-                                        barang.setIsHorizontal(false);
+                                        barang.setVertikal();
                                     }
                                     for (int y = barang.getTitikAwal().getY(); y <= barang.getTitikAkhir()
                                             .getY(); y++) {
@@ -170,7 +174,9 @@ public class Ruangan {
             System.out.println("Ubah orientasi objek? (y/n)");
             Scanner scan = new Scanner(System.in);
             String orientasi = scan.nextLine().toLowerCase();
+            boolean ubahOrientasi = false;
             if (orientasi.equals("y")) {
+                ubahOrientasi = true;
                 if (barang.getIsHorizontal()) {
                     barang.setVertikal();
                 } else {
@@ -179,7 +185,24 @@ public class Ruangan {
             }
 
             // memasang lokasi baru barang
-            memasangBarang(barang, x_Baru, y_Baru);
+            ada = memasangBarang(barang, x_Baru, y_Baru);
+            if (!ada) {
+                if (ubahOrientasi) {
+                    if (barang.getIsHorizontal()) {
+                        barang.setVertikal();
+                    } else {
+                        barang.setHorizontal();
+                    }
+                }
+                int x = titikAwalBarang.getX();
+                int y = titikAwalBarang.getY();
+                for (int i = y; i < y + barang.getLebar(); i++) {
+                    for (int j = x; j < x + barang.getPanjang(); j++) {
+                        matrixRuangan[i][j] = barang.getKodeJenisBarang();
+                    }
+                }
+                listofObjek.add(barang);
+            }
         }
         return ada;
     }
