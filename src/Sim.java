@@ -1059,7 +1059,7 @@ public class Sim {
                     Thread.sleep(finalduration * 1000);
                     System.out.println("Olahraga selesai!");
                     kesehatan = kesehatan + (5 * (finalduration / 20));
-                    // kekenyangan = kekenyangan + (5 * (finalduration / 20));
+                    kekenyangan = kekenyangan - (5 * (finalduration / 20));
                     mood = mood + (10 * (finalduration / 20));
                     World.addWaktu(finalduration);
                     checkKondisiSim();
