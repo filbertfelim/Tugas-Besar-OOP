@@ -2041,7 +2041,7 @@ public class Sim {
             if (idx == 0) {
                 System.out.println("Tidak jadi membeli barang!");
             } else {
-                while (idx < 0 || idx > 20 || uang < getHargaBarang(idx)) {
+                while (idx < 0 || idx > 21 || uang < getHargaBarang(idx)) {
                     if (uang < getHargaBarang(idx)) {
                         System.out.println("Uang tidak cukup! Silakan pilih yang lain!");
                     } else {
