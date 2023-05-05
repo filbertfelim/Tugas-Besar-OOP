@@ -80,9 +80,12 @@ public class Rumah {
             Ruangan ruangBaru = new Ruangan(namaRuang, ruangke, titikRuang);
             listofRuangan.add(ruangBaru);
             ruangTerhubung.setRuangTerhubung(sisi, ruangke);
-            matriksRumah[titikRuang.getX()][titikRuang.getY()] = ruangke;
-            if (Sumbu.cekAda(x, y + 1)) {
-                ruangBaru.setRuangTerhubung(0, sumbuX.getNilai(x, y + 1));
+
+            int x = titikRuang.getX();
+            int y = titikRuang.getY();
+            matriksRumah.setNilai(x, y, ruangke);
+            if (matriksRumah.cekAda(x, y + 1)) {
+                ruangBaru.setRuangTerhubung(0, matriksRumah.getNilai(x, y + 1));
                 listofRuangan.get(matriksRumah.getNilai(x, y + 1) - 1).setRuangTerhubung(1, ruangke);
             }
             if (matriksRumah.cekAda(x, y - 1)) {

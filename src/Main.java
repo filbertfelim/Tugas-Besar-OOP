@@ -74,14 +74,14 @@ public class Main {
                     try {
                         File file = new File("music/opening.wav");
                         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-            
+
                         Clip clip = AudioSystem.getClip();
                         clip.open(audioStream);
-            
+
                         clip.start();
                         Thread.sleep(14450);
                         clip.stop();
-                    } catch(UnsupportedAudioFileException e){
+                    } catch (UnsupportedAudioFileException e) {
                     } catch (LineUnavailableException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -280,7 +280,9 @@ public class Main {
                     } else if (idx == 3) {
                         World.getActiveSim().berkunjung(scan);
                         while (World.getActiveSim().getTimerWaktuKunjung() < World.getActiveSim()
-                                .getJatahWaktuBerkunjung() && !World.getActiveSim().getPosisiRumah().getNama().equals(World.getActiveSim().getRumah().getNama())) {
+                                .getJatahWaktuBerkunjung()
+                                && !World.getActiveSim().getPosisiRumah().getNama()
+                                        .equals(World.getActiveSim().getRumah().getNama())) {
                             isValid = false;
                             idx = 1;
                             while (!isValid) {
@@ -430,18 +432,6 @@ public class Main {
                 ruanganJSON.put("Ruangan " + ruangan.getRuanganKe(), ruanganRumahSim);
             }
             rumahSim.put("listofruangan", ruanganJSON);
-
-            // atribut matrixRumah (Rumah)
-            JSONObject matrixRumah = new JSONObject();
-            for (int x = 0; x < rumah.getUkuran(); x++) {
-                JSONObject isiMatriks = new JSONObject();
-                for (int y = 0; y < rumah.getUkuran(); y++) {
-                    isiMatriks.put(y, rumah.getMatrixRumah()[x][y]);
-                }
-
-                matrixRumah.put(x, isiMatriks);
-            }
-            rumahSim.put("matrixrumah", matrixRumah);
 
             rumahJSON.put("Rumah " + rumahKe, rumahSim);
             rumahKe++;
@@ -663,9 +653,9 @@ public class Main {
                 }
             }
         }
-        if(choice == 1){
+        if (choice == 1) {
             howToPlay.showMessage();
-        } else{
+        } else {
             commandGuide.showMessage();
         }
 
