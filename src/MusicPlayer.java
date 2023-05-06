@@ -2,14 +2,14 @@ import java.io.*;
 
 import javax.sound.sampled.*;
 
-public class MusicPlayer{
+public class MusicPlayer {
 
-    public void plays(String namaFile, long lamaMusik, int pengulangan){
+    public void plays(String namaFile, long lamaMusik, int pengulangan) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    File file = new File("music/"+namaFile+".wav");
+                    File file = new File("../music/" + namaFile + ".wav");
                     AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
                     Clip clip = AudioSystem.getClip();
                     clip.open(audioStream);
@@ -17,7 +17,7 @@ public class MusicPlayer{
                     clip.loop(pengulangan);
                     Thread.sleep(lamaMusik);
                     clip.stop();
-                } catch (FileNotFoundException e){
+                } catch (FileNotFoundException e) {
                     System.out.println("File musik tidak ditemukan");
                     e.printStackTrace();
                 } catch (UnsupportedAudioFileException e) {

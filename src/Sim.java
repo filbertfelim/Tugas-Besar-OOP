@@ -327,7 +327,7 @@ public class Sim {
     public ArrayList<String> txtLoader(String namaFile) {
         ArrayList<String> list = new ArrayList<String>();
         try {
-            Scanner s = new Scanner(new File("savefile/" + namaFile + ".txt"));
+            Scanner s = new Scanner(new File("../savefile/" + namaFile + ".txt"));
             while (s.hasNextLine()) {
                 list.add(s.nextLine());
             }
@@ -532,7 +532,8 @@ public class Sim {
     public void checkUpgradeHouse() {
         if (timerUpgradeHouse >= 1080) {
             isUpgradingHouse = false;
-            rumah.addRuangan(upgradingroomname, rumah.getListofRuangan().get(ruangterhubungupgrading),sisiupgradingroom);
+            rumah.addRuangan(upgradingroomname, rumah.getListofRuangan().get(ruangterhubungupgrading),
+                    sisiupgradingroom);
             timerUpgradeHouse = 0;
             upgradingroomname = "";
             sisiupgradingroom = -9999;
@@ -1171,7 +1172,7 @@ public class Sim {
                 }
             }
         });
-        String filmString = listOfFilm.get(choiceFilm-1);
+        String filmString = listOfFilm.get(choiceFilm - 1);
         String[] arrStrings = filmString.split(". ", 2);
         System.out.println("Sedang menonton Film " + arrStrings[1]);
         thread.start();
@@ -2209,12 +2210,9 @@ public class Sim {
     // upgrade rumah
 
     public void upgraderumah(Scanner scan) {
-        if (!isUpgradingHouse) 
-        {
-            if (rumah.equals(posisiRumah))
-            {
-                if (uang >= 1500) 
-                {
+        if (!isUpgradingHouse) {
+            if (rumah.equals(posisiRumah)) {
+                if (uang >= 1500) {
                     System.out.println("Ruangan apa yang ingin ditambah ruang tetangganya?");
                     rumah.printListOfRuangan();
                     String namaRuangan = scan.nextLine().toLowerCase();
@@ -2240,19 +2238,13 @@ public class Sim {
                             }
                         }
                     }
-                } 
-                else
-                {
+                } else {
                     System.out.println("Maaf, uang kamu tidak cukup untuk melakukan upgrade\n");
                 }
-            } 
-            else 
-            {
+            } else {
                 System.out.println("Maaf, upgrade rumah hanya bisa dilakukan di rumah pribadiSim ini");
             }
-        } 
-        else 
-        {
+        } else {
             System.out.println("Upgrade rumah sedang berjalan di rumah ini, silahkan ditunggu terlebih dahulu!\n");
         }
     }
@@ -2483,8 +2475,7 @@ public class Sim {
         }
 
         // print waktu sisa untuk upgrade rumah
-        if (isUpgradingHouse)
-        {
+        if (isUpgradingHouse) {
             System.out.println("Sisa waktu upgrade rumah :");
             System.out.printf("%-30s %-30s\n", "Nama ruangan", "Sisa Waktu Pengiriman");
             menit = (1080 - timerUpgradeHouse) / 60;
