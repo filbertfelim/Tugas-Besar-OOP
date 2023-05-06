@@ -2315,21 +2315,80 @@ public class Sim {
                 posisiRuangan.printListOfObjek();
                 System.out.println("Layout ruangan: ");
                 posisiRuangan.printMatriksRuangan();
+                String namaBarang;
 
-                System.out.println("Pilih barang yang ingin dipindah");
-                String namaBarang = scan.nextLine().toLowerCase();
-
-                System.out.println("Ketik posisi sekarang barang yang ingin dipindah");
-                System.out.print("x: ");
-                int x_Current = scan.nextInt();
-                System.out.print("y: ");
-                int y_Current = scan.nextInt();
+                while (true) {
+                    System.out.println("Pilih barang yang ingin dipindah");
+                    namaBarang = scan.nextLine().toLowerCase();
+                    if (posisiRuangan.cekBarangAda(namaBarang) == false) {
+                        System.out.println("Barang tidak ada, Pilih barang yang ada di list!");
+                    } else {
+                        break;
+                    }
+                }
 
                 System.out.println("Ketik posisi baru barang yang ingin dipindah");
-                System.out.print("x: ");
-                int x_Baru = scan.nextInt();
-                System.out.print("y: ");
-                int y_Baru = scan.nextInt();
+                
+                int x_Current;
+                int y_Current;
+                while (true) {
+                    try {
+                        System.out.print("x: ");
+                        x_Current = scan.nextInt();
+                        if (x_Current < 0 || x_Current > 5) {
+                            throw new InputMismatchException();
+                        } else {
+                            break;
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Pilih koordinat yang valid! (0-5)");
+                    }
+                }
+                
+                while (true) {
+                    try {
+                        System.out.print("y: ");
+                        y_Current = scan.nextInt();
+                        if (y_Current < 0 || y_Current > 5) {
+                            throw new InputMismatchException();
+                        } else {
+                            break;
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Pilih koordinat yang valid! (0-5)");
+                    }
+                }
+                
+                int x_Baru;
+                int y_Baru;
+                System.out.println("Ketik posisi baru barang yang ingin dipindah");
+                while (true) {
+                    try {
+                        System.out.print("x: ");
+                        x_Baru = scan.nextInt();
+                        if (x_Baru < 0 || x_Baru > 5) {
+                            throw new InputMismatchException();
+                        } else {
+                            break;
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Pilih koordinat yang valid! (0-5)");
+                    }
+                }
+                
+                while (true) {
+                    try {
+                        System.out.print("y: ");
+                        y_Baru = scan.nextInt();
+                        if (y_Baru < 0 || y_Baru > 5) {
+                            throw new InputMismatchException();
+                        } else {
+                            break;
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Pilih koordinat yang valid! (0-5)");
+                    }
+                }
 
                 NonMakanan barang = new NonMakanan(namaBarang);
                 barang.setTitikAwal(new Point(x_Current, y_Current));
