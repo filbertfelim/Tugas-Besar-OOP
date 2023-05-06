@@ -93,6 +93,14 @@ public class World {
         World.harike = harike;
     }
 
+    public int getHariAddSim() {
+        return hariaddsim;
+    }
+
+    public void setHariAddSIm(int hariaddsim) {
+        World.hariaddsim = hariaddsim;
+    }
+
     public static boolean isRumah(int x, int y) {
         int idx = 0;
         boolean isFound = false;

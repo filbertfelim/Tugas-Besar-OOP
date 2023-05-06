@@ -350,6 +350,9 @@ public class Main {
         // atribut harike (World)
         worldJSON.put("harike", world.gethariKe());
 
+        // atribut hariaddsim (World)
+        worldJSON.put("hariaddsim", world.getHariAddSim());
+
         // jumlah rumah
         worldJSON.put("jumlahrumah", world.getListofRumah().size());
         // atribut listofRumah (World)
@@ -507,6 +510,21 @@ public class Main {
             // atribut int timerbarangdibeli;
             simJSON.put("timerbarangdibeli", sim.getTimerBarangDibeli());
 
+            // atribut boolean isUpgradingHouse;
+            simJSON.put("isupgradinghouse", sim.getIsUpgradingHouse());
+
+            // atribut String upgradingroomname;
+            simJSON.put("upgradingroomname", sim.getUpgradingRoomName());
+
+            // atribut int sisiupgradingroom;
+            simJSON.put("sisiupgradingroom", sim.getSisiUpgradingRoom());
+
+            // atribut int ruangterhubungupgrading;
+            simJSON.put("ruangterhubungupgrading", sim.getRuangTerhubungUpgrading());
+
+            // atribut int timerUpgradeHouse;
+            simJSON.put("timerupgradehouse", sim.getTimerUpgradeHouse());
+
             simListJSON.put("Sim " + simKe, simJSON);
             simKe++;
         }
@@ -540,6 +558,9 @@ public class Main {
             // atribut harike (World)
             int harike = Math.toIntExact((Long) worldJSON.get("harike"));
 
+            // atribut hariaddsim (World)
+            int hariaddsim = Math.toIntExact((Long) worldJSON.get("hariaddsim"));
+
             // jumlah rumah
             int jumlahrumah = Math.toIntExact((Long) worldJSON.get("jumlahrumah"));
             // atribut listofRumah (World)
@@ -559,6 +580,8 @@ public class Main {
                 int lokasiY = Math.toIntExact((Long) rumahSimJSON.get("lokasiY"));
                 Point lokasi = new Point(lokasiX, lokasiY);
 
+                // atribut matrixRumah (Rumah)
+                Matriks matriksRumah = new Matriks();
                 // jumlah ruangan
                 // rumahSim.put("jumlahruangan", rumah.getListofRuangan().size());
                 int jumlahruangan = Math.toIntExact((Long) rumahSimJSON.get("jumlahruangan"));
@@ -567,7 +590,7 @@ public class Main {
                 JSONObject listofRuanganJSON = (JSONObject) rumahSimJSON.get("listofruangan");
                 for (int ruangKe = 1; ruangKe <= jumlahruangan; ruangKe++) {
                     // objek Ruangan
-                    JSONObject ruanganRumahSimJSON = (JSONObject) listofRuanganJSON.get("Rumah " + ruangKe);
+                    JSONObject ruanganRumahSimJSON = (JSONObject) listofRuanganJSON.get("Ruangan " + ruangKe);
 
                     // atribut nama (Ruangan)
                     // ruanganRumahSim.put("nama", ruangan.getNamaRuangan());
@@ -622,10 +645,12 @@ public class Main {
                     // ruanganJSON.put("Ruangan " + ruangan.getRuanganKe(), ruanganRumahSim);
                     listofRuangan.add(new Ruangan(namaRuangan, ruanganKe, matrixRuangan, listofObjek, ruangTerhubung,
                             titikRuang));
+
+                    matriksRumah.setNilai(titikruangX, titikruangY, ruanganKe);
                 }
                 // rumahSim.put("listofruangan", ruanganJSON);
 
-                listofRumah.add(new Rumah(namaRumah, lokasi, listofRuangan));
+                listofRumah.add(new Rumah(namaRumah, lokasi, listofRuangan, matriksRumah));
             }
 
             // jumlah sim
@@ -746,13 +771,13 @@ public class Main {
 
                 // atribut boolean perluBAB;
                 // simJSON.put("perlubab", sim.getPerluBab());
-                String perluBABstr = (String) simJSON.get("perlubab");
-                boolean perluBAB;
-                if (perluBABstr.equals("false")) {
-                    perluBAB = false;
-                } else {
-                    perluBAB = true;
-                }
+                // String perluBABstr = (String) simJSON.get("perlubab");
+                boolean perluBAB = (boolean) simJSON.get("perlubab");
+                // if (perluBABstr.equals("false")) {
+                // perluBAB = false;
+                // } else {
+                // perluBAB = true;
+                // }
 
                 // atribut int jatahWaktuBerkunjung;
                 // simJSON.put("jatahwaktuberkunjung", sim.getJatahWaktuBerkunjung());
@@ -764,20 +789,21 @@ public class Main {
 
                 // atribut boolean isBerkunjung;
                 // simJSON.put("isberkunjung", sim.getIsBerkunjung());
-                String isBerkunjungStr = (String) simJSON.get("isberkunjung");
-                boolean isBerkunjung;
-                if (isBerkunjungStr.equals("false")) {
-                    isBerkunjung = false;
-                } else {
-                    isBerkunjung = true;
-                }
+                // String isBerkunjungStr = (String) simJSON.get("isberkunjung");
+                boolean isBerkunjung = (boolean) simJSON.get("isberkunjung");
+                // if (isBerkunjungStr.equals("false")) {
+                // isBerkunjung = false;
+                // } else {
+                // isBerkunjung = true;
+                // }
 
                 // atribut Item barangdibeli;
                 Item barangdibeli = null;
-                String namaBarangDibeli = (String) simJSON.get("barangdibeli");
-                if (!namaBarangDibeli.equals("null")) {
+                Object namaBarangDibeli = simJSON.get("barangdibeli");
+                if (namaBarangDibeli != null) {
                     // simJSON.put("barangdibeli", sim.getBarangDiBeli().getNamaItem());
-                    barangdibeli = new Item(namaBarangDibeli);
+                    String namaBarangDibeliString = (String) namaBarangDibeli;
+                    barangdibeli = new Item(namaBarangDibeliString);
                 } else {
                     // simJSON.put("barangdibeli", sim.getBarangDiBeli());
                 }
@@ -786,10 +812,32 @@ public class Main {
                 // simJSON.put("timerbarangdibeli", sim.getTimerBarangDibeli());
                 int timerbarangdibeli = Math.toIntExact((Long) simJSON.get("timerbarangdibeli"));
 
+                // atribut boolean isUpgradingHouse;
+                // simJSON.put("isupgradinghouse", sim.getIsUpgradingHouse());
+                boolean isUpgradingHouse = (boolean) simJSON.get("isupgradinghouse");
+
+                // atribut String upgradingroomname;
+                // simJSON.put("upgradingroomname", sim.getUpgradingRoomName());
+                String upgradingroomname = (String) simJSON.get("upgradingroomname");
+
+                // atribut int sisiupgradingroom;
+                // simJSON.put("sisiupgradingroom", sim.getSisiUpgradingRoom());
+                int sisiupgradingroom = Math.toIntExact((Long) simJSON.get("sisiupgradingroom"));
+
+                // atribut int ruangterhubungupgrading;
+                // simJSON.put("ruangterhubungupgrading", sim.getRuangTerhubungUpgrading());
+                int ruangterhubungupgrading = Math.toIntExact((Long) simJSON.get("ruangterhubungupgrading"));
+
+                // atribut int timerUpgradeHouse;
+                // simJSON.put("timerupgradehouse", sim.getTimerUpgradeHouse());
+                int timerUpgradeHouse = Math.toIntExact((Long) simJSON.get("timerupgradehouse"));
+
                 // simListJSON.put("Sim " + simKe, simJSON);
                 listofSim.add(new Sim(namaSim, pekerjaan, uang, inventory, kekenyangan, mood, kesehatan, status, posisi,
                         rumah, posisiRumah, posisiRuangan, timerBelumTidur, timerBelumBAB, perluBAB,
-                        jatahWaktuBerkunjung, timerWaktuKunjung, isBerkunjung, barangdibeli, timerbarangdibeli));
+                        jatahWaktuBerkunjung, timerWaktuKunjung, isBerkunjung, barangdibeli, timerbarangdibeli,
+                        isUpgradingHouse, upgradingroomname, sisiupgradingroom, ruangterhubungupgrading,
+                        timerUpgradeHouse));
             }
             // worldJSON.put("listofsim", simListJSON);
 
@@ -838,6 +886,16 @@ public class Main {
                     activeSim.setBarangDiBeli(sim.getBarangDiBeli());
                     // this.timerbarangdibeli = timerbarangdibeli;
                     activeSim.setTimerBarangDibeli(sim.getTimerBarangDibeli());
+                    // this.isUpgradingHouse = isUpgradingHouse;
+                    activeSim.setIsUpgradingHouse(sim.getIsUpgradingHouse());
+                    // this.upgradingroomname = upgradingroomname;
+                    activeSim.setUpgradingRoomName(sim.getUpgradingRoomName());
+                    // this.sisiupgradingroom = sisiupgradingroom;
+                    activeSim.setSisiUpgradingRoom(sim.getSisiUpgradingRoom());
+                    // this.ruangterhubungupgrading = ruangterhubungupgrading;
+                    activeSim.setRuangTerhubungUpgrading(sim.getRuangTerhubungUpgrading());
+                    // this.timerUpgradeHouse = timerUpgradeHouse;
+                    activeSim.setTimerUpgradeHouse(sim.getTimerUpgradeHouse());
                 }
             }
 
@@ -846,6 +904,7 @@ public class Main {
             world.setWaktu(waktu);
             world.sethariKe(harike);
             world.setActiveSim(activeSim);
+            world.setHariAddSIm(hariaddsim);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

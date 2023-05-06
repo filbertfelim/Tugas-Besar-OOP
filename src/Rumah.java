@@ -24,11 +24,11 @@ public class Rumah {
     }
 
     // untuk fitur load
-    public Rumah(String nama, Point lokasi, ArrayList<Ruangan> listofRuangan) {
+    public Rumah(String nama, Point lokasi, ArrayList<Ruangan> listofRuangan, Matriks matriksRumah) {
         this.nama = nama;
         this.lokasi = lokasi;
         this.listofRuangan = listofRuangan;
-        this.matriksRumah = new Matriks();
+        this.matriksRumah = matriksRumah;
     }
 
     public String getNama() {
