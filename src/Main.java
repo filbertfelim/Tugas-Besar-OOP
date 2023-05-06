@@ -66,7 +66,7 @@ public class Main {
         if (newGame) {
             // Game baru dimulai
             MusicPlayer music = new MusicPlayer();
-            music.plays("opening", 14450);
+            music.plays("opening", 266000, 2);
 
             System.out.print("Nama sim : ");
             String namasim = scan.nextLine();
@@ -105,7 +105,7 @@ public class Main {
                 case "2": // Exit
                     boolean savingLoop = false;
                     MusicPlayer musik = new MusicPlayer();
-                    musik.plays("Short", 35000);
+                    musik.plays("Short", 35000, 2);
                     while (!savingLoop) {
                         System.out.println("Do you want to save this game file? (y/n)");
                         System.out.print(">> ");

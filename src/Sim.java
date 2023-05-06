@@ -1105,7 +1105,9 @@ public class Sim {
                 }
             }
         });
-        System.out.println("Sedang menonton Film " + listOfFilm.get(choiceFilm - 1));
+        String filmString = listOfFilm.get(choiceFilm-1);
+        String[] arrStrings = filmString.split(". ", 2);
+        System.out.println("Sedang menonton Film " + arrStrings[1]);
         thread.start();
         try {
             thread.join();
