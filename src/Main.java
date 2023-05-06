@@ -408,6 +408,14 @@ public class Main {
                 for (NonMakanan objek : ruangan.getListofObjek()) {
                     // atribut namaItem (NonMakanan)
                     objekRuanganJSON.put("namaitem " + objekKe, objek.getNamaItem());
+                    objekRuanganJSON.put("panjang", objek.getPanjang());
+                    objekRuanganJSON.put("lebar", objek.getLebar());
+                    objekRuanganJSON.put("ishorizontal", objek.getIsHorizontal());
+                    objekRuanganJSON.put("titikawalX", objek.getTitikAwal().getX());
+                    objekRuanganJSON.put("titikawalY", objek.getTitikAwal().getY());
+                    objekRuanganJSON.put("titikakhirX", objek.getTitikAkhir().getX());
+                    objekRuanganJSON.put("titikakhirY", objek.getTitikAkhir().getY());
+
                     objekKe++;
                 }
                 ruanganRumahSim.put("listofobjek", objekRuanganJSON);
@@ -631,7 +639,26 @@ public class Main {
                     for (int objekKe = 1; objekKe <= jumlahobjek; objekKe++) {
                         // atribut namaItem (NonMakanan)
                         // objekRuanganJSON.put("namaitem " + objekKe, objek.getNamaItem());
-                        listofObjek.add(new NonMakanan((String) objekRuanganJSON.get("namaitem " + objekKe)));
+                        String namaItem = (String) objekRuanganJSON.get("namaitem " + objekKe);
+                        // objekRuanganJSON.put("panjang", objek.getPanjang());
+                        int panjangItem = Math.toIntExact((Long) objekRuanganJSON.get("panjang"));
+                        // objekRuanganJSON.put("lebar", objek.getLebar());
+                        int lebarItem = Math.toIntExact((Long) objekRuanganJSON.get("lebar"));
+                        // objekRuanganJSON.put("ishorizontal", objek.getIsHorizontal());
+                        boolean isHorizontal = (boolean) objekRuanganJSON.get("ishorizontal");
+                        // objekRuanganJSON.put("titikawalX", objek.getTitikAwal().getX());
+                        int titikAwalX = Math.toIntExact((Long) objekRuanganJSON.get("titikawalX"));
+                        // objekRuanganJSON.put("titikawalY", objek.getTitikAwal().getY());
+                        int titikAwalY = Math.toIntExact((Long) objekRuanganJSON.get("titikawalY"));
+                        Point titikAwal = new Point(titikAwalX, titikAwalY);
+                        // objekRuanganJSON.put("titikakhirX", objek.getTitikAkhir().getX());
+                        int titikAkhirX = Math.toIntExact((Long) objekRuanganJSON.get("titikakhirX"));
+                        // objekRuanganJSON.put("titikakhirY", objek.getTitikAkhir().getY());
+                        int titikAkhirY = Math.toIntExact((Long) objekRuanganJSON.get("titikakhirY"));
+                        Point titikAkhir = new Point(titikAkhirX, titikAkhirY);
+
+                        listofObjek.add(
+                                new NonMakanan(namaItem, panjangItem, lebarItem, titikAwal, titikAkhir, isHorizontal));
                     }
                     // ruanganRumahSim.put("listofobjek", objekRuanganJSON);
 
@@ -696,8 +723,30 @@ public class Main {
                 // }
                 for (String namaItem : (Set<String>) inventoryJSON.keySet()) {
                     int jumlahPerItem = Math.toIntExact((Long) inventoryJSON.get(namaItem));
-                    for (int i = 0; i < jumlahPerItem; i++) {
-                        inventory.addItem(new Item(namaItem));
+                    // item nonmakanan
+                    if (namaItem.equals("kasur single")
+                            || namaItem.equals("kasur queen size")
+                            || namaItem.equals("kasur king size")
+                            || namaItem.equals("toilet") || namaItem.equals("kompor gas")
+                            || namaItem.equals("kompor listrik")
+                            || namaItem.equals("meja dan kursi") || namaItem.equals("jam")
+                            || namaItem.equals("play station")
+                            || namaItem.equals("lemari buku") || namaItem.equals("radio")
+                            || namaItem.equals("piano") || namaItem.equals("televisi")) {
+                        for (int i = 0; i < jumlahPerItem; i++) {
+                            inventory.addItem(new NonMakanan(namaItem));
+                        }
+                    } else if (namaItem.equals("nasi") || namaItem.equals("kentang")
+                            || namaItem.equals("ayam") || namaItem.equals("sapi")
+                            || namaItem.equals("wortel") || namaItem.equals("bayam")
+                            || namaItem.equals("kacang") || namaItem.equals("susu")) { // item bahanmakanan
+                        for (int i = 0; i < jumlahPerItem; i++) {
+                            inventory.addItem(new BahanMakanan(namaItem));
+                        }
+                    } else { // item masakan
+                        for (int i = 0; i < jumlahPerItem; i++) {
+                            inventory.addItem(new Masakan(namaItem));
+                        }
                     }
                 }
                 // simJSON.put("inventory", inventoryJSON);
