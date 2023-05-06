@@ -82,6 +82,15 @@ public class Ruangan {
     public void setListofObjek(ArrayList<NonMakanan> listofObjek) {
         this.listofObjek = listofObjek;
     }
+    
+    public boolean cekBarangAda(String namaBarang) {
+        for (NonMakanan barang : listofObjek) {
+            if (namaBarang.equals(barang.getNamaItem())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void printMatriksRuangan() {
         System.out.print(" ");
