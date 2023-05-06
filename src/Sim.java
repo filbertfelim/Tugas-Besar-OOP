@@ -2319,7 +2319,7 @@ public class Sim {
 
                 while (true) {
                     System.out.println("Pilih barang yang ingin dipindah");
-                    namaBarang = scan.nextLine().toLowerCase();
+                    namaBarang = scan.next().toLowerCase();
                     if (posisiRuangan.cekBarangAda(namaBarang) == false) {
                         System.out.println("Barang tidak ada, Pilih barang yang ada di list!");
                     } else {
