@@ -119,23 +119,6 @@ public class World {
         return isFound;
     }
 
-    public static void printPeta() {
-        System.out.println("_________________");
-        for (int y = 0; y < lebar; y++) {
-            String line = "|";
-            for (int x = 0; x < panjang; x++) {
-                if (!isRumah(x, y)) {
-                    line += "_";
-                } else {
-                    line += "A";
-                }
-            }
-            line += "|";
-            System.out.println(line);
-        }
-        System.out.println("_________________\n");
-    }
-
     public static void addHari() {
         harike++;
     }
