@@ -702,22 +702,45 @@ public class Sim {
 
     // kerja
     public void doKerja(Scanner scan) {
-        if (World.gethariKe() > pekerjaan.getChangeWorkAtHari()) {
-            boolean isValid = false;
-            int duration = 1;
+        System.out.println("Pekerjaan Anda saat ini adalah seorang " + pekerjaan.getNama());
+        boolean isValid = false;
+        int idx = 1;
+        while (!isValid) {
+            try {
+                System.out.println("Aksi yang dapat dilakukan: ");
+                System.out.println("1. Mulai bekerja");
+                System.out.println("2. Ubah pekerjaan");
+                System.out.println("0  Batal");
+                System.out.print("Pilihan : ");
+                idx = scan.nextInt();
+                isValid = true;
+            } catch (Exception e) {
+                System.out.println("Input invalid, silahkan input angka!");
+                scan.nextLine();
+            }
+        }
+        while (idx < 0 || idx > 2) {
+            System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
+            isValid = false;
             while (!isValid) {
                 try {
-                    System.out.print("Durasi ( detik kelipatan 120 ) : ");
-                    duration = scan.nextInt();
+                    System.out.println("Aksi yang dapat dilakukan: ");
+                    System.out.println("1. Mulai bekerja");
+                    System.out.println("2. Ubah pekerjaan");
+                    System.out.println("0  Batal");
+                    System.out.print("Pilihan : ");
+                    idx = scan.nextInt();
                     isValid = true;
                 } catch (Exception e) {
                     System.out.println("Input invalid, silahkan input angka!");
                     scan.nextLine();
                 }
             }
-            while (duration % 120 != 0) {
-                System.out.println("Input invalid ( harus kelipatan 120 ), silahkan diulangi!");
+        }
+        if (idx == 1) {
+            if (World.gethariKe() > pekerjaan.getChangeWorkAtHari()) {
                 isValid = false;
+                int duration = 1;
                 while (!isValid) {
                     try {
                         System.out.print("Durasi ( detik kelipatan 120 ) : ");
@@ -728,34 +751,78 @@ public class Sim {
                         scan.nextLine();
                     }
                 }
-            }
-            int finalduration = duration;
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(finalduration * 1000);
-                        System.out.println("Kerja selesai!");
-                        pekerjaan.addLamaBekerja(finalduration);
-                        setKekenyangan(getKekenyangan() - (10 * finalduration / 30));
-                        setMood(getMood() - (10 * finalduration / 30));
-                        setUang(getUang() + (pekerjaan.getGaji() * finalduration / 240));
-                        World.addWaktu(finalduration);
-                        checkKondisiSim();
-                        World.checkAllSimTimer(finalduration, scan);
-                    } catch (InterruptedException e) {
-                        return;
+                while (duration % 120 != 0) {
+                    System.out.println("Input invalid ( harus kelipatan 120 ), silahkan diulangi!");
+                    isValid = false;
+                    while (!isValid) {
+                        try {
+                            System.out.print("Durasi ( detik kelipatan 120 ) : ");
+                            duration = scan.nextInt();
+                            isValid = true;
+                        } catch (Exception e) {
+                            System.out.println("Input invalid, silahkan input angka!");
+                            scan.nextLine();
+                        }
                     }
                 }
-            });
-            System.out.println("Sedang bekerja...");
-            thread.start();
-            try {
-                thread.join();
-            } catch (InterruptedException err) {
+                int finalduration = duration;
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(finalduration * 1000);
+                            System.out.println("Kerja selesai!");
+                            pekerjaan.addLamaBekerja(finalduration);
+                            setKekenyangan(getKekenyangan() - (10 * finalduration / 30));
+                            setMood(getMood() - (10 * finalduration / 30));
+                            setUang(getUang() + (pekerjaan.getGaji() * finalduration / 240));
+                            World.addWaktu(finalduration);
+                            checkKondisiSim();
+                            World.checkAllSimTimer(finalduration, scan);
+                        } catch (InterruptedException e) {
+                            return;
+                        }
+                    }
+                });
+                System.out.println("Sedang bekerja...");
+                thread.start();
+                try {
+                    thread.join();
+                } catch (InterruptedException err) {
+                }
+            } else {
+                System.out.println("Belum bisa bekerja dengan pekerjaan baru!");
             }
-        } else {
-            System.out.println("Belum bisa bekerja dengan pekerjaan baru!");
+        } else if (idx == 2) {
+            isValid = false;
+            String inputUsr = "";
+            scan.nextLine();
+            while (!isValid) {
+                System.out.println("Berikut adalah list data pekerjaan.");
+                pekerjaan.printPekerjaan();
+                System.out.println("Ketik nama pekerjaan pengganti (Ketik 'batal' untuk membatalkan)");
+                System.out.print("Pilihan : ");
+                inputUsr = scan.nextLine().toLowerCase();
+                if (!(inputUsr.equals(pekerjaan.getNama().toLowerCase()))) {
+                    if (inputUsr.equals("batal") || inputUsr.equals("badut sulap") || inputUsr.equals("koki")
+                            || inputUsr.equals("polisi") || inputUsr.equals("programmer")
+                            || inputUsr.equals("dokter")) {
+                        isValid = true;
+                    } else {
+                        System.out.println("Input invalid, silahkan input nama pekerjaan!");
+                    }
+                } else {
+                    System.out.println("Tidak bisa mengganti ke pekerjaan yang sama. Ulangi!!");
+                }
+            }
+
+            if (inputUsr.equals("batal")) {
+                System.out.println("Berhasil dibatalkan!");
+            } else {
+                pekerjaan.changeWork(uang, inputUsr);
+            }
+        } else if (idx == 0) {
+            System.out.println("Berhasil dibatalkan!");
         }
     }
 
