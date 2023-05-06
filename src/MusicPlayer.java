@@ -11,19 +11,22 @@ public class MusicPlayer{
                 try {
                     File file = new File("music/"+namaFile+".wav");
                     AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-
                     Clip clip = AudioSystem.getClip();
                     clip.open(audioStream);
-
                     clip.start();
                     Thread.sleep(lamaMusik);
                     clip.stop();
+                } catch (FileNotFoundException e){
+                    System.out.println("File musik tidak ditemukan");
+                    e.printStackTrace();
                 } catch (UnsupportedAudioFileException e) {
                 } catch (LineUnavailableException e) {
                     // TODO Auto-generated catch block
+                    System.out.println("File musik tidak dapat dimainkan");
                     e.printStackTrace();
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
+                    System.out.println("Terjadi kesalahan!");
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block

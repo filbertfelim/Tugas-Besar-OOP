@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class Ruangan {
     private String nama;
@@ -61,6 +60,10 @@ public class Ruangan {
         return matrixRuangan;
     }
 
+    public void setMatrixRuangan(int[][] matrixRuangan) {
+        this.matrixRuangan = matrixRuangan;
+    }
+
     public void printListOfObjek() {
         System.out.println("Daftar objek yang ada di ruangan: ");
         if (listofObjek.size() == 0) {
@@ -74,6 +77,10 @@ public class Ruangan {
 
     public ArrayList<NonMakanan> getListofObjek() {
         return listofObjek;
+    }
+
+    public void setListofObjek(ArrayList<NonMakanan> listofObjek) {
+        this.listofObjek = listofObjek;
     }
 
     public void printMatriksRuangan() {
@@ -120,6 +127,7 @@ public class Ruangan {
             barang.setTitikAwal(new Point(x, y));
             barang.setTitikAkhir(new Point((x + p - 1), (y + l - 1)));
         } else {
+            kosong = false;
             System.out.println("Maaf titik tersebut penuh untuk disimpan objek " + barang.getNamaItem());
         }
 
@@ -130,29 +138,89 @@ public class Ruangan {
         // x dan y adalah posisi barang yang ada di ruangan
         boolean ada = true;
 
-        if (matrixRuangan[x_Current][y_Current] != barang.getKodeJenisBarang()) {
+        if (matrixRuangan[y_Current][x_Current] != barang.getKodeJenisBarang()) {
             ada = false;
+            System.out.println("Tidak ada barang tersebut di titik ini");
         }
 
         if (ada) {
-            // menghapus letak awal barang
+            Point titikAwalBarang = new Point();
             int idx = 0;
-            listofObjek.remove(barang);
-
-            for (int i = barang.getTitikAwal().getY(); i <= barang.getTitikAkhir().getY(); i++) {
-                for (int j = barang.getTitikAwal().getX(); j <= barang.getTitikAkhir().getX(); j++) {
-                    matrixRuangan[i][j] = 0;
+            int indexObjek = 0;
+            for (NonMakanan objek : listofObjek) {
+                if (objek.getNamaItem().equals(barang.getNamaItem())) {
+                    for (int i = objek.getTitikAwal().getY(); i <= objek.getTitikAkhir().getY(); i++) {
+                        if (i == barang.getTitikAwal().getY()) {
+                            titikAwalBarang.setY(objek.getTitikAwal().getY());
+                            for (int j = objek.getTitikAwal().getX(); j <= objek.getTitikAkhir().getX(); j++) {
+                                if (j == barang.getTitikAwal().getX()) {
+                                    titikAwalBarang.setX(objek.getTitikAwal().getX());
+                                    barang.setTitikAwal(objek.getTitikAwal());
+                                    barang.setTitikAkhir(objek.getTitikAkhir());
+                                    if (objek.getIsHorizontal()) {
+                                        barang.setHorizontal();
+                                    } else {
+                                        barang.setVertikal();
+                                    }
+                                    for (int y = barang.getTitikAwal().getY(); y <= barang.getTitikAkhir()
+                                            .getY(); y++) {
+                                        for (int x = barang.getTitikAwal().getX(); x <= barang.getTitikAkhir()
+                                                .getX(); x++) {
+                                            matrixRuangan[y][x] = 0;
+                                        }
+                                    }
+                                    indexObjek = idx;
+                                }
+                            }
+                        }
+                    }
+                }
+                idx++;
+            }
+            // menghapus letak awal barang
+            listofObjek.remove(indexObjek);
+            System.out.println("Ubah orientasi objek? (y/n)");
+            Scanner scan = new Scanner(System.in);
+            String orientasi = scan.nextLine().toLowerCase();
+            boolean ubahOrientasi = false;
+            if (orientasi.equals("y")) {
+                ubahOrientasi = true;
+                if (barang.getIsHorizontal()) {
+                    barang.setVertikal();
+                } else {
+                    barang.setHorizontal();
                 }
             }
 
             // memasang lokasi baru barang
-            memasangBarang(barang, x_Baru, y_Baru);
+            ada = memasangBarang(barang, x_Baru, y_Baru);
+            if (!ada) {
+                if (ubahOrientasi) {
+                    if (barang.getIsHorizontal()) {
+                        barang.setVertikal();
+                    } else {
+                        barang.setHorizontal();
+                    }
+                }
+                int x = titikAwalBarang.getX();
+                int y = titikAwalBarang.getY();
+                for (int i = y; i < y + barang.getLebar(); i++) {
+                    for (int j = x; j < x + barang.getPanjang(); j++) {
+                        matrixRuangan[i][j] = barang.getKodeJenisBarang();
+                    }
+                }
+                listofObjek.add(barang);
+            }
         }
         return ada;
     }
 
     public int[] getArrayRuangTerhubung() {
         return ruangTerhubung;
+    }
+
+    public void setArrayRuangTerhubung(int[] ruangTerhubung) {
+        this.ruangTerhubung = ruangTerhubung;
     }
 
     public int getRuangTerhubung(int sisi) {

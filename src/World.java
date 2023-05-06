@@ -31,14 +31,14 @@ public class World {
     }
 
     // untuk fitur load
-    public World(ArrayList<Rumah> listofRumah, int[][] matrixWorld, ArrayList<Sim> listofSim, int waktu, int harike,
+    public World(ArrayList<Rumah> listofRumah, ArrayList<Sim> listofSim, int waktu, int harike,
             Sim activeSim) {
         this.listofRumah = listofRumah;
-        this.matrixWorld = matrixWorld;
         this.listofSim = listofSim;
         this.waktu = waktu;
         this.harike = harike;
         this.activeSim = activeSim;
+        matrixWorld = new int[64][64];
     }
 
     public static int getPanjang() {
@@ -53,8 +53,16 @@ public class World {
         return activeSim;
     }
 
+    public void setActiveSim(Sim activeSim) {
+        World.activeSim = activeSim;
+    }
+
     public static ArrayList<Rumah> getListofRumah() {
         return listofRumah;
+    }
+
+    public void setListofRumah(ArrayList<Rumah> listofRumah) {
+        World.listofRumah = listofRumah;
     }
 
     public static int[][] getMatrixWorld() {
@@ -65,12 +73,24 @@ public class World {
         return listofSim;
     }
 
+    public void setListofSim(ArrayList<Sim> listofSim) {
+        World.listofSim = listofSim;
+    }
+
     public static int getWaktu() {
         return waktu;
     }
 
+    public void setWaktu(int waktu) {
+        World.waktu = waktu;
+    }
+
     public static int gethariKe() {
         return harike;
+    }
+
+    public void sethariKe(int harike) {
+        World.harike = harike;
     }
 
     public static boolean isRumah(int x, int y) {
@@ -122,12 +142,9 @@ public class World {
     }
 
     public static void addSim(Scanner scan) {
-        if (hariaddsim == harike)
-        {
+        if (hariaddsim == harike) {
             System.out.println("Sudah tidak bisa menambah sim baru pada hari ini!");
-        }
-        else
-        {
+        } else {
             System.out.print("Nama sim baru : ");
             String nama = scan.nextLine();
             boolean isDuplicate = false;
@@ -152,7 +169,8 @@ public class World {
             } else {
                 listofRumah.add(new Rumah(nama, new Point((listofRumah.size() % 64), (listofRumah.size() / 64))));
                 if (listofRumah.size() % 64 == 0) {
-                    listofSim.add(new Sim(nama, new Point((listofRumah.size() % 64) - 1, (listofRumah.size() / 64) - 1)));
+                    listofSim.add(
+                            new Sim(nama, new Point((listofRumah.size() % 64) - 1, (listofRumah.size() / 64) - 1)));
                 } else {
                     listofSim.add(new Sim(nama, new Point((listofRumah.size() % 64) - 1, listofRumah.size() / 64)));
                 }
@@ -160,7 +178,7 @@ public class World {
             }
             hariaddsim = harike;
         }
-        
+
     }
 
     public static void changeSim(Scanner scan) {
@@ -258,13 +276,10 @@ public class World {
             if (sim.isDead()) {
                 if (sim.getNama().equals(getActiveSim().getNama())) {
                     World.removeActiveSim();
-                    if (World.getListofSim().size() == 0)
-                    {
+                    if (World.getListofSim().size() == 0) {
                         System.out.println("Semua sim sudah mati! Permainan selesai!");
                         break;
-                    }
-                    else
-                    {
+                    } else {
                         World.changeSim(scan);
                     }
                 } else {
