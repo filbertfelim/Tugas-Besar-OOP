@@ -53,7 +53,7 @@ public class World {
         return activeSim;
     }
 
-    public void setActiveSim(Sim activeSim) {
+    public static void setActiveSim(Sim activeSim) {
         World.activeSim = activeSim;
     }
 
@@ -61,7 +61,7 @@ public class World {
         return listofRumah;
     }
 
-    public void setListofRumah(ArrayList<Rumah> listofRumah) {
+    public static void setListofRumah(ArrayList<Rumah> listofRumah) {
         World.listofRumah = listofRumah;
     }
 
@@ -73,7 +73,7 @@ public class World {
         return listofSim;
     }
 
-    public void setListofSim(ArrayList<Sim> listofSim) {
+    public static void setListofSim(ArrayList<Sim> listofSim) {
         World.listofSim = listofSim;
     }
 
@@ -81,7 +81,7 @@ public class World {
         return waktu;
     }
 
-    public void setWaktu(int waktu) {
+    public static void setWaktu(int waktu) {
         World.waktu = waktu;
     }
 
@@ -89,15 +89,15 @@ public class World {
         return harike;
     }
 
-    public void sethariKe(int harike) {
+    public static void sethariKe(int harike) {
         World.harike = harike;
     }
 
-    public int getHariAddSim() {
+    public static int getHariAddSim() {
         return hariaddsim;
     }
 
-    public void setHariAddSIm(int hariaddsim) {
+    public static void setHariAddSIm(int hariaddsim) {
         World.hariaddsim = hariaddsim;
     }
 

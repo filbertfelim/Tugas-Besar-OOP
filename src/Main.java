@@ -547,7 +547,7 @@ public class Main {
 
         daftarObjek.add(worldJSON);
 
-        try (FileWriter file = new FileWriter("savefile/" + namaFile + ".json")) {
+        try (FileWriter file = new FileWriter("../savefile/" + namaFile + ".json")) {
             file.write(daftarObjek.toJSONString());
             file.flush();
         } catch (IOException e) {
@@ -558,7 +558,7 @@ public class Main {
     private static World load(String namaFile) {
         JSONParser jsonP = new JSONParser();
         World world = new World("Load");
-        try (FileReader reader = new FileReader("savefile/" + namaFile + ".json")) {
+        try (FileReader reader = new FileReader("../savefile/" + namaFile + ".json")) {
             // Read JSON File
             Object obj = jsonP.parse(reader);
             JSONArray objList = (JSONArray) obj;
