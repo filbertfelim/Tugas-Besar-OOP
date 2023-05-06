@@ -551,19 +551,19 @@ public class Sim {
     }
 
     public void resetTimerBelumTidurAfterNoSleep() {
-        if (timerBelumTidur >= 600) {
+        while (timerBelumTidur >= 600) {
             System.out.println(getNama() + " kurang tidur! kesehatan dan mood berkurang, segera tidur!");
-            timerBelumTidur = 0;
+            timerBelumTidur -= 600;
             kesehatan = kesehatan - 5;
             mood = mood - 5;
         }
     }
 
     public void resetTimerBelumBAB() {
-        if (timerBelumBAB >= 240 && perluBAB) {
+        while (timerBelumBAB >= 240 && perluBAB) {
             System.out.println(
                     getNama() + " belum buang air setelah makan! kesehatan dan mood berkurang, segera buang air!");
-            timerBelumBAB = 0;
+            timerBelumBAB -= 240;
             kesehatan = kesehatan - 5;
             mood = mood - 5;
         }
