@@ -2327,12 +2327,6 @@ public class Sim {
                     }
                 }
 
-                System.out.println("Ketik posisi sekarang barang yang ingin dipindah");
-                System.out.print("x: ");
-                int x_Current = scan.nextInt();
-                System.out.print("y: ");
-                int y_Current = scan.nextInt();
-
                 System.out.println("Ketik posisi baru barang yang ingin dipindah");
                 
                 int x_Current;
