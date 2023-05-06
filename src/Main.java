@@ -234,7 +234,7 @@ public class Main {
                             scan.nextLine();
                         }
                     }
-                    while (idx < 0 || idx > 4) {
+                    while (idx < 0 || idx > 3) {
                         System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
                         isValid = false;
                         while (!isValid) {
@@ -285,7 +285,7 @@ public class Main {
                                     scan.nextLine();
                                 }
                             }
-                            while (idx < 0 || idx > 3) {
+                            while (idx < 0 || idx > 4) {
                                 System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
                                 isValid = false;
                                 while (!isValid) {
