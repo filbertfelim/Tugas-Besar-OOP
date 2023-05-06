@@ -527,7 +527,7 @@ public class Main {
 
     private static World load(String namaFile) {
         JSONParser jsonP = new JSONParser();
-
+        World world = new World("Load");
         try (FileReader reader = new FileReader("savefile/" + namaFile + ".json")) {
             // Read JSON File
             Object obj = jsonP.parse(reader);
@@ -703,61 +703,146 @@ public class Main {
                 // atribut Rumah rumah;
                 // simJSON.put("rumah", sim.getRumah().getNama());
                 String namaRumahSim = (String) simJSON.get("rumah");
+                Rumah rumah = new Rumah(namaRumahSim, new Point());
                 for (Rumah rumahSim : listofRumah) {
                     if (rumahSim.getNama().equals(namaRumahSim)) {
-                        Rumah rumah = rumahSim;
+                        rumah.setLokasi(rumahSim.getLokasi());
+                        rumah.setListofRuangan(rumahSim.getListofRuangan());
                     }
                 }
 
                 // atribut Rumah posisiRumah;
                 // simJSON.put("posisirumah", sim.getPosisiRumah().getNama());
                 String namaPosisiRumahSim = (String) simJSON.get("posisirumah");
+                Rumah posisiRumah = new Rumah(namaPosisiRumahSim, new Point());
                 for (Rumah rumahSim : listofRumah) {
                     if (rumahSim.getNama().equals(namaPosisiRumahSim)) {
-                        Rumah posisiRumah = rumahSim;
+                        posisiRumah.setLokasi(rumahSim.getLokasi());
+                        posisiRumah.setListofRuangan(rumahSim.getListofRuangan());
                     }
                 }
 
                 // atribut Ruangan posisiRuangan;
-                simJSON.put("posisiruangan", sim.getPosisiRuangan().getNamaRuangan());
+                // simJSON.put("posisiruangan", sim.getPosisiRuangan().getNamaRuangan());
+                String namaPosisiRuangan = (String) simJSON.get("posisiruangan");
+                Ruangan posisiRuangan = new Ruangan(namaPosisiRuangan, 0, new Point());
+                for (Ruangan ruang : posisiRumah.getListofRuangan()) {
+                    if (ruang.getNamaRuangan().equals(namaPosisiRuangan)) {
+                        posisiRuangan.setRuanganKe(ruang.getRuanganKe());
+                        posisiRuangan.setMatrixRuangan(ruang.getMatrixRuangan());
+                        posisiRuangan.setListofObjek(ruang.getListofObjek());
+                        posisiRuangan.setTitikRuang(ruang.getTitikRuang());
+                        posisiRuangan.setArrayRuangTerhubung(ruang.getArrayRuangTerhubung());
+                    }
+                }
 
                 // atribut int timerBelumTidur;
-                simJSON.put("timerbelumtidur", sim.getTimerBelumTidur());
+                // simJSON.put("timerbelumtidur", sim.getTimerBelumTidur());
+                int timerBelumTidur = Math.toIntExact((Long) simJSON.get("timerbelumtidur"));
 
                 // atribut int timerBelumBAB;
-                simJSON.put("timerbelumbab", sim.getTimerBelumBab());
+                // simJSON.put("timerbelumbab", sim.getTimerBelumBab());
+                int timerBelumBAB = Math.toIntExact((Long) simJSON.get("timerbelumbab"));
 
                 // atribut boolean perluBAB;
-                simJSON.put("perlubab", sim.getPerluBab());
+                // simJSON.put("perlubab", sim.getPerluBab());
+                String perluBABstr = (String) simJSON.get("perlubab");
+                boolean perluBAB;
+                if (perluBABstr.equals("false")) {
+                    perluBAB = false;
+                } else {
+                    perluBAB = true;
+                }
 
                 // atribut int jatahWaktuBerkunjung;
-                simJSON.put("jatahwaktuberkunjung", sim.getJatahWaktuBerkunjung());
+                // simJSON.put("jatahwaktuberkunjung", sim.getJatahWaktuBerkunjung());
+                int jatahWaktuBerkunjung = Math.toIntExact((Long) simJSON.get("jatahwaktuberkunjung"));
 
                 // atribut int timerWaktuKunjung;
-                simJSON.put("timerwaktukunjung", sim.getTimerWaktuKunjung());
+                // simJSON.put("timerwaktukunjung", sim.getTimerWaktuKunjung());
+                int timerWaktuKunjung = Math.toIntExact((Long) simJSON.get("timerwaktukunjung"));
 
                 // atribut boolean isBerkunjung;
-                simJSON.put("isberkunjung", sim.getIsBerkunjung());
+                // simJSON.put("isberkunjung", sim.getIsBerkunjung());
+                String isBerkunjungStr = (String) simJSON.get("isberkunjung");
+                boolean isBerkunjung;
+                if (isBerkunjungStr.equals("false")) {
+                    isBerkunjung = false;
+                } else {
+                    isBerkunjung = true;
+                }
 
                 // atribut Item barangdibeli;
-                if (sim.getBarangDiBeli() != null) {
-                    simJSON.put("barangdibeli", sim.getBarangDiBeli().getNamaItem());
+                Item barangdibeli = null;
+                String namaBarangDibeli = (String) simJSON.get("barangdibeli");
+                if (!namaBarangDibeli.equals("null")) {
+                    // simJSON.put("barangdibeli", sim.getBarangDiBeli().getNamaItem());
+                    barangdibeli = new Item(namaBarangDibeli);
                 } else {
-                    simJSON.put("barangdibeli", sim.getBarangDiBeli());
+                    // simJSON.put("barangdibeli", sim.getBarangDiBeli());
                 }
 
                 // atribut int timerbarangdibeli;
-                simJSON.put("timerbarangdibeli", sim.getTimerBarangDibeli());
+                // simJSON.put("timerbarangdibeli", sim.getTimerBarangDibeli());
+                int timerbarangdibeli = Math.toIntExact((Long) simJSON.get("timerbarangdibeli"));
 
                 // simListJSON.put("Sim " + simKe, simJSON);
             }
             // worldJSON.put("listofsim", simListJSON);
 
             // atribut ActiveSim (World)
-            worldJSON.put("activesim", world.getActiveSim().getNama());
+            // worldJSON.put("activesim", world.getActiveSim().getNama());
+            String namaActiveSim = (String) worldJSON.get("activesim");
+            Sim activeSim = new Sim(namaActiveSim, new Point());
+            for (Sim sim : listofSim) {
+                if (sim.getNama().equals(namaActiveSim)) {
+                    // this.nama = nama;
+                    // this.pekerjaan = pekerjaan;
+                    activeSim.setPekerjaan(sim.getPekerjaan());
+                    // this.uang = uang;
+                    activeSim.setUang(sim.getUang());
+                    // this.inventory = inventory;
+                    activeSim.setInventory(sim.getInventory());
+                    // this.kekenyangan = kekenyangan;
+                    activeSim.setKekenyangan(sim.getKekenyangan());
+                    // this.mood = mood;
+                    activeSim.setMood(sim.getMood());
+                    // this.kesehatan = kesehatan;
+                    activeSim.setKesehatan(sim.getKesehatan());
+                    // this.status = status;
+                    activeSim.setStatus(sim.getStatus());
+                    // this.posisi = posisi;
+                    activeSim.setPosisi(sim.getPosisi());
+                    // this.rumah = rumah;
+                    activeSim.setRumah(sim.getRumah());
+                    // this.posisiRumah = posisiRumah;
+                    activeSim.setPosisiRumah(sim.getPosisiRumah());
+                    // this.posisiRuangan = posisiRuangan;
+                    activeSim.setPosisiRuangan(sim.getPosisiRuangan());
+                    // this.timerBelumTidur = timerBelumTidur;
+                    activeSim.setTimerBelumTidur(sim.getTimerBelumTidur());
+                    // this.timerBelumBAB = timerBelumBAB;
+                    activeSim.setTimerBelumBab(sim.getTimerBelumBab());
+                    // this.perluBAB = perluBAB;
+                    activeSim.setPerluBab(sim.getPerluBab());
+                    // this.jatahWaktuBerkunjung = jatahWaktuBerkunjung;
+                    activeSim.setJatahWaktuBerkunjung(sim.getJatahWaktuBerkunjung());
+                    // this.timerWaktuKunjung = timerWaktuKunjung;
+                    activeSim.setTimerWaktuKunjung(sim.getTimerWaktuKunjung());
+                    // this.isBerkunjung = isBerkunjung;
+                    activeSim.setIsBerkunjung(sim.getIsBerkunjung());
+                    // this.barangdibeli = barangdibeli;
+                    activeSim.setBarangDiBeli(sim.getBarangDiBeli());
+                    // this.timerbarangdibeli = timerbarangdibeli;
+                    activeSim.setTimerBarangDibeli(sim.getTimerBarangDibeli());
+                }
+            }
 
-            World world = new World();
-            return world;
+            world.setListofRumah(listofRumah);
+            world.setListofSim(listofSim);
+            world.setWaktu(waktu);
+            world.sethariKe(harike);
+            world.setActiveSim(activeSim);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -766,47 +851,8 @@ public class Main {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-    }
 
-    private static void parseSim(JSONObject object) {
-        try {
-            JSONObject simObj = (JSONObject) object.get("Sim");
-
-            String nama = (String) simObj.get("nama");
-            Pekerjaan pekerjaan;
-            int uang = Math.toIntExact((Long) simObj.get("uang"));
-            Inventory inventory;
-            int kekenyangan = Math.toIntExact((Long) simObj.get("kekenyangan"));
-            int mood = Math.toIntExact((Long) simObj.get("mood"));
-            int kesehatan = Math.toIntExact((Long) simObj.get("kesehatan"));
-            String status = (String) simObj.get("status");
-            Point posisi; // di dalam rumah
-            Rumah rumah;
-            Rumah posisiRumah;
-            Ruangan posisiRuangan;
-
-        } catch (NullPointerException e) {
-
-        }
-
-    }
-
-    private static void parseWorld(JSONObject object) {
-        try {
-            JSONObject worldObj = (JSONObject) object.get("World");
-
-            int panjang = Math.toIntExact((Long) worldObj.get("panjang"));
-            int lebar = Math.toIntExact((Long) worldObj.get("lebar"));
-            ArrayList<Rumah> listofRumah;
-            int[][] matrixWorld;
-            ArrayList<Sim> listofSim;
-            int waktu = Math.toIntExact((Long) worldObj.get("waktu"));
-            int harike = Math.toIntExact((Long) worldObj.get("harike"));
-            Sim activeSim;
-        } catch (NullPointerException e) {
-
-        }
-
+        return world;
     }
 
     private static void printStartingMenuCommands() {

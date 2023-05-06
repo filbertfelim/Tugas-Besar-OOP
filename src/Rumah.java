@@ -115,6 +115,10 @@ public class Rumah {
         return listofRuangan;
     }
 
+    public void setListofRuangan(ArrayList<Ruangan> listofRuangan) {
+        this.listofRuangan = listofRuangan;
+    }
+
     public void printListOfRuangan() {
         for (Ruangan ruangan : listofRuangan) {
             System.out.println(ruangan.getNamaRuangan());

@@ -60,6 +60,10 @@ public class Ruangan {
         return matrixRuangan;
     }
 
+    public void setMatrixRuangan(int[][] matrixRuangan) {
+        this.matrixRuangan = matrixRuangan;
+    }
+
     public void printListOfObjek() {
         System.out.println("Daftar objek yang ada di ruangan: ");
         if (listofObjek.size() == 0) {
@@ -73,6 +77,10 @@ public class Ruangan {
 
     public ArrayList<NonMakanan> getListofObjek() {
         return listofObjek;
+    }
+
+    public void setListofObjek(ArrayList<NonMakanan> listofObjek) {
+        this.listofObjek = listofObjek;
     }
 
     public void printMatriksRuangan() {
@@ -209,6 +217,10 @@ public class Ruangan {
 
     public int[] getArrayRuangTerhubung() {
         return ruangTerhubung;
+    }
+
+    public void setArrayRuangTerhubung(int[] ruangTerhubung) {
+        this.ruangTerhubung = ruangTerhubung;
     }
 
     public int getRuangTerhubung(int sisi) {

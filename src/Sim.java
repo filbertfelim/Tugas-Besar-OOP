@@ -114,6 +114,10 @@ public class Sim {
         return inventory;
     }
 
+    public void setInventory(Inventory<Item> inventory) {
+        this.inventory = inventory;
+    }
+
     public int getKekenyangan() {
         return kekenyangan;
     }
@@ -158,6 +162,10 @@ public class Sim {
         return rumah;
     }
 
+    public void setRumah(Rumah rumah) {
+        this.rumah = rumah;
+    }
+
     public Rumah getPosisiRumah() {
         return posisiRumah;
     }
@@ -178,32 +186,64 @@ public class Sim {
         return timerBelumTidur;
     }
 
+    public void setTimerBelumTidur(int timerBelumTidur) {
+        this.timerBelumTidur = timerBelumTidur;
+    }
+
     public int getTimerBelumBab() {
         return timerBelumBAB;
+    }
+
+    public void setTimerBelumBab(int timerBelumBAB) {
+        this.timerBelumBAB = timerBelumBAB;
     }
 
     public boolean getPerluBab() {
         return perluBAB;
     }
 
+    public void setPerluBab(boolean perluBab) {
+        this.perluBAB = perluBab;
+    }
+
     public int getJatahWaktuBerkunjung() {
         return jatahWaktuBerkunjung;
+    }
+
+    public void setJatahWaktuBerkunjung(int jatahWaktuBerkunjung) {
+        this.jatahWaktuBerkunjung = jatahWaktuBerkunjung;
     }
 
     public int getTimerWaktuKunjung() {
         return timerWaktuKunjung;
     }
 
+    public void setTimerWaktuKunjung(int timerWaktuKunjung) {
+        this.timerWaktuKunjung = timerWaktuKunjung;
+    }
+
     public boolean getIsBerkunjung() {
         return isBerkunjung;
+    }
+
+    public void setIsBerkunjung(boolean isBerkunjung) {
+        this.isBerkunjung = isBerkunjung;
     }
 
     public Item getBarangDiBeli() {
         return barangdibeli;
     }
 
+    public void setBarangDiBeli(Item barangdibeli) {
+        this.barangdibeli = barangdibeli;
+    }
+
     public int getTimerBarangDibeli() {
         return timerbarangdibeli;
+    }
+
+    public void setTimerBarangDibeli(int timerbarangdibeli) {
+        this.timerbarangdibeli = timerbarangdibeli;
     }
 
     public void getCurrentLocation() {
