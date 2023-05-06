@@ -18,7 +18,7 @@ public class World {
         waktu = 0; // detik
         harike = 1;
         matrixWorld = new int[64][64];
-        listofRumah.add(new Rumah(namaSim, new Point(0, 0)));
+        listofRumah.add(new Rumah("Rumah " + namaSim, new Point(0, 0)));
         listofSim.add(new Sim(namaSim, new Point(0, 0)));
         matrixWorld[0][0] = 0;
         activeSim = listofSim.get(0);

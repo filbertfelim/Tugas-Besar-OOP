@@ -803,7 +803,23 @@ public class Main {
                 if (namaBarangDibeli != null) {
                     // simJSON.put("barangdibeli", sim.getBarangDiBeli().getNamaItem());
                     String namaBarangDibeliString = (String) namaBarangDibeli;
-                    barangdibeli = new Item(namaBarangDibeliString);
+                    if (namaBarangDibeliString.equals("kasur single")
+                            || namaBarangDibeliString.equals("kasur queen size")
+                            || namaBarangDibeliString.equals("kasur king size")
+                            || namaBarangDibeliString.equals("toilet") || namaBarangDibeliString.equals("kompor gas")
+                            || namaBarangDibeliString.equals("kompor listrik")
+                            || namaBarangDibeliString.equals("meja dan kursi") || namaBarangDibeliString.equals("jam")
+                            || namaBarangDibeliString.equals("play station")
+                            || namaBarangDibeliString.equals("lemari buku") || namaBarangDibeliString.equals("radio")
+                            || namaBarangDibeliString.equals("piano") || namaBarangDibeliString.equals("televisi")) {
+                        barangdibeli = new NonMakanan(namaBarangDibeliString);
+                    } else if (namaBarangDibeliString.equals("nasi") || namaBarangDibeliString.equals("kentang")
+                            || namaBarangDibeliString.equals("ayam") || namaBarangDibeliString.equals("sapi")
+                            || namaBarangDibeliString.equals("wortel") || namaBarangDibeliString.equals("bayam")
+                            || namaBarangDibeliString.equals("kacang") || namaBarangDibeliString.equals("susu")) {
+                        barangdibeli = new BahanMakanan(namaBarangDibeliString);
+                    }
+
                 } else {
                     // simJSON.put("barangdibeli", sim.getBarangDiBeli());
                 }
