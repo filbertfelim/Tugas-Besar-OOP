@@ -1,7 +1,7 @@
 public class SingleHTP {
 
     //create an object of SingleHTP for Design Pattern Implementation
-    private static SingleHTP instance = new SingleHTP();
+    private static SingleHTP instance;
  
     //make the constructor private so that this class cannot be
     //instantiated
@@ -9,6 +9,13 @@ public class SingleHTP {
  
     //Get the only object available
     public static SingleHTP getInstance(){
+      if (instance == null){
+         synchronized(SingleCommand.class){
+            if(instance == null){
+                instance = new SingleHTP();
+            }
+        }
+      }
        return instance;
     }
  

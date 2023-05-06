@@ -1,7 +1,7 @@
 public class SingleCommand {
 
     //create an object of SingleCommand for Design Pattern Implementation
-    private static SingleCommand instance = new SingleCommand();
+    private static SingleCommand instance;
  
     //make the constructor private so that this class cannot be
     //instantiated
@@ -9,6 +9,13 @@ public class SingleCommand {
  
     //Get the only object available
     public static SingleCommand getInstance(){
+        if(instance == null){
+            synchronized(SingleCommand.class){
+                if(instance == null){
+                    instance = new SingleCommand();
+                }
+            }
+        }
        return instance;
     }
  
