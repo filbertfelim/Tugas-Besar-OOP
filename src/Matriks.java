@@ -17,7 +17,7 @@ public class Matriks {
             } else {
                 while (yNegatif.size() <= -(y+1)) {yNegatif.add(0);};
                 yNegatif.set(-(y+1), nilai);
-                System.out.println(-(y+1));
+                //  
             }
         }
 

@@ -39,6 +39,7 @@ public class Main {
                     if (startingGame.equals("y")) {
                         isGameLoading = true;
                         newGame = false;
+                        System.out.print("Masukkan nama file : ");
                         String loadFile = scan.nextLine().toLowerCase();
                         worldsCreatedList.add(load(loadFile));
                         System.out.println("Enjoy playing!");
@@ -173,9 +174,9 @@ public class Main {
                     System.out.println("2. Memindahkan barang yang sudah ada di ruangan");
                     int pilihan = scan.nextInt();
                     if (pilihan == 1) {
-                        World.getActiveSim().memasangbarang();
+                        World.getActiveSim().memasangbarang(scan);
                     } else if (pilihan == 2) {
-                        World.getActiveSim().memindahBarang();
+                        World.getActiveSim().memindahBarang(scan);
                     }
                     delay(2000);
 
@@ -233,7 +234,7 @@ public class Main {
                             scan.nextLine();
                         }
                     }
-                    while (idx < 0 || idx > 3) {
+                    while (idx < 0 || idx > 4) {
                         System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
                         isValid = false;
                         while (!isValid) {
@@ -284,7 +285,7 @@ public class Main {
                                     scan.nextLine();
                                 }
                             }
-                            while (idx < 0 || idx > 4) {
+                            while (idx < 0 || idx > 3) {
                                 System.out.println("Input invalid ( diluar index ), silahkan diulangi!");
                                 isValid = false;
                                 while (!isValid) {
@@ -561,7 +562,7 @@ public class Main {
             // Read JSON File
             Object obj = jsonP.parse(reader);
             JSONArray objList = (JSONArray) obj;
-            System.out.println(objList);
+            // System.out.println(objList);
 
             JSONObject worldJSON = (JSONObject) objList.get(0);
             // atribut waktu (World)

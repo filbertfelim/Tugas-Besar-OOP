@@ -76,28 +76,35 @@ public class Pekerjaan {
 
     public void changeWork(Sim sim, String newWork) {
         int gajiBaru = 1;
-        if ((newWork.toLowerCase()).equals("badut sulap")) {
-            gajiBaru = 15;
-        } else if ((newWork.toLowerCase()).equals("koki")) {
-            gajiBaru = 30;
-        } else if ((newWork.toLowerCase()).equals("polisi")) {
-            gajiBaru = 35;
-        } else if ((newWork.toLowerCase()).equals("programmer")) {
-            gajiBaru = 45;
-        } else if ((newWork.toLowerCase()).equals("dokter")) {
-            gajiBaru = 50;
-        } else {
-            System.out.println("Input tidak ada di daftar kerja!");
+        if (newWork.toLowerCase().equals(nama.toLowerCase()))
+        {
+            System.out.println("Tidak bisa ubah ke pekerjaan yang sama!");
         }
-
-        if (ableToChangeWork(sim.getUang(), gajiBaru)) {
-            nama = newWork;
-            gaji = gajiBaru;
-            lamaBekerja = 0;
-            sim.setUang(sim.getUang() - (gajiBaru / 2));
-            changeWorkatHari = World.gethariKe();
-        } else {
-            System.out.println("Kamu belum bisa mengubah pekerjaan!");
+        else
+        {
+            if ((newWork.toLowerCase()).equals("badut sulap")) {
+                gajiBaru = 15;
+            } else if ((newWork.toLowerCase()).equals("koki")) {
+                gajiBaru = 30;
+            } else if ((newWork.toLowerCase()).equals("polisi")) {
+                gajiBaru = 35;
+            } else if ((newWork.toLowerCase()).equals("programmer")) {
+                gajiBaru = 45;
+            } else if ((newWork.toLowerCase()).equals("dokter")) {
+                gajiBaru = 50;
+            } else {
+                System.out.println("Input tidak ada di daftar kerja!");
+            }
+    
+            if (ableToChangeWork(sim.getUang(), gajiBaru)) {
+                nama = newWork;
+                gaji = gajiBaru;
+                lamaBekerja = 0;
+                sim.setUang(sim.getUang() - (gajiBaru / 2));
+                changeWorkatHari = World.gethariKe();
+            } else {
+                System.out.println("Kamu belum bisa mengubah pekerjaan!");
+            }
         }
     }
 }
