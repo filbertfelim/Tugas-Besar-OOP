@@ -41,7 +41,7 @@ public class Sim {
         kekenyangan = 80;
         mood = 80;
         kesehatan = 80;
-        uang = 100000;
+        uang = 100;
         pekerjaan = new Pekerjaan();
         inventory = new Inventory<Item>();
         rumah = World.getListofRumah().get(alamatRumah.getX() + alamatRumah.getY() * 64);
@@ -532,8 +532,7 @@ public class Sim {
     public void checkUpgradeHouse() {
         if (timerUpgradeHouse >= 1080) {
             isUpgradingHouse = false;
-            rumah.addRuangan(upgradingroomname, rumah.getListofRuangan().get(ruangterhubungupgrading),
-                    sisiupgradingroom);
+            rumah.addRuangan(upgradingroomname, rumah.getListofRuangan().get(ruangterhubungupgrading),sisiupgradingroom);
             timerUpgradeHouse = 0;
             upgradingroomname = "";
             sisiupgradingroom = -9999;
@@ -2234,7 +2233,8 @@ public class Sim {
                                 upgradingroomname = namaRuanganBaru;
                                 sisiupgradingroom = sisi;
                                 ruangterhubungupgrading = i;
-                                rumah.addRuangan(namaRuanganBaru, rumah.getListofRuangan().get(i), sisi);
+                                isUpgradingHouse = true;
+                                uang -= 1500;
                             } else {
                                 System.out.println("Maaf sudah ada ruangan di sisi tersebut");
                             }
@@ -2315,7 +2315,7 @@ public class Sim {
     }
 
     // memindah barang
-    public void memindahBarang() {
+    public void memindahBarang(Scanner scan) {
         if (posisiRuangan.getListofObjek().isEmpty()) {
             System.out.println("Tidak ada objek untuk dipindah!");
         } else {
@@ -2325,7 +2325,6 @@ public class Sim {
                 posisiRuangan.printMatriksRuangan();
 
                 System.out.println("Pilih barang yang ingin dipindah");
-                Scanner scan = new Scanner(System.in);
                 String namaBarang = scan.nextLine().toLowerCase();
 
                 System.out.println("Ketik posisi sekarang barang yang ingin dipindah");
@@ -2356,7 +2355,7 @@ public class Sim {
     }
 
     // memasang barang
-    public void memasangbarang() {
+    public void memasangbarang(Scanner scan) {
         if (inventory.getJumlah() == 0) {
             System.out.println("Tidak ada item di inventory");
         } else {
@@ -2366,7 +2365,6 @@ public class Sim {
                 posisiRuangan.printMatriksRuangan();
                 seeinventory();
                 System.out.println("Pilih barang yang ingin dipasang");
-                Scanner scan = new Scanner(System.in);
                 String namaBarang = scan.nextLine().toLowerCase();
                 int idx = 0;
                 if (!namaBarang.equals("kasur single") && !namaBarang.equals("kasur queen size")
@@ -2421,15 +2419,7 @@ public class Sim {
                                                     throw new InputMismatchException();
                                                 }
 
-                                                boolean berhasil = posisiRuangan.memasangBarang(barang, x, y); // true
-                                                                                                               // kalau
-                                                                                                               // area
-                                                                                                               // kosong,
-                                                                                                               // false
-                                                                                                               // kalau
-                                                                                                               // ada
-                                                                                                               // barang
-                                                                                                               // lain
+                                                boolean berhasil = posisiRuangan.memasangBarang(barang, x, y);
                                                 if (berhasil) {
                                                     inventory.removeItem(barang);
                                                     System.out.println(barang.getNamaItem() + " berhasil dipasang");
@@ -2478,6 +2468,7 @@ public class Sim {
     public void seetime() {
         int menit = (720 - World.getWaktu()) / 60;
         int detik = (720 - World.getWaktu()) % 60;
+        System.out.println("Hari ke : " + World.gethariKe());
         System.out.println("Sisa waktu hari ini :");
         System.out.println(String.valueOf(menit) + " menit " + String.valueOf(detik) + " detik");
 
@@ -2492,7 +2483,14 @@ public class Sim {
         }
 
         // print waktu sisa untuk upgrade rumah
-        // kode.....
+        if (isUpgradingHouse)
+        {
+            System.out.println("Sisa waktu upgrade rumah :");
+            System.out.printf("%-30s %-30s\n", "Nama ruangan", "Sisa Waktu Pengiriman");
+            menit = (1080 - timerUpgradeHouse) / 60;
+            detik = (1080 - timerUpgradeHouse) % 60;
+            System.out.printf("%-30s %-30s\n", upgradingroomname, menit + " menit " + detik + " detik");
+        }
     }
 
     public void gotoObject(Scanner scan) {
