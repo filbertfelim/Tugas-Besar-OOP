@@ -2141,44 +2141,51 @@ public class Sim {
     // upgrade rumah
 
     public void upgraderumah(Scanner scan) {
-        // if (!isUpgradingHouse) {
-        // if (rumah.equals(posisiRumah)) {
-        // if (uang >= 1500) {
-        System.out.println("Ruangan apa yang ingin ditambah ruang tetangganya?");
-        rumah.printListOfRuangan();
-        String namaRuangan = scan.nextLine().toLowerCase();
-        for (int i = 0; i < rumah.getListofRuangan().size(); i++) {
-            if (namaRuangan.equals((rumah.getListofRuangan().get(i)).getNamaRuangan().toLowerCase())) {
-                System.out.print("Nama ruangan baru: ");
-                String namaRuanganBaru = scan.nextLine();
-                System.out.println(
-                        "Pilih sisi pada ruangan " + (rumah.getListofRuangan().get(i)).getNamaRuangan()
-                                + " untuk ditambah ruangan " + namaRuanganBaru);
-                System.out.println(
-                        "Ketik 0 untuk sisi atas, 1 untuk bawah, 2 untuk kanan, atau 3 untuk kiri");
-                int sisi = scan.nextInt();
-                if ((rumah.getListofRuangan().get(i)).getRuangTerhubung(sisi) == 0) {
-                    System.out.println("Upgrade rumah berhasil! Silahkan ditunggu untuk pembangunannya!\n");
-                    upgradingroomname = namaRuanganBaru;
-                    sisiupgradingroom = sisi;
-                    ruangterhubungupgrading = i;
-                    rumah.addRuangan(namaRuanganBaru, rumah.getListofRuangan().get(i), sisi);
-                } else {
-                    System.out.println("Maaf sudah ada ruangan di sisi tersebut");
+        if (!isUpgradingHouse) 
+        {
+            if (rumah.equals(posisiRumah))
+            {
+                if (uang >= 1500) 
+                {
+                    System.out.println("Ruangan apa yang ingin ditambah ruang tetangganya?");
+                    rumah.printListOfRuangan();
+                    String namaRuangan = scan.nextLine().toLowerCase();
+                    for (int i = 0; i < rumah.getListofRuangan().size(); i++) {
+                        if (namaRuangan.equals((rumah.getListofRuangan().get(i)).getNamaRuangan().toLowerCase())) {
+                            System.out.print("Nama ruangan baru: ");
+                            String namaRuanganBaru = scan.nextLine();
+                            System.out.println(
+                                    "Pilih sisi pada ruangan " + (rumah.getListofRuangan().get(i)).getNamaRuangan()
+                                            + " untuk ditambah ruangan " + namaRuanganBaru);
+                            System.out.println(
+                                    "Ketik 0 untuk sisi atas, 1 untuk bawah, 2 untuk kanan, atau 3 untuk kiri");
+                            int sisi = scan.nextInt();
+                            if ((rumah.getListofRuangan().get(i)).getRuangTerhubung(sisi) == 0) {
+                                System.out.println("Upgrade rumah berhasil! Silahkan ditunggu untuk pembangunannya!\n");
+                                upgradingroomname = namaRuanganBaru;
+                                sisiupgradingroom = sisi;
+                                ruangterhubungupgrading = i;
+                                rumah.addRuangan(namaRuanganBaru, rumah.getListofRuangan().get(i), sisi);
+                            } else {
+                                System.out.println("Maaf sudah ada ruangan di sisi tersebut");
+                            }
+                        }
+                    }
+                } 
+                else
+                {
+                    System.out.println("Maaf, uang kamu tidak cukup untuk melakukan upgrade\n");
                 }
+            } 
+            else 
+            {
+                System.out.println("Maaf, upgrade rumah hanya bisa dilakukan di rumah pribadiSim ini");
             }
+        } 
+        else 
+        {
+            System.out.println("Upgrade rumah sedang berjalan di rumah ini, silahkan ditunggu terlebih dahulu!\n");
         }
-        // } else {
-        // System.out.println("Maaf, uang kamu tidak cukup untuk melakukan upgrade\n");
-        // }
-        // } else {
-        // System.out.println("Maaf, upgrade rumah hanya bisa dilakukan di rumah pribadi
-        // Sim ini");
-        // }
-        // } else {
-        // System.out.println("Upgrade rumah sedang berjalan di rumah ini, silahkan
-        // ditunggu terlebih dahulu!\n");
-        // }
     }
 
     // beli barang
