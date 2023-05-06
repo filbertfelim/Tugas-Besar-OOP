@@ -441,15 +441,15 @@ public class Sim {
             return 150;
         } else if (idx == 6 || idx == 9 || idx == 12) {
             return 200;
-        } else if (idx == 8 || idx == 11) {
+        } else if (idx == 8 || idx == 16) {
             return 10;
-        } else if (idx == 13) {
+        } else if (idx == 14) {
             return 5;
-        } else if (idx == 14 || idx == 17 || idx == 18) {
+        } else if (idx == 15 || idx == 18 || idx == 19) {
             return 3;
-        } else if (idx == 16) {
+        } else if (idx == 17) {
             return 12;
-        } else if (idx == 19 || idx == 20) {
+        } else if (idx == 20 || idx == 21) {
             return 2;
         } else {
             return 0;
