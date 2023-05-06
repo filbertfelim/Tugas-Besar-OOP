@@ -1,6 +1,6 @@
 [
   {
-    "activesim": "felim",
+    "activesim": "satya",
     "jumlahrumah": 1,
     "listofsim": {
       "Sim 1": {
@@ -9,7 +9,7 @@
         "mood": 80,
         "jumlahitem": 0,
         "inventory": {},
-        "rumah": "Rumah felim",
+        "rumah": "Rumah satya",
         "timerupgradehouse": 0,
         "perlubab": false,
         "jatahwaktuberkunjung": 1,
@@ -24,14 +24,14 @@
         "timerbarangdibeli": -9999,
         "ruangterhubungupgrading": 0,
         "sisiupgradingroom": 0,
-        "posisirumah": "Rumah felim",
-        "uang": 100000,
-        "nama": "felim",
+        "posisirumah": "Rumah satya",
+        "uang": 100,
+        "nama": "satya",
         "pekerjaan": {
-          "nama": "Koki",
+          "nama": "Polisi",
           "changeworkathari": 0,
           "lamabekerja": 0,
-          "gaji": 30
+          "gaji": 35
         },
         "timerbelumtidur": 0,
         "status": null,
@@ -42,7 +42,7 @@
     "hariaddsim": 0,
     "listofrumah": {
       "Rumah 1": {
-        "nama": "Rumah felim",
+        "nama": "Rumah satya",
         "lokasiX": 0,
         "lokasiY": 0,
         "listofruangan": {
