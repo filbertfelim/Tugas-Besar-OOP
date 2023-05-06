@@ -8,8 +8,8 @@ public class Rumah {
     private ArrayList<Ruangan> listofRuangan;
     private Matriks matriksRumah;
 
-    public Rumah(String namaSim, Point lokasi) {
-        this.nama = "Rumah " + namaSim;
+    public Rumah(String namaRumah, Point lokasi) {
+        this.nama = namaRumah;
         this.lokasi = lokasi;
         Point titikRuanganPertama = new Point(0, 0);
         listofRuangan = new ArrayList<Ruangan>(0);
@@ -24,11 +24,11 @@ public class Rumah {
     }
 
     // untuk fitur load
-    public Rumah(String nama, Point lokasi, ArrayList<Ruangan> listofRuangan) {
+    public Rumah(String nama, Point lokasi, ArrayList<Ruangan> listofRuangan, Matriks matriksRumah) {
         this.nama = nama;
         this.lokasi = lokasi;
         this.listofRuangan = listofRuangan;
-        this.matriksRumah = new Matriks();
+        this.matriksRumah = matriksRumah;
     }
 
     public String getNama() {

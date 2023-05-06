@@ -66,7 +66,8 @@ public class Sim {
             int kesehatan,
             String status, Point posisi, Rumah rumah, Rumah posisiRumah, Ruangan posisiRuangan, int timerBelumTidur,
             int timerBelumBAB, boolean perluBAB, int jatahWaktuBerkunjung, int timerWaktuKunjung, boolean isBerkunjung,
-            Item barangdibeli, int timerbarangdibeli) {
+            Item barangdibeli, int timerbarangdibeli, boolean isUpgradingHouse, String upgradingroomname,
+            int sisiupgradingroom, int ruangterhubungupgrading, int timerUpgradeHouse) {
         this.nama = nama;
         this.pekerjaan = pekerjaan;
         this.uang = uang;
@@ -87,6 +88,11 @@ public class Sim {
         this.isBerkunjung = isBerkunjung;
         this.barangdibeli = barangdibeli;
         this.timerbarangdibeli = timerbarangdibeli;
+        this.isUpgradingHouse = isUpgradingHouse;
+        this.upgradingroomname = upgradingroomname;
+        this.sisiupgradingroom = sisiupgradingroom;
+        this.ruangterhubungupgrading = ruangterhubungupgrading;
+        this.timerUpgradeHouse = timerUpgradeHouse;
     }
 
     // Method
@@ -244,6 +250,51 @@ public class Sim {
 
     public void setTimerBarangDibeli(int timerbarangdibeli) {
         this.timerbarangdibeli = timerbarangdibeli;
+    }
+
+    // private boolean isUpgradingHouse;
+    public boolean getIsUpgradingHouse() {
+        return isUpgradingHouse;
+    }
+
+    public void setIsUpgradingHouse(boolean isUpgradingHouse) {
+        this.isUpgradingHouse = isUpgradingHouse;
+    }
+
+    // private String upgradingroomname;
+    public String getUpgradingRoomName() {
+        return upgradingroomname;
+    }
+
+    public void setUpgradingRoomName(String upgradingroomname) {
+        this.upgradingroomname = upgradingroomname;
+    }
+
+    // private int sisiupgradingroom;
+    public int getSisiUpgradingRoom() {
+        return sisiupgradingroom;
+    }
+
+    public void setSisiUpgradingRoom(int sisiupgradingroom) {
+        this.sisiupgradingroom = sisiupgradingroom;
+    }
+
+    // private int ruangterhubungupgrading;
+    public int getRuangTerhubungUpgrading() {
+        return ruangterhubungupgrading;
+    }
+
+    public void setRuangTerhubungUpgrading(int ruangterhubungupgrading) {
+        this.ruangterhubungupgrading = ruangterhubungupgrading;
+    }
+
+    // private int timerUpgradeHouse;
+    public int getTimerUpgradeHouse() {
+        return timerUpgradeHouse;
+    }
+
+    public void setTimerUpgradeHouse(int timerUpgradeHouse) {
+        this.timerUpgradeHouse = timerUpgradeHouse;
     }
 
     public void getCurrentLocation() {
@@ -1453,8 +1504,7 @@ public class Sim {
                     System.out.println("Tidak jadi makan!");
                 }
             }
-            if (idx != 0)
-            {   
+            if (idx != 0) {
                 int makananke = 0;
                 Item yangdimakan = new Masakan("nasi ayam");
                 for (Item item : inventory.getInventory()) {
@@ -2092,40 +2142,42 @@ public class Sim {
 
     public void upgraderumah(Scanner scan) {
         // if (!isUpgradingHouse) {
-        //     if (rumah.equals(posisiRumah)) {
-        //         if (uang >= 1500) {
-                    System.out.println("Ruangan apa yang ingin ditambah ruang tetangganya?");
-                    rumah.printListOfRuangan();
-                    String namaRuangan = scan.nextLine().toLowerCase();
-                    for (int i = 0; i < rumah.getListofRuangan().size(); i++) {
-                        if (namaRuangan.equals((rumah.getListofRuangan().get(i)).getNamaRuangan().toLowerCase())) {
-                            System.out.print("Nama ruangan baru: ");
-                            String namaRuanganBaru = scan.nextLine();
-                            System.out.println(
-                                    "Pilih sisi pada ruangan " + (rumah.getListofRuangan().get(i)).getNamaRuangan()
-                                            + " untuk ditambah ruangan " + namaRuanganBaru);
-                            System.out.println(
-                                    "Ketik 0 untuk sisi atas, 1 untuk bawah, 2 untuk kanan, atau 3 untuk kiri");
-                            int sisi = scan.nextInt();
-                            if ((rumah.getListofRuangan().get(i)).getRuangTerhubung(sisi) == 0) {
-                                System.out.println("Upgrade rumah berhasil! Silahkan ditunggu untuk pembangunannya!\n");
-                                upgradingroomname = namaRuanganBaru;
-                                sisiupgradingroom = sisi;
-                                ruangterhubungupgrading = i;
-                                rumah.addRuangan(namaRuanganBaru, rumah.getListofRuangan().get(i),sisi);
-                            } else {
-                                System.out.println("Maaf sudah ada ruangan di sisi tersebut");
-                            }
-                        }
-                    }
-        //         } else {
-        //             System.out.println("Maaf, uang kamu tidak cukup untuk melakukan upgrade\n");
-        //         }
-        //     } else {
-        //         System.out.println("Maaf, upgrade rumah hanya bisa dilakukan di rumah pribadi Sim ini");
-        //     }
+        // if (rumah.equals(posisiRumah)) {
+        // if (uang >= 1500) {
+        System.out.println("Ruangan apa yang ingin ditambah ruang tetangganya?");
+        rumah.printListOfRuangan();
+        String namaRuangan = scan.nextLine().toLowerCase();
+        for (int i = 0; i < rumah.getListofRuangan().size(); i++) {
+            if (namaRuangan.equals((rumah.getListofRuangan().get(i)).getNamaRuangan().toLowerCase())) {
+                System.out.print("Nama ruangan baru: ");
+                String namaRuanganBaru = scan.nextLine();
+                System.out.println(
+                        "Pilih sisi pada ruangan " + (rumah.getListofRuangan().get(i)).getNamaRuangan()
+                                + " untuk ditambah ruangan " + namaRuanganBaru);
+                System.out.println(
+                        "Ketik 0 untuk sisi atas, 1 untuk bawah, 2 untuk kanan, atau 3 untuk kiri");
+                int sisi = scan.nextInt();
+                if ((rumah.getListofRuangan().get(i)).getRuangTerhubung(sisi) == 0) {
+                    System.out.println("Upgrade rumah berhasil! Silahkan ditunggu untuk pembangunannya!\n");
+                    upgradingroomname = namaRuanganBaru;
+                    sisiupgradingroom = sisi;
+                    ruangterhubungupgrading = i;
+                    rumah.addRuangan(namaRuanganBaru, rumah.getListofRuangan().get(i), sisi);
+                } else {
+                    System.out.println("Maaf sudah ada ruangan di sisi tersebut");
+                }
+            }
+        }
         // } else {
-        //     System.out.println("Upgrade rumah sedang berjalan di rumah ini, silahkan ditunggu terlebih dahulu!\n");
+        // System.out.println("Maaf, uang kamu tidak cukup untuk melakukan upgrade\n");
+        // }
+        // } else {
+        // System.out.println("Maaf, upgrade rumah hanya bisa dilakukan di rumah pribadi
+        // Sim ini");
+        // }
+        // } else {
+        // System.out.println("Upgrade rumah sedang berjalan di rumah ini, silahkan
+        // ditunggu terlebih dahulu!\n");
         // }
     }
 
@@ -2246,7 +2298,8 @@ public class Sim {
                         && !namaBarang.equals("kompor gas") && !namaBarang.equals("kompor listrik")
                         && !namaBarang.equals("meja dan kursi") && !namaBarang.equals("jam")
                         && !namaBarang.equals("play station") && !namaBarang.equals("lemari buku")
-                        && !namaBarang.equals("radio") && !namaBarang.equals("piano") && !namaBarang.equals("televisi")) {
+                        && !namaBarang.equals("radio") && !namaBarang.equals("piano")
+                        && !namaBarang.equals("televisi")) {
                     System.out.println("Barang yang dipilih tidak bisa dipasang!");
                 } else {
                     for (String nama : inventory.getDetails().keySet()) {
@@ -2785,7 +2838,8 @@ public class Sim {
                     System.out.println("Input tidak valid ( diluar index )!");
                     isValid = false;
                     while (!isValid) {
-                        try {;
+                        try {
+                            ;
                             System.out.println("Aksi yang bisa dilakukan : ");
                             System.out.println("1. Nonton TV");
                             System.out.println("0. Batal");

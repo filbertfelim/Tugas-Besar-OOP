@@ -8,13 +8,54 @@ public class NonMakanan extends Item implements Buyable {
     private int kodeJenisBarang;
     private boolean isHorizontal = true;
 
-    public NonMakanan(String namaItem, int harga, int panjang, int lebar, Point titikAwal, Point titikAkhir) {
+    public NonMakanan(String namaItem, int panjang, int lebar, Point titikAwal, Point titikAkhir,
+            boolean isHorizontal) {
         super(namaItem);
-        this.harga = harga;
         this.panjang = panjang;
         this.lebar = lebar;
         this.titikAwal = titikAwal;
         this.titikAkhir = titikAkhir;
+        this.isHorizontal = isHorizontal;
+        if ((namaItem.toLowerCase()).equals("kasur single")) {
+            harga = 50;
+            kodeJenisBarang = 1;
+        } else if ((namaItem.toLowerCase()).equals("kasur queen size")) {
+            harga = 100;
+            kodeJenisBarang = 2;
+        } else if ((namaItem.toLowerCase()).equals("kasur king size")) {
+            harga = 150;
+            kodeJenisBarang = 3;
+        } else if ((namaItem.toLowerCase()).equals("toilet")) {
+            harga = 50;
+            kodeJenisBarang = 4;
+        } else if ((namaItem.toLowerCase()).equals("kompor gas")) {
+            harga = 100;
+            kodeJenisBarang = 5;
+        } else if ((namaItem.toLowerCase()).equals("kompor listrik")) {
+            harga = 200;
+            kodeJenisBarang = 6;
+        } else if ((namaItem.toLowerCase()).equals("meja dan kursi")) {
+            harga = 50;
+            kodeJenisBarang = 7;
+        } else if ((namaItem.toLowerCase()).equals("jam")) {
+            harga = 50;
+            kodeJenisBarang = 8;
+        } else if ((namaItem.toLowerCase()).equals("play station")) {
+            harga = 200;
+            kodeJenisBarang = 9;
+        } else if ((namaItem.toLowerCase()).equals("lemari buku")) {
+            harga = 100;
+            kodeJenisBarang = 10;
+        } else if ((namaItem.toLowerCase()).equals("radio")) {
+            harga = 100;
+            kodeJenisBarang = 11;
+        } else if ((namaItem.toLowerCase()).equals("piano")) {
+            harga = 200;
+            kodeJenisBarang = 12;
+        } else if ((namaItem.toLowerCase()).equals("televisi")) {
+            harga = 150;
+            kodeJenisBarang = 13;
+        }
     }
 
     public NonMakanan(String namaItem) {
