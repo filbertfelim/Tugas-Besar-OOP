@@ -2243,7 +2243,7 @@ public class Sim {
         if (posisiRuangan.getListofObjek().isEmpty()) {
             System.out.println("Tidak ada objek untuk dipindah!");
         } else {
-            if (rumah.equals(posisiRumah)) {
+            if (rumah.getNama().equals(posisiRumah.getNama())) {
                 posisiRuangan.printListOfObjek();
                 System.out.println("Layout ruangan: ");
                 posisiRuangan.printMatriksRuangan();
@@ -2284,7 +2284,7 @@ public class Sim {
         if (inventory.getJumlah() == 0) {
             System.out.println("Tidak ada item di inventory");
         } else {
-            if (rumah.equals(posisiRumah)) {
+            if (rumah.getNama().equals(posisiRumah.getNama())) {
                 // Pilih barang di inventory
                 System.out.println("Layout ruangan: ");
                 posisiRuangan.printMatriksRuangan();
