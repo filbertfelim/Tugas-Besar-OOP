@@ -47,7 +47,7 @@ public class Point {
 
     public int distance(Point point)
     { 
-        double val = Math.sqrt(Math.pow((this.getX()-this.getX()),2)+Math.pow((point.getY()-point.getY()),2));
+        double val = Math.sqrt(Math.pow((this.getX()-point.getX()),2)+Math.pow((this.getY()-point.getY()),2));
         float floatval = (float) val;
         int newval = Math.round(floatval);
         return newval;
