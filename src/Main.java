@@ -787,6 +787,9 @@ public class Main {
                 int timerbarangdibeli = Math.toIntExact((Long) simJSON.get("timerbarangdibeli"));
 
                 // simListJSON.put("Sim " + simKe, simJSON);
+                listofSim.add(new Sim(namaSim, pekerjaan, uang, inventory, kekenyangan, mood, kesehatan, status, posisi,
+                        rumah, posisiRumah, posisiRuangan, timerBelumTidur, timerBelumBAB, perluBAB,
+                        jatahWaktuBerkunjung, timerWaktuKunjung, isBerkunjung, barangdibeli, timerbarangdibeli));
             }
             // worldJSON.put("listofsim", simListJSON);
 
