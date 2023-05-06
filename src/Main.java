@@ -406,16 +406,19 @@ public class Main {
                 // atribut listofobjek (Ruangan)
                 JSONObject objekRuanganJSON = new JSONObject();
                 for (NonMakanan objek : ruangan.getListofObjek()) {
-                    // atribut namaItem (NonMakanan)
-                    objekRuanganJSON.put("namaitem " + objekKe, objek.getNamaItem());
-                    objekRuanganJSON.put("panjang", objek.getPanjang());
-                    objekRuanganJSON.put("lebar", objek.getLebar());
-                    objekRuanganJSON.put("ishorizontal", objek.getIsHorizontal());
-                    objekRuanganJSON.put("titikawalX", objek.getTitikAwal().getX());
-                    objekRuanganJSON.put("titikawalY", objek.getTitikAwal().getY());
-                    objekRuanganJSON.put("titikakhirX", objek.getTitikAkhir().getX());
-                    objekRuanganJSON.put("titikakhirY", objek.getTitikAkhir().getY());
+                    JSONObject objekJSON = new JSONObject();
 
+                    // atribut namaItem (NonMakanan)
+                    objekJSON.put("namaitem", objek.getNamaItem());
+                    objekJSON.put("panjang", objek.getPanjang());
+                    objekJSON.put("lebar", objek.getLebar());
+                    objekJSON.put("ishorizontal", objek.getIsHorizontal());
+                    objekJSON.put("titikawalX", objek.getTitikAwal().getX());
+                    objekJSON.put("titikawalY", objek.getTitikAwal().getY());
+                    objekJSON.put("titikakhirX", objek.getTitikAkhir().getX());
+                    objekJSON.put("titikakhirY", objek.getTitikAkhir().getY());
+
+                    objekRuanganJSON.put("Item " + objekKe, objekJSON);
                     objekKe++;
                 }
                 ruanganRumahSim.put("listofobjek", objekRuanganJSON);
@@ -637,24 +640,26 @@ public class Main {
                     ArrayList<NonMakanan> listofObjek = new ArrayList<NonMakanan>();
                     JSONObject objekRuanganJSON = (JSONObject) ruanganRumahSimJSON.get("listofobjek");
                     for (int objekKe = 1; objekKe <= jumlahobjek; objekKe++) {
+                        JSONObject objekJSON = (JSONObject) objekRuanganJSON.get("Item " + objekKe);
+
                         // atribut namaItem (NonMakanan)
-                        // objekRuanganJSON.put("namaitem " + objekKe, objek.getNamaItem());
-                        String namaItem = (String) objekRuanganJSON.get("namaitem " + objekKe);
-                        // objekRuanganJSON.put("panjang", objek.getPanjang());
-                        int panjangItem = Math.toIntExact((Long) objekRuanganJSON.get("panjang"));
-                        // objekRuanganJSON.put("lebar", objek.getLebar());
-                        int lebarItem = Math.toIntExact((Long) objekRuanganJSON.get("lebar"));
-                        // objekRuanganJSON.put("ishorizontal", objek.getIsHorizontal());
-                        boolean isHorizontal = (boolean) objekRuanganJSON.get("ishorizontal");
-                        // objekRuanganJSON.put("titikawalX", objek.getTitikAwal().getX());
-                        int titikAwalX = Math.toIntExact((Long) objekRuanganJSON.get("titikawalX"));
-                        // objekRuanganJSON.put("titikawalY", objek.getTitikAwal().getY());
-                        int titikAwalY = Math.toIntExact((Long) objekRuanganJSON.get("titikawalY"));
+                        // objekJSON.put("namaitem " + objekKe, objek.getNamaItem());
+                        String namaItem = (String) objekJSON.get("namaitem");
+                        // objekJSON.put("panjang", objek.getPanjang());
+                        int panjangItem = Math.toIntExact((Long) objekJSON.get("panjang"));
+                        // objekJSON.put("lebar", objek.getLebar());
+                        int lebarItem = Math.toIntExact((Long) objekJSON.get("lebar"));
+                        // objekJSON.put("ishorizontal", objek.getIsHorizontal());
+                        boolean isHorizontal = (boolean) objekJSON.get("ishorizontal");
+                        // objekJSON.put("titikawalX", objek.getTitikAwal().getX());
+                        int titikAwalX = Math.toIntExact((Long) objekJSON.get("titikawalX"));
+                        // objekJSON.put("titikawalY", objek.getTitikAwal().getY());
+                        int titikAwalY = Math.toIntExact((Long) objekJSON.get("titikawalY"));
                         Point titikAwal = new Point(titikAwalX, titikAwalY);
-                        // objekRuanganJSON.put("titikakhirX", objek.getTitikAkhir().getX());
-                        int titikAkhirX = Math.toIntExact((Long) objekRuanganJSON.get("titikakhirX"));
-                        // objekRuanganJSON.put("titikakhirY", objek.getTitikAkhir().getY());
-                        int titikAkhirY = Math.toIntExact((Long) objekRuanganJSON.get("titikakhirY"));
+                        // objekJSON.put("titikakhirX", objek.getTitikAkhir().getX());
+                        int titikAkhirX = Math.toIntExact((Long) objekJSON.get("titikakhirX"));
+                        // objekJSON.put("titikakhirY", objek.getTitikAkhir().getY());
+                        int titikAkhirY = Math.toIntExact((Long) objekJSON.get("titikakhirY"));
                         Point titikAkhir = new Point(titikAkhirX, titikAkhirY);
 
                         listofObjek.add(

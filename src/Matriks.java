@@ -13,11 +13,11 @@ public class Matriks {
         public void setNilaiY(int y, int nilai) {
             if (y >= 0) {
                 while (yPositif.size() <= y) {yPositif.add(0);};
-                
                 yPositif.set(y, nilai);
             } else {
                 while (yNegatif.size() <= -(y+1)) {yNegatif.add(0);};
                 yNegatif.set(-(y+1), nilai);
+                System.out.println(-(y+1));
             }
         }
 
@@ -42,7 +42,7 @@ public class Matriks {
                 if (-(y+1)+1 > yNegatif.size()) {
                     return false;
                 } else {
-                    return (yNegatif.get(y) != 0);
+                    return (yNegatif.get(-(y+1)) != 0);
                 }
 
             }
@@ -55,10 +55,10 @@ public class Matriks {
     public void setNilai(int x, int y, int nilai) {
         SumbuY sumbuY = new SumbuY();
         if (x >= 0) {
-            while (xPositif.size() <= x) {xPositif.add(sumbuY);};
+            while (xPositif.size() <= x) {xPositif.add(sumbuY);}
             xPositif.get(x).setNilaiY(y, nilai);
         } else {
-            while (xNegatif.size() <= -(x+1)) {xNegatif.add(sumbuY);};
+            while (xNegatif.size() <= -(x+1)) {xNegatif.add(sumbuY);}
             xNegatif.get(-(x+1)).setNilaiY(y, nilai);
         }
     
@@ -100,37 +100,52 @@ public class Matriks {
     public Matriks() {
 
     }
-
-    
-   
-    
-    /** public static void main(String []args) {
-        Matriks matriks = new Matriks();
-        Scanner sc = new Scanner(System.in);
-        int x, y, nilai;
-        String perintah;
-        while (true){
-			perintah = sc.nextLine();
-            if (perintah.equals("get")) {
-				x = sc.nextInt();
-                y = sc.nextInt();
-                System.out.println(matriks.getNilai(x, y));
-			}
-            if (perintah.equals("set")) {
-           		x = sc.nextInt();
-                y = sc.nextInt();
-				nilai = sc.nextInt();      
-                matriks.setNilai(x, y, nilai);
+        public static void main(String []args) {
+            Matriks matriks = new Matriks();
+            Scanner sc = new Scanner(System.in);
+            int x = 0, y = 0, nilai;
+            int xmin = 0 ;
+            int ymin = 0;
+            int xmax = 0;
+            int ymax = 0;
+            String perintah;
+            while (true){
+			    perintah = sc.nextLine();
+                if (perintah.equals("get")) {
+				    x = sc.nextInt();
+                    y = sc.nextInt();
+                    if (x > xmax) xmax = x;
+                    if (x < xmin) xmin = x;
+                    if (y > ymax) ymax = y;
+                    if (y < ymin) ymin = y;
+                    System.out.println(matriks.getNilai(x, y));
+			    }
+                if (perintah.equals("set")) {
+           		    x = sc.nextInt();
+                    y = sc.nextInt();
+                    if (x > xmax) xmax = x;
+                    if (x < xmin) xmin = x;
+                    if (y > ymax) ymax = y;
+                    if (y < ymin) ymin = y;
+				    nilai = sc.nextInt();      
+                    matriks.setNilai(x, y, nilai);
                 
-            }
-            if (perintah.equals("cek")) {
-            	x = sc.nextInt();
-                y = sc.nextInt();
-                System.out.println(matriks.cekAda(x, y) ? 
-                "ada":"gada");
-            }
+                }
+                if (perintah.equals("cek")) {
+            	    x = sc.nextInt();
+                    y = sc.nextInt();
+                    if (x > xmax) xmax = x;
+                    if (x < xmin) xmin = x;
+                    if (y > ymax) ymax = y;
+                    if (y < ymin) ymin = y;
+                    System.out.println(matriks.cekAda(x, y) ? 
+                    "ada":"gada");
+                }
+                
+                
+
 		}	
-    } */ // buat ngetes
+    }  // buat ngetes
 
     
 }
