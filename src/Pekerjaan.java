@@ -74,37 +74,30 @@ public class Pekerjaan {
         }
     }
 
-    public void changeWork(Sim sim, String newWork) {
+    public void changeWork(int uang, String newWork) {
         int gajiBaru = 1;
         if (newWork.toLowerCase().equals(nama.toLowerCase()))
         {
             System.out.println("Tidak bisa ubah ke pekerjaan yang sama!");
         }
-        else
-        {
-            if ((newWork.toLowerCase()).equals("badut sulap")) {
-                gajiBaru = 15;
-            } else if ((newWork.toLowerCase()).equals("koki")) {
-                gajiBaru = 30;
-            } else if ((newWork.toLowerCase()).equals("polisi")) {
-                gajiBaru = 35;
-            } else if ((newWork.toLowerCase()).equals("programmer")) {
-                gajiBaru = 45;
-            } else if ((newWork.toLowerCase()).equals("dokter")) {
-                gajiBaru = 50;
-            } else {
-                System.out.println("Input tidak ada di daftar kerja!");
-            }
-    
-            if (ableToChangeWork(sim.getUang(), gajiBaru)) {
-                nama = newWork;
-                gaji = gajiBaru;
-                lamaBekerja = 0;
-                sim.setUang(sim.getUang() - (gajiBaru / 2));
-                changeWorkatHari = World.gethariKe();
-            } else {
-                System.out.println("Kamu belum bisa mengubah pekerjaan!");
-            }
+        if (ableToChangeWork(uang, gajiBaru)) {
+            nama = newWork;
+            gaji = gajiBaru;
+            lamaBekerja = 0;
+            changeWorkatHari = World.gethariKe();
+            World.getActiveSim().setUang(World.getActiveSim().getUang() - (gajiBaru / 2));
+            System.out.println("Berhasil mengubah pekerjaan!");
+        } else {
+            System.out.println("Kamu belum bisa mengubah pekerjaan!");
         }
+    }
+
+    public void printPekerjaan() {
+        System.out.printf("%-30s %-20s %-10s\n", "No", "Pekerjaan", "Gaji Harian (4 menit kerja)");
+        System.out.printf("%-30s %-20s %-10s\n", "1", "Badut Sulap", "15");
+        System.out.printf("%-30s %-20s %-10s\n", "2", "Koki", "30  ");
+        System.out.printf("%-30s %-20s %-10s\n", "3", "Polisi", "35");
+        System.out.printf("%-30s %-20s %-10s\n", "4", "Programmer", "45");
+        System.out.printf("%-30s %-20s %-10s\n", "5", "Dokter", "50");
     }
 }

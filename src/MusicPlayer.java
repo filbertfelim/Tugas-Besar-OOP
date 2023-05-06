@@ -4,7 +4,7 @@ import javax.sound.sampled.*;
 
 public class MusicPlayer{
 
-    public void plays(String namaFile, long lamaMusik){
+    public void plays(String namaFile, long lamaMusik, int pengulangan){
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -14,6 +14,7 @@ public class MusicPlayer{
                     Clip clip = AudioSystem.getClip();
                     clip.open(audioStream);
                     clip.start();
+                    clip.loop(pengulangan);
                     Thread.sleep(lamaMusik);
                     clip.stop();
                 } catch (FileNotFoundException e){
